@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CloneDroidDetails>
+  <Switches>
+    <InspectAll>Yes</InspectAll>
+    <CloneAll>Yes</CloneAll>
+    <EditAll>Yes</EditAll>
+    <RegexEditAll>No</RegexEditAll>
+    <PackageNameRoot>com.sample.lifebelt</PackageNameRoot>
+    <SourceHlq>C:\Temp\Lifeline</SourceHlq>
+    <PassOneTargetHlq>C:\Droid\SourceAll\Lifeline</PassOneTargetHlq>
+    <PassTwoTargetHlq>C:\Droid\TargetOnly\Lifeline</PassTwoTargetHlq>
+    <SourceSection>lifebelt</SourceSection>
+    <TargetSection>lifeline</TargetSection>
+  </Switches>
+  <Steps>
+    <Step Name="primary">
+      <Edits>
+        <Edit Active="true" Find="LIFEBELT" Replacement="LIFELINE"/>
+        <Edit Active="true" Find="Lifebelt" Replacement="Lifeline"/>
+        <Edit Active="true" Find="lifebelt" Replacement="lifeline"/>
+      </Edits>
+      <RegexEdits>
+        <RegexEdit Active="true">
+          <FindPrefix></FindPrefix>
+          <FindSuffix></FindSuffix>
+          <Replacement></Replacement>
+        </RegexEdit>
+        <RegexEdit Active="true">
+          <FindPrefix></FindPrefix>
+          <FindSuffix></FindSuffix>
+          <Replacement></Replacement>
+        </RegexEdit>
+        <RegexEdit Active="true">
+          <FindPrefix></FindPrefix>
+          <FindSuffix></FindSuffix>
+          <Replacement></Replacement>
+        </RegexEdit>
+      </RegexEdits>
+    </Step>
+  </Steps>
+</CloneDroidDetails>

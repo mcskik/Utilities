@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{C7296A9C-99CD-4185-9861-1B5371E38B14}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Same8</RootNamespace>
+    <AssemblyName>Same8</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="Log8">
+      <HintPath>..\..\Log8\Log8\bin\Release\Log8.dll</HintPath>
+    </Reference>
+    <Reference Include="ProfileData">
+      <HintPath>..\..\ProfileData\ProfileData\bin\Release\ProfileData.dll</HintPath>
+    </Reference>
+    <Reference Include="Routines8">
+      <HintPath>..\..\Routines8\Routines8\bin\Release\Routines8.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\CompareEngine.cs" />
+    <Compile Include="Models\Comparison.cs" />
+    <Compile Include="Models\Comparisons.cs" />
+    <Compile Include="Models\DirectoryExclusionsHelper.cs" />
+    <Compile Include="Models\Matcher.cs" />
+    <Compile Include="Models\MatchingPairs.cs" />
+    <Compile Include="Models\DirFuzzy.cs" />
+    <Compile Include="DataLayer\Profile\Administrator.cs" />
+    <Compile Include="DataLayer\Profile\ApplicationProfile.cs" />
+    <Compile Include="DataLayer\Profile\DiffUserSetting.cs" />
+    <Compile Include="DataLayer\Profile\DiffUserSettings.cs" />
+    <Compile Include="DataLayer\Profile\FileHelper.cs" />
+    <Compile Include="DataLayer\Profile\IProfileManager.cs" />
+    <Compile Include="DataLayer\Profile\ProfileManager.cs" />
+    <Compile Include="DataLayer\Profile\SystemProfile.cs" />
+    <Compile Include="DataLayer\Profile\UserSetting.cs" />
+    <Compile Include="DataLayer\Profile\UserSettings.cs" />
+    <Compile Include="DataLayer\Variables\Cache.cs" />
+    <Compile Include="DataLayer\Variables\DateStamp.cs" />
+    <Compile Include="DataLayer\Variables\Stack.cs" />
+    <Compile Include="DataLayer\Variables\Text.cs" />
+    <Compile Include="DataLayer\Variables\Variable.cs" />
+    <Compile Include="Models\DifLauncher.cs" />
+    <Compile Include="Models\Dir.cs" />
+    <Compile Include="Models\DirectoryEntry.cs" />
+    <Compile Include="Views\frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Match.cs" />
+    <Compile Include="Models\MatchingPair.cs" />
+    <Compile Include="Models\MonitoredTypesHelper.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\ShrinkDir.cs" />
+    <Compile Include="Models\Update.cs" />
+    <EmbeddedResource Include="Views\frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Img\Same8.ico" />
+    <None Include="Same8.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\System\ExcludeDirectories.xml" />
+    <Content Include="Data\System\ExcludeFileTypes.xml" />
+    <Content Include="Data\System\IncludeFileTypes.xml" />
+    <Content Include="Data\System\SystemProfile.xml" />
+    <Content Include="Data\Users\All\Control\UserSettings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Users\All\Input\" />
+    <Folder Include="Data\Users\All\Output\Log\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+</Project>

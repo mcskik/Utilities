@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SystemProfile>
+  <Parameters>
+    <Logging>Yes</Logging>
+    <Verbose>No</Verbose>
+  </Parameters>
+  <Directories>
+    <HomePath>C:\</HomePath>
+    <DataPath>C:\_BK\Support\Delini8\Delini8\Data\</DataPath>
+    <SystemPath>[@DataPath@]System\</SystemPath>
+    <SourcePath>[@DataPath@]Source\</SourcePath>
+    <LogPath>[@DataPath@]Log\</LogPath>
+  </Directories>
+  <Files>
+  </Files>
+  <Programs>
+    <ViewerWindows>C:\WINDOWS\SYSTEM32\Notepad.exe</ViewerWindows>
+    <ViewerUnix>C:\WINDOWS\SYSTEM32\Notepad.exe</ViewerUnix>
+  </Programs>
+</SystemProfile>

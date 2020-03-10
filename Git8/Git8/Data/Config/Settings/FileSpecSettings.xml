@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Profile>
+  <Selected>
+    <Key>Sample.txt</Key>
+  </Selected>
+  <ParameterSettings>
+    <ParameterSetting Key="Sample.txt">
+      <Group>
+        <Value>Sample.txt</Value>
+      </Group>
+    </ParameterSetting>
+  </ParameterSettings>
+</Profile>

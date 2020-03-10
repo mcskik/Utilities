@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Profile>
+  <Selected>
+    <Key>[@UserName@]</Key>
+  </Selected>
+  <UserSettings>
+    <UserSetting Key="[@UserName@]">
+      <Parameters>
+        <SearchPath>C:\_BK\Support</SearchPath>
+        <Criteria>"Sample"</Criteria>
+        <DirFilesEstimate>0</DirFilesEstimate>
+        <FilePattern></FilePattern>
+        <RegexCriteria>false</RegexCriteria>
+        <AllTypes>false</AllTypes>
+        <Encoding>Ascii</Encoding>
+      </Parameters>
+      <Options>
+        <Option>Ascii</Option>
+      </Options>
+      <Extensions>
+        <Extension>doc</Extension>
+        <Extension>txt</Extension>
+      </Extensions>
+      <DirectoryExclusions>
+        <DirectoryExclusion>generated</DirectoryExclusion>
+        <DirectoryExclusion>intermediates</DirectoryExclusion>
+      </DirectoryExclusions>
+    </UserSetting>
+  </UserSettings>
+</Profile>

@@ -1,0 +1,31 @@
+#region Create Table Statement.[nnnn]
+USE [GreatTimes]
+GO
+/****** Object:  Table [dbo].[Tasks]    Script Date: 05/27/2009 12:55:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tasks](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[TaskCode] [nvarchar](32) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TaskType] [nvarchar](8) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[EntryType] [nvarchar](8) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TaskStartAt] [datetime] NULL,
+	[TaskEndAt] [datetime] NULL,
+	[SlotStartAt] [datetime] NULL,
+	[SlotEndAt] [datetime] NULL,
+	[Title] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Description] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+ CONSTRAINT [PK_Tasks] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+ALTER TABLE [dbo].[Tasks]  WITH CHECK ADD  CONSTRAINT [FK_Tasks_Parent] FOREIGN KEY([ParentID])
+REFERENCES [dbo].[Parent] ([ID])
+GO
+ALTER TABLE [dbo].[Tasks] CHECK CONSTRAINT [FK_Tasks_Parent]
+#endregion

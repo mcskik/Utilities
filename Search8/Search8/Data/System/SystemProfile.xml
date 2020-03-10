@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SystemProfile>
+  <Parameters>
+    <Logging>Yes</Logging>
+    <UseDirectoryExclusions>Yes</UseDirectoryExclusions>
+    <UseFileTypeExclusions>Yes</UseFileTypeExclusions>
+    <UseFileTypeInclusions>No</UseFileTypeInclusions>
+    <FileSizeLimit>0</FileSizeLimit>
+  </Parameters>
+  <Directories>
+    <HomePath>C:\</HomePath>
+    <SystemPath>[@DataPath@]System\</SystemPath>
+    <UsersPath>[@DataPath@]Users\</UsersPath>
+    <MasterPath>[@UsersPath@]All\</MasterPath>
+    <MasterControlPath>[@MasterPath@]Control\</MasterControlPath>
+    <MasterInputPath>[@MasterPath@]Input\</MasterInputPath>
+    <MasterOutputPath>[@MasterPath@]Output\</MasterOutputPath>
+    <CurrentPath>[@UsersPath@][@UserName@]\</CurrentPath>
+    <CurrentControlPath>[@CurrentPath@]Control\</CurrentControlPath>
+    <CurrentInputPath>[@CurrentPath@]Input\</CurrentInputPath>
+    <CurrentOutputPath>[@CurrentPath@]Output\</CurrentOutputPath>
+    <CurrentMdbPath>[@CurrentInputPath@]Mdb\</CurrentMdbPath>
+    <CurrentLogPath>[@CurrentOutputPath@]Log\</CurrentLogPath>
+    <LogPath>[@CurrentLogPath@]</LogPath>
+  </Directories>
+  <Files>
+    <ExcludeDirectories>[@SystemPath@]ExcludeDirectories.xml</ExcludeDirectories>
+    <ExcludeFileTypes>[@SystemPath@]ExcludeFileTypes.xml</ExcludeFileTypes>
+    <IncludeFileTypes>[@SystemPath@]IncludeFileTypes.xml</IncludeFileTypes>
+    <Extensions>[@SystemPath@]Extensions.xml</Extensions>
+    <MasterCriteria>[@MasterControlPath@]SearchCriteria.xml</MasterCriteria>
+    <CurrentCriteria>[@CurrentControlPath@]SearchCriteria.xml</CurrentCriteria>
+    <MasterUserSettings>[@MasterControlPath@]UserSettings.xml</MasterUserSettings>
+    <CurrentUserSettings>[@CurrentControlPath@]UserSettings.xml</CurrentUserSettings>
+  </Files>
+  <Programs>
+    <ViewerWindows>C:\WINDOWS\SYSTEM32\Notepad.exe</ViewerWindows>
+    <ViewerUnix>C:\Program Files\Windows NT\Accessories\wordpad.exe</ViewerUnix>
+  </Programs>
+</SystemProfile>

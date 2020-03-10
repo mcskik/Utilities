@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Profile>
+  <Selected>
+    <Key>Keep_BCS</Key>
+  </Selected>
+  <UserSettings>
+    <UserSetting Key="Keep_BCS">
+      <Folder>email.address@gmail.com\Keep\BCS</Folder>
+      <Sender><![CDATA["@bcs"]]></Sender>
+      <Subject><![CDATA[]]></Subject>
+      <Body><![CDATA[]]></Body>
+    </UserSetting>
+  </UserSettings>
+</Profile>

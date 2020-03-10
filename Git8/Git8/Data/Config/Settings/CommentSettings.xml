@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Profile>
+  <Selected>
+    <Key>Sample Comment</Key>
+  </Selected>
+  <ParameterSettings>
+    <ParameterSetting Key="Sample Comment">
+      <Group>
+        <Value>Sample Comment</Value>
+      </Group>
+    </ParameterSetting>
+  </ParameterSettings>
+</Profile>

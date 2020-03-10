@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CloneDetails>
+  <Switches>
+    <CloneJava>Yes</CloneJava>
+    <EditJava>Yes</EditJava>
+    <CloneJavaAndroidTests>No</CloneJavaAndroidTests>
+    <EditJavaAndroidTests>No</EditJavaAndroidTests>
+    <CloneJavaUnitTests>No</CloneJavaUnitTests>
+    <EditJavaUnitTests>No</EditJavaUnitTests>
+    <CloneLayout>Yes</CloneLayout>
+    <EditLayout>Yes</EditLayout>
+  </Switches>
+  <Directories>
+    <SourceJava>C:\_Clone\demo\demo\src\main\java\com\sample\example\qdemo\features\booking\confirmation</SourceJava>
+    <TargetJava>C:\_Clone\demo\demo\src\main\java\com\sample\example\qdemo\features\user\introduction</TargetJava>
+    <SourceAndroidTestsJava>C:\_Clone\demo\demo\src\main\java\com\sample\example\demo</SourceAndroidTestsJava>
+    <TargetAndroidTestsJava>C:\_Clone\demo\demo\src\main\java\com\sample\example\demo</TargetAndroidTestsJava>
+    <SourceUnitTestsJava>C:\_Clone\demo\demo\src\main\java\com\sample\example\demo</SourceUnitTestsJava>
+    <TargetUnitTestsJava>C:\_Clone\demo\demo\src\main\java\com\sample\example\demo</TargetUnitTestsJava>
+    <SourceLayout>C:\_Clone\demo\demo\src\main\res\layout</SourceLayout>
+    <TargetLayout>C:\_Clone\demo\demo\src\main\res\layout_introduction</TargetLayout>
+  </Directories>
+  <ClassNamePrefixes>
+    <ClassNamePrefix Find="BookingConfirmation" Replacement="UserIntroduction"/>
+  </ClassNamePrefixes>
+  <ClassNamePatterns>
+    <ClassNamePattern Find="WontFindIt" Replacement="NotFoundIt"/>
+  </ClassNamePatterns>
+  <VariableNameExacts>
+    <VariableNameExact Find="WONT_FIND" Replacement="NOT_FOUND"/>
+  </VariableNameExacts>
+  <VariableNamePrefixes>
+    <VariableNamePrefix Find="wontfind" Replacement="notfound"/>
+  </VariableNamePrefixes>
+  <VariableNamePatterns>
+    <VariableNamePattern Find="Wontfind" Replacement="Notfound"/>
+  </VariableNamePatterns>
+  <ClassNameMappings/>
+  <PackageNameMappings>
+    <PackageNameMapping Find="com.sample.example.demo.features.booking.confirmation" Replacement="com.sample.example.demo.features.user.introduction"/>
+    <PackageNameMapping Find=".features.booking.confirmation" Replacement=".features.user.introduction"/>
+  </PackageNameMappings>
+  <LayoutNamePatterns>
+    <LayoutNamePattern Find="fragment_booking_confirmation" Replacement="fragment_user_introduction"/>
+  </LayoutNamePatterns>
+  <LayoutNameMappings/>
+</CloneDetails>

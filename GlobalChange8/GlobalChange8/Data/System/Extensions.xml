@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Extensions>
+  <Windows>
+    <Extension>cs</Extension>
+    <Extension>bat</Extension>
+	<Extension>java</Extension>
+	<Extension>vb</Extension>
+    <Extension>sql</Extension>
+  </Windows>
+  <Web>
+    <Extension>ascx</Extension>
+    <Extension>asmx</Extension>
+    <Extension>asp</Extension>
+    <Extension>aspx</Extension>
+    <Extension>config</Extension>
+    <Extension>css</Extension>
+    <Extension>htm</Extension>
+    <Extension>html</Extension>
+    <Extension>js</Extension>
+    <Extension>xml</Extension>
+    <Extension>xsd</Extension>
+    <Extension>xsl</Extension>
+    <Extension>xslt</Extension>
+  </Web>
+  <Office>
+    <Extension>txt</Extension>
+    <Extension>doc</Extension>
+    <Extension>docx</Extension>
+    <Extension>xls</Extension>
+    <Extension>xlsx</Extension>
+  </Office>
+  <Executables>
+    <Extension>exe</Extension>
+    <Extension>dll</Extension>
+  </Executables>
+</Extensions>

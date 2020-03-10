@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SystemProfile>
+  <Parameters>
+    <Logging>Yes</Logging>
+    <ReportViewer>Unix</ReportViewer>
+  </Parameters>
+  <Directories>
+    <HomePath>C:\</HomePath>
+    <DataPath>C:\_BK\Support\Differenti8\Differenti8\Data\</DataPath>
+    <SystemPath>[@DataPath@]System\</SystemPath>
+    <UsersPath>[@DataPath@]Users\</UsersPath>
+    <IncludePath>[@SystemPath@]Includes\</IncludePath>
+    <MasterPath>[@UsersPath@]All\</MasterPath>
+    <MasterControlPath>[@MasterPath@]Control\</MasterControlPath>
+    <MasterInputPath>[@MasterPath@]Input\</MasterInputPath>
+    <MasterOutputPath>[@MasterPath@]Output\</MasterOutputPath>
+    <MasterNewPath>[@MasterInputPath@]New\</MasterNewPath>
+    <MasterOldPath>[@MasterInputPath@]Old\</MasterOldPath>
+    <CurrentPath>[@UsersPath@][@UserName@]\</CurrentPath>
+    <CurrentControlPath>[@CurrentPath@]Control\</CurrentControlPath>
+    <CurrentInputPath>[@CurrentPath@]Input\</CurrentInputPath>
+    <CurrentOutputPath>[@CurrentPath@]Output\</CurrentOutputPath>
+    <CurrentNewPath>[@CurrentInputPath@]New\</CurrentNewPath>
+    <CurrentOldPath>[@CurrentInputPath@]Old\</CurrentOldPath>
+    <CurrentLogPath>[@CurrentOutputPath@]Log\</CurrentLogPath>
+    <CurrentHtmPath>[@CurrentOutputPath@]Htm\</CurrentHtmPath>
+    <NewPath>[@CurrentNewPath@]</NewPath>
+    <OldPath>[@CurrentOldPath@]</OldPath>
+    <LogPath>[@CurrentLogPath@]</LogPath>
+    <HtmPath>[@CurrentHtmPath@]</HtmPath>
+  </Directories>
+  <Files>
+    <MasterUserSettings>[@MasterControlPath@]UserSettings.xml</MasterUserSettings>
+    <CurrentUserSettings>[@CurrentControlPath@]UserSettings.xml</CurrentUserSettings>
+    <HtmlOutputFile>[@HtmPath@]Comparison.htm</HtmlOutputFile>
+  </Files>
+  <Includes>
+    <IncludeBody>[@IncludePath@]Body.htm</IncludeBody>
+    <IncludeFooter>[@IncludePath@]Footer.htm</IncludeFooter>
+    <IncludeHeader>[@IncludePath@]Header.htm</IncludeHeader>
+    <IncludeScripts>[@IncludePath@]Scripts.htm</IncludeScripts>
+  </Includes>
+  <Programs>
+    <ViewerWindows>C:\WINDOWS\SYSTEM32\Notepad.exe</ViewerWindows>
+    <ViewerUnix>C:\Program Files\windows nt\accessories\wordpad.exe</ViewerUnix>
+    <ViewerUnixKeep>C:\Program Files\windows nt\accessories\wordpad.exe</ViewerUnixKeep>
+    <ViewerHtml>C:\Program Files (x86)\Mozilla Firefox\firefox.exe</ViewerHtml>
+    <MeldProgram>C:\Program Files (x86)\Meld\Meld.exe</MeldProgram>
+  </Programs>
+</SystemProfile>

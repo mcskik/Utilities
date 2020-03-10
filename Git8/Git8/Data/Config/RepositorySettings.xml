@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Profile>
+  <Selected>
+    <Key>Sample</Key>
+  </Selected>
+  <RepositorySettings>
+    <RepositorySetting Key="Sample">
+      <Repository>
+        <Name>Sample</Name>
+        <RemoteUrl>https://username@bitbucket.org/username/Sample.git</RemoteUrl>
+        <LocalPath>C:\_BK\Bitbucket\Sample\</LocalPath>
+      </Repository>
+    </RepositorySetting>
+  </RepositorySettings>
+</Profile>

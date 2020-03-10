@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SystemProfile>
+  <Parameters>
+    <Logging>Yes</Logging>
+    <UseDirectoryExclusions>Yes</UseDirectoryExclusions>
+    <UseFileTypeExclusions>No</UseFileTypeExclusions>
+    <UseFileTypeInclusions>Yes</UseFileTypeInclusions>
+    <FileSizeLimit>0</FileSizeLimit>
+  </Parameters>
+  <Directories>
+    <HomePath>C:\</HomePath>
+    <DiffPath>C:\_BK\Support\Differenti8\Differenti8\</DiffPath>
+    <DiffMasterControlPath>[@DiffPath@]Data\Users\All\Control\</DiffMasterControlPath>
+    <DiffCurrentControlPath>[@DiffPath@]Data\Users\[@UserName@]\Control\</DiffCurrentControlPath>
+    <SystemPath>[@DataPath@]System\</SystemPath>
+    <UsersPath>[@DataPath@]Users\</UsersPath>
+    <MasterPath>[@UsersPath@]All\</MasterPath>
+    <MasterControlPath>[@MasterPath@]Control\</MasterControlPath>
+    <MasterInputPath>[@MasterPath@]Input\</MasterInputPath>
+    <MasterOutputPath>[@MasterPath@]Output\</MasterOutputPath>
+    <MasterMdbPath>[@MasterInputPath@]Mdb\</MasterMdbPath>
+    <CurrentPath>[@UsersPath@][@UserName@]\</CurrentPath>
+    <CurrentControlPath>[@CurrentPath@]Control\</CurrentControlPath>
+    <CurrentInputPath>[@CurrentPath@]Input\</CurrentInputPath>
+    <CurrentOutputPath>[@CurrentPath@]Output\</CurrentOutputPath>
+    <CurrentMdbPath>[@CurrentInputPath@]Mdb\</CurrentMdbPath>
+    <CurrentLogPath>[@CurrentOutputPath@]Log\</CurrentLogPath>
+    <MdbPath>[@CurrentMdbPath@]</MdbPath>
+    <LogPath>[@CurrentLogPath@]</LogPath>
+  </Directories>
+  <Files>
+    <ExcludeDirectories>[@SystemPath@]ExcludeDirectories.xml</ExcludeDirectories>
+    <ExcludeFileTypes>[@SystemPath@]ExcludeFileTypes.xml</ExcludeFileTypes>
+    <IncludeFileTypes>[@SystemPath@]IncludeFileTypes.xml</IncludeFileTypes>
+    <MasterUserSettings>[@MasterControlPath@]UserSettings.xml</MasterUserSettings>
+    <CurrentUserSettings>[@CurrentControlPath@]UserSettings.xml</CurrentUserSettings>
+    <MasterUserMainDb>[@MasterMdbPath@]Same8_Main.mdb</MasterUserMainDb>
+    <CurrentUserMainDb>[@CurrentMdbPath@]Same8_Main.mdb</CurrentUserMainDb>
+    <DiffMasterUserSettings>[@DiffMasterControlPath@]UserSettings.xml</DiffMasterUserSettings>
+    <DiffCurrentUserSettings>[@DiffCurrentControlPath@]UserSettings.xml</DiffCurrentUserSettings>
+  </Files>
+  <Programs>
+    <Notepad>C:\WINDOWS\SYSTEM32\Notepad.exe</Notepad>
+    <ViewerWindows>[@Notepad@]</ViewerWindows>
+    <ViewerUnix>[@Notepad@]</ViewerUnix>
+    <DiffProgram>[@DiffPath@]bin\Release\Differenti8.exe</DiffProgram>
+    <MeldProgram>C:\Program Files (x86)\Meld\Meld.exe</MeldProgram>
+  </Programs>
+</SystemProfile>

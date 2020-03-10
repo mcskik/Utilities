@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Profile>
+  <Selected>
+    <Key>dev</Key>
+  </Selected>
+  <ParameterSettings>
+    <ParameterSetting Key="dev">
+      <Group>
+        <Value>dev</Value>
+      </Group>
+    </ParameterSetting>
+  </ParameterSettings>
+</Profile>

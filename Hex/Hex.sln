@@ -1,0 +1,20 @@
+
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{53147673-FB06-4490-851B-EF8A627C2C82}") = "Hex", "Hex\Hex.vbproj", "{B437DC75-B7A9-49B1-885D-8116A22382FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B437DC75-B7A9-49B1-885D-8116A22382FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B437DC75-B7A9-49B1-885D-8116A22382FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B437DC75-B7A9-49B1-885D-8116A22382FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B437DC75-B7A9-49B1-885D-8116A22382FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

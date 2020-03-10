@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Directories>
+  <Group Name="AndroidStudio">
+    <Directory Path=".git" Active="Yes" Category="Intermediate" Desc="Git source control folder" />
+    <Directory Path=".gradle" Active="Yes" Category="Intermediate" Desc="Gradle build folder" />
+    <Directory Path=".idea" Active="Yes" Category="Intermediate" Desc="Android Studio intermediate folder" />
+    <Directory Path="build" Active="Yes" Category="Intermediate" Desc="Android Studio build folder" />
+    <Directory Path="generated" Active="Yes" Category="Intermediate" Desc="Android Studio generated folder" />
+    <Directory Path="intermediates" Active="Yes" Category="Intermediate" Desc="Android Studio intermediates folder" />
+  </Group>
+  <Group Name="VisualStudio">
+    <Directory Path="bin\Debug" Active="Yes" Category="Intermediate" Desc="Visual Studio executables folder" />
+    <Directory Path="bin\Release" Active="Yes" Category="Intermediate" Desc="Visual Studio executables folder" />
+    <Directory Path="obj\Debug" Active="Yes" Category="Intermediate" Desc="Visual Studio compilation folder" />
+    <Directory Path="obj\Release" Active="Yes" Category="Intermediate" Desc="Visual Studio compilation folder" />
+  </Group>
+</Directories>

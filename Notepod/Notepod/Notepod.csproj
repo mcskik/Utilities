@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B5B44A74-728C-47C5-BBE7-EC1F0617B7BF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Notepod</RootNamespace>
+    <AssemblyName>Notepod</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseGenerator.cs" />
+    <Compile Include="CompareSameGenerator.cs" />
+    <Compile Include="EditLayoutFormat.cs" />
+    <Compile Include="EditXmlFormat.cs" />
+    <Compile Include="EditOtherCsvIsoCodesToJsonStrings.cs" />
+    <Compile Include="EditOtherCsvTextToXmlStrings.cs" />
+    <Compile Include="EditTraditionalUnwrap.cs" />
+    <Compile Include="EditTraditionalWrapPostData.cs" />
+    <Compile Include="EditTraditionalWrapXml.cs" />
+    <Compile Include="EditTraditionalWrapQueryString.cs" />
+    <Compile Include="EditCommandsTokenizer.cs" />
+    <Compile Include="EditCommandsFormat.cs" />
+    <Compile Include="EditDatabaseUnwrap.cs" />
+    <Compile Include="EditDatabaseWrap.cs" />
+    <Compile Include="EditCommandsUncompress.cs" />
+    <Compile Include="EditCommandsCompress.cs" />
+    <Compile Include="EditCommandsUnwrap.cs" />
+    <Compile Include="EditCommandsWrap.cs" />
+    <Compile Include="GenerateQueryStringModern.cs" />
+    <Compile Include="GenerateQueryStringTraditional.cs" />
+    <Compile Include="GenerateQueryStringSplit.cs" />
+    <Compile Include="GenerateXmlFragmentModernPost.cs" />
+    <Compile Include="MemberVariableToEntityInitializeMethodGenerator.cs" />
+    <Compile Include="MemberVariableToEntityStoreMethodGenerator.cs" />
+    <Compile Include="MemberVariableToEntityLoadMethodGenerator.cs" />
+    <Compile Include="GenerateXmlFragmentCreationMethodGenerator.cs" />
+    <Compile Include="HtmlToAspxGenerator.cs" />
+    <Compile Include="CreateTableToEntityGenerator.cs" />
+    <Compile Include="Models\CmdFormatter.cs" />
+    <Compile Include="Models\XmlAttributesSplitter.cs" />
+    <Compile Include="Models\XmlFormatter_Original.cs" />
+    <Compile Include="Models\LayoutFormatter.cs" />
+    <Compile Include="Models\XmlFormatter.cs" />
+    <Compile Include="Models\XmlFormatter_Cmds.cs" />
+    <Compile Include="Models\JsonUnformatter.cs" />
+    <Compile Include="Models\CsvSplitter.cs" />
+    <Compile Include="Models\JsonFormatter.cs" />
+    <Compile Include="SqlStoredProcedureSplitter_With_Comment_Handling.cs" />
+    <Compile Include="SqlStoredProcedureSplitter.cs" />
+    <Compile Include="DatabaseMetaBlock.cs" />
+    <Compile Include="CreateTableToDependencyListGeneratorMultiTable.cs" />
+    <Compile Include="TableRelationship.cs" />
+    <Compile Include="TableForeignKey.cs" />
+    <Compile Include="TableRelationshipMetaBlock.cs" />
+    <Compile Include="CreateTableToDependencyListGenerator.cs" />
+    <Compile Include="Views\frmSplitJoinParameters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmSplitJoinParameters.Designer.cs">
+      <DependentUpon>frmSplitJoinParameters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\frmParameters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmParameters.Designer.cs">
+      <DependentUpon>frmParameters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TableColumn.cs" />
+    <Compile Include="TableMetaBlock.cs" />
+    <Compile Include="CreateTableToBackoutScriptGenerator.cs" />
+    <Compile Include="EntityConstructorGenerator.cs" />
+    <Compile Include="EntityListGenerator.cs" />
+    <Compile Include="EntityMetaBlock.cs" />
+    <Compile Include="EntityValidatorGenerator.cs" />
+    <Compile Include="EnumMetaBlock.cs" />
+    <Compile Include="Views\frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerateMethodGenerator.cs" />
+    <Compile Include="MemberVariableToDataMembersGenerator.cs" />
+    <Compile Include="MemberVariableToNewPropertySyntaxGenerator.cs" />
+    <Compile Include="MemberVariableToPropertyGenerator.cs" />
+    <Compile Include="MockEntityGenerator.cs" />
+    <Compile Include="NewMockEntityGenerator.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StrippedPropertyGenerator.cs" />
+    <Compile Include="TemplateGenerator.cs" />
+    <Compile Include="TestGenerator.cs" />
+    <Compile Include="Vector.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

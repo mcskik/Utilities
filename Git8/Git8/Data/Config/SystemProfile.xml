@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SystemProfile>
+	<Parameters>
+		<Debug>Yes</Debug>
+		<CommandsWithInput>
+			<Command>fetch</Command>
+			<Command>pull</Command>
+			<Command>push</Command>
+			<Command>remote show origin</Command>
+		</CommandsWithInput>
+	</Parameters>
+	<Directories>
+		<HomePath>C:\</HomePath>
+		<ConfigPath>[@DataPath@]Config\</ConfigPath>
+		<LogPath>[@DataPath@]Log\</LogPath>
+		<OutputPath>[@DataPath@]Output\</OutputPath>
+		<OutputCommandsPath>[@OutputPath@]Commands\</OutputCommandsPath>
+		<JournalPath>[@OutputPath@]Journal\</JournalPath>
+	</Directories>
+	<Files>
+		<RepositorySettings>[@ConfigPath@]RepositorySettings.xml</RepositorySettings>
+		<TemplateSettings>[@ConfigPath@]TemplateSettings.xml</TemplateSettings>
+		<BranchCheckoutSettings>[@RepositorySettingsPath@]BranchCheckoutSettings.xml</BranchCheckoutSettings>
+		<BranchLocalSettings>[@RepositorySettingsPath@]BranchLocalSettings.xml</BranchLocalSettings>
+		<BranchRemoteSettings>[@RepositorySettingsPath@]BranchRemoteSettings.xml</BranchRemoteSettings>
+		<CommandSettings>[@RepositorySettingsPath@]CommandSettings.xml</CommandSettings>
+		<CommentSettings>[@RepositorySettingsPath@]CommentSettings.xml</CommentSettings>
+		<FileSpecSettings>[@RepositorySettingsPath@]FileSpecSettings.xml</FileSpecSettings>
+		<HeadSettings>[@RepositorySettingsPath@]HeadSettings.xml</HeadSettings>
+		<ShaSettings>[@RepositorySettingsPath@]ShaSettings.xml</ShaSettings>
+		<StashSettings>[@RepositorySettingsPath@]StashSettings.xml</StashSettings>
+	</Files>
+	<Programs>
+		<Viewer>C:\WINDOWS\SYSTEM32\Notepad.exe</Viewer>
+		<Git>C:\Program Files\Git\bin\git.exe</Git>
+	</Programs>
+</SystemProfile>

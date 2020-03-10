@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{3FCDDC8C-9B15-47FA-B4B9-8CDF9998593B}") = "Routines8", "Routines8\Routines8.csproj", "{F1B4A287-EDFD-48A0-B6C3-5A7DA6B67AB7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1B4A287-EDFD-48A0-B6C3-5A7DA6B67AB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1B4A287-EDFD-48A0-B6C3-5A7DA6B67AB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1B4A287-EDFD-48A0-B6C3-5A7DA6B67AB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1B4A287-EDFD-48A0-B6C3-5A7DA6B67AB7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

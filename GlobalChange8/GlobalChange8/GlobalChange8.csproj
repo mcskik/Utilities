@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{E9214A6F-6F54-497E-A910-4B2E935A7CE1}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>GlobalChange8</RootNamespace>
+    <AssemblyName>GlobalChange8</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="Log8, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Log8\Log8\bin\Release\Log8.dll</HintPath>
+    </Reference>
+    <Reference Include="ProfileData">
+      <HintPath>..\..\ProfileData\ProfileData\bin\Release\ProfileData.dll</HintPath>
+    </Reference>
+    <Reference Include="Routines8, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Routines8\Routines8\bin\Release\Routines8.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="XmlProfile8, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\XmlProfile8\XmlProfile8\bin\Release\XmlProfile8.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataLayer\Tracing\ITracer.cs" />
+    <Compile Include="DataLayer\Tracing\Tracer.cs" />
+    <Compile Include="Models\AdvancedDirectoryEngine.cs" />
+    <Compile Include="Models\AdvancedDirectoryEntry.cs" />
+    <Compile Include="Models\Comparison.cs" />
+    <Compile Include="Models\Comparisons.cs" />
+    <Compile Include="Models\Interrupt.cs" />
+    <Compile Include="Models\RegexEditRule.cs" />
+    <Compile Include="Models\TextTypesHelper.cs" />
+    <Compile Include="Models\ReplaceDroid.cs" />
+    <Compile Include="Models\CloneDroid_With_Samples.cs" />
+    <Compile Include="Models\EditRule.cs" />
+    <Compile Include="Models\Argument.cs" />
+    <Compile Include="DataLayer\Profile\Administrator.cs" />
+    <Compile Include="DataLayer\Profile\ApplicationProfile.cs" />
+    <Compile Include="DataLayer\Profile\IProfileManager.cs" />
+    <Compile Include="DataLayer\Profile\ProfileManager.cs" />
+    <Compile Include="DataLayer\Profile\SystemProfile.cs" />
+    <Compile Include="DataLayer\Profile\UserSetting.cs" />
+    <Compile Include="DataLayer\Profile\UserSettings.cs" />
+    <Compile Include="Models\CsvSplitter.cs" />
+    <Compile Include="Models\Dir.cs" />
+    <Compile Include="Models\DirectoryExclusionsHelper.cs" />
+    <Compile Include="Models\DirEntity.cs" />
+    <Compile Include="Models\DirectoryEntry.cs" />
+    <Compile Include="Models\EntityMetaBlock.cs" />
+    <Compile Include="Models\Generator.cs" />
+    <Compile Include="Models\ModelsEngine.cs" />
+    <Compile Include="Models\MonitoredTypesHelper.cs" />
+    <Compile Include="Models\CloneDroid.cs" />
+    <Compile Include="Models\ReproEngine.cs" />
+    <Compile Include="Models\RunMode.cs" />
+    <Compile Include="Models\CloneEngine.cs" />
+    <Compile Include="Models\SearchEngineClone.cs" />
+    <Compile Include="Models\Vector.cs" />
+    <Compile Include="Views\frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\Scanner.cs" />
+    <Compile Include="Models\SearchEngine.cs" />
+    <None Include="app.config" />
+    <None Include="Img\Search.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\System\ExcludeDirectories.xml" />
+    <Content Include="Data\System\ExcludeFileTypes.xml" />
+    <Content Include="Data\System\Extensions.xml" />
+    <Content Include="Data\System\IncludeFileTypes.xml" />
+    <Content Include="Data\System\SystemProfile.xml" />
+    <Content Include="Data\Users\All\Control\CloneBookingConfirmation.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Data\Users\All\Control\CloneDroidGuids.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Data\Users\All\Control\ReplaceDroidJournal.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Data\Users\All\Control\CloneGuidDetails.xml" />
+    <Content Include="Data\Users\All\Control\CloneGuids.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Data\Users\All\Control\CloneBookingSlot.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Data\Users\All\Control\CloneTartan.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Data\Users\All\Control\CloneDroidJournal.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Data\Users\All\Control\ReproProject.xml" />
+    <Content Include="Data\Users\All\Control\SearchCriteria.xml" />
+    <Content Include="Data\Users\All\Control\UserSettings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

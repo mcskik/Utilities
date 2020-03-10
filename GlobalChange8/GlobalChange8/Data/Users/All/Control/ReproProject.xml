@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReproDetails>
+  <Switches>
+    <CloneAll>Yes</CloneAll>
+    <EditAll>No</EditAll>
+    <UseTargetSample>Yes</UseTargetSample>
+    <RuleBaseHlq>C:\Temp\Lifebelt</RuleBaseHlq>
+    <SourceHlq>C:\Temp\Lifebelt</SourceHlq>
+    <TargetHlq>C:\Perm\Lifebelt</TargetHlq>
+    <TargetSampleHlq>C:\PermSample\Lifebelt</TargetSampleHlq>
+  </Switches>
+  <Steps>
+    <Step Name="primary">
+      <Clone>
+        <Directories>
+          <Copy Active="true" Type="Dir" Section="Final" Source="C:\Temp\Lifebelt\app\src\main\java\com\syntax\lifebelt\features\journal" Target="aaa" />
+          <Copy Active="true" Type="Dir" Section="Intro" Source="C:\Temp\Lifebelt\app\src\main\java\com\syntax\lifebelt\features\relay" Target="bbb" />
+        </Directories>
+        <Files>
+          <Copy Active="true" Type="File" Section="All" Source="C:\Temp\Lifebelt\app\src\main\res\layout\activity_journal" Target="aaa" />
+          <Copy Active="true" Type="File" Section="Intro" Source="C:\Temp\Lifebelt\app\src\main\res\layout\fragment_journal" Target="aaa" />
+          <Copy Active="true" Type="File" Section="Final" Source="C:\Temp\Lifebelt\app\src\main\res\layout\row_journal" Target="aaa" />
+          <Copy Active="true" Type="File" Section="All" Source="C:\Temp\Lifebelt\app\src\main\res\layout\activity_relay" Target="bbb" />
+          <Copy Active="true" Type="File" Section="Intro" Source="C:\Temp\Lifebelt\app\src\main\res\layout\fragment_relay" Target="bbb" />
+          <Copy Active="true" Type="File" Section="Final" Source="C:\Temp\Lifebelt\app\src\main\res\layout\row_relay" Target="bbb" />
+        </Files>
+      </Clone>
+      <Edits>
+        <Edit Find="alpha" Replacement="beta"/>
+      </Edits>
+    </Step>
+  </Steps>
+</ReproDetails>

@@ -1,0 +1,5 @@
+C:\_BK\Support\ProfileData\ProfileData\bin\Release\ProfileData.dll
+C:\_BK\Support\ProfileData\ProfileData\bin\Release\ProfileData.pdb
+C:\_BK\Support\ProfileData\ProfileData\obj\Release\ProfileData.csproj.CoreCompileInputs.cache
+C:\_BK\Support\ProfileData\ProfileData\obj\Release\ProfileData.dll
+C:\_BK\Support\ProfileData\ProfileData\obj\Release\ProfileData.pdb

@@ -1,0 +1,7 @@
+<SearchCriteria>
+  <Block>
+    <Find>Ken</Find>
+    <And />
+    <Find>McSkimming</Find>
+  </Block>
+</SearchCriteria>

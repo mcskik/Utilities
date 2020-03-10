@@ -1,0 +1,20 @@
+
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{C26F3337-08D0-4D9A-890F-987E15EC16BC}") = "Differenti8", "Differenti8\Differenti8.csproj", "{C0C264F1-84F2-4A41-8941-9F23E8849693}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0C264F1-84F2-4A41-8941-9F23E8849693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C264F1-84F2-4A41-8941-9F23E8849693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C264F1-84F2-4A41-8941-9F23E8849693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C264F1-84F2-4A41-8941-9F23E8849693}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

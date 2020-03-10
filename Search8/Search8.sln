@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{5A0DC6E4-2014-46F1-A672-8FBB1747DA99}") = "Search8", "Search8\Search8.csproj", "{E9738420-CAEA-4CBB-94D5-05346020479C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E9738420-CAEA-4CBB-94D5-05346020479C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9738420-CAEA-4CBB-94D5-05346020479C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9738420-CAEA-4CBB-94D5-05346020479C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9738420-CAEA-4CBB-94D5-05346020479C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

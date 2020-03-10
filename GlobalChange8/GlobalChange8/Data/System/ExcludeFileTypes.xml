@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FileTypes>
+  <Group Name="AndroidStudio">
+    <FileType Ext="dex" Active="Yes" Category="Intermediate" Desc="Android compiled dex file" />
+    <FileType Ext="iml" Active="Yes" Category="Intermediate" Desc="Android Studio intermediate file" />
+  </Group>
+  <Group Name="VisualStudio">
+    <FileType Ext="nupkg" Active="Yes" Category="Intermediate" Desc="Visual Studio Nuget File" />
+    <FileType Ext="pdb" Active="Yes" Category="Intermediate" Desc="Visual Studio Debug Info File" />
+    <FileType Ext="suo" Active="Yes" Category="Intermediate" Desc="Visual Studio suo file" />
+    <FileType Ext="svcinfo" Active="Yes" Category="Intermediate" Desc="Visual Studio svcinfo file" />
+    <FileType Ext="scvmap" Active="Yes" Category="Intermediate" Desc="Visual Studio svcmap file" />
+  </Group>
+  <Group Name="Other">
+    <FileType Ext="ldb" Active="Yes" Category="Intermediate" Desc="Microsoft Access Lock File" />
+    <FileType Ext="lck" Active="Yes" Category="Intermediate" Desc="Unspecified Lock File" />
+    <FileType Ext="lock" Active="Yes" Category="Intermediate" Desc="Unspecified Lock File" />
+    <FileType Ext="mca" Active="Yes" Category="Intermediate" Desc="Minecraft File" />
+    <FileType Ext="mus" Active="Yes" Category="Intermediate" Desc="Unknown" />
+    <FileType Ext="old" Active="Yes" Category="Intermediate" Desc="Unspecified Old File" />
+    <FileType Ext="ogg" Active="Yes" Category="Intermediate" Desc="Unknown" />
+    <FileType Ext="tmp" Active="Yes" Category="Intermediate" Desc="Unspecified Temporary File" />
+    <FileType Ext="xcl" Active="Yes" Category="Intermediate" Desc="Motiv8 Action File" />
+  </Group>
+</FileTypes>

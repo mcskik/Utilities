@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Profile>
+	<Selected>
+		<Key>[@UserName@]</Key>
+	</Selected>
+	<UserSettings>
+		<UserSetting Key="[@UserName@]">
+			<Parameters>
+				<SearchPath>C:\_BK\Support</SearchPath>
+				<Criteria>"Test"</Criteria>
+				<Find>1.2.3</Find>
+				<Replacement>0.0.0</Replacement>
+				<Mode>Standard</Mode>
+				<DirFilesEstimate>100</DirFilesEstimate>
+				<FilePattern></FilePattern>
+				<RegexCriteria>false</RegexCriteria>
+				<AllTypes>false</AllTypes>
+				<Encoding>Ascii</Encoding>
+			</Parameters>
+			<Options>
+				<Option>Ascii</Option>
+			</Options>
+			<Extensions>
+				<Extension>java</Extension>
+				<Extension>xml</Extension>
+			</Extensions>
+			<DirectoryExclusions>
+				<DirectoryExclusion>generated</DirectoryExclusion>
+				<DirectoryExclusion>intermediates</DirectoryExclusion>
+			</DirectoryExclusions>
+		</UserSetting>
+	</UserSettings>
+</Profile>

@@ -1,0 +1,35 @@
+<script type="text/javascript" language="javascript">
+//<![CDATA[
+    var keepCurrentMouseOver;
+    function Cell_OnMouseOver(obj) {
+        //********************************************************************************
+        //! Mouse out of highlighted area.
+        //********************************************************************************
+        try {
+            keepCurrentMouseOver = obj.style.backgroundColor;
+            if (obj.style.backgroundColor == "lightyellow") {
+                //obj.style.borderColor = "yellow";
+            }
+            if (obj.style.backgroundColor == "lightblue") {
+                obj.style.borderColor = "blue";
+            }
+            if (obj.style.backgroundColor == "pink") {
+                obj.style.borderColor = "red";
+            }
+        } catch (e) {
+            alert("JavaScript Exception, Error name: " + e.name + ", Error message: " + e.message);
+        }
+    }
+
+    function Cell_OnMouseOut(obj) {
+        //********************************************************************************
+        //! Mouse out of highlighted area.
+        //********************************************************************************
+        try {
+            obj.style.backgroundColor = keepCurrentMouseOver;
+            obj.style.borderColor = keepCurrentMouseOver;
+        } catch (e) {
+        }
+    }
+//]]>
+</script>

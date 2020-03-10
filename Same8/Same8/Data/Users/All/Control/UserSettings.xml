@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Profile>
+  <Selected>
+    <Key>[C:\_BK\Support\Same8]-[C:\_BK\Support\Same8]</Key>
+  </Selected>
+  <UserSettings>
+    <UserSetting Key="[C:\_BK\Support\Same8]-[C:\_BK\Support\Same8]">
+      <Directories>
+        <NewPath>C:\_BK\Support\Same8</NewPath>
+        <OldPath>C:\_BK\Support\Same8</OldPath>
+        <NewFilesEstimate>0</NewFilesEstimate>
+        <OldFilesEstimate>0</OldFilesEstimate>
+        <ChgFilesEstimate>0</ChgFilesEstimate>
+      </Directories>
+      <Options>
+        <MonitoredTypesOnly>true</MonitoredTypesOnly>
+      </Options>
+    </UserSetting>
+  </UserSettings>
+</Profile>

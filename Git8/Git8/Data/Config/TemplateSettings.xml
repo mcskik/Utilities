@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Profile>
+  <Selected>
+    <Key>git push -f origin {CheckoutBranch}</Key>
+  </Selected>
+  <ParameterSettings>
+    <ParameterSetting Key="git cherry-pick {Sha}">
+      <Group>
+        <Value>git cherry-pick {Sha}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git branch -a">
+      <Group>
+        <Value>git branch -a</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git log">
+      <Group>
+        <Value>git log</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git checkout {FileSpec}">
+      <Group>
+        <Value>git checkout {FileSpec}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git status">
+      <Group>
+        <Value>git status</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git add .">
+      <Group>
+        <Value>git add .</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git commit -m &quot;{Comment}&quot;">
+      <Group>
+        <Value>git commit -m "{Comment}"</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git pull">
+      <Group>
+        <Value>git pull</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git push">
+      <Group>
+        <Value>git push</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git push -f">
+      <Group>
+        <Value>git push -f</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git stash save &quot;{Stash}&quot;">
+      <Group>
+        <Value>git stash save "{Stash}"</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git stash list">
+      <Group>
+        <Value>git stash list</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git log -p">
+      <Group>
+        <Value>git log -p</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git log -p -2">
+      <Group>
+        <Value>git log -p -2</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git remote show origin">
+      <Group>
+        <Value>git remote show origin</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git config --get remote.origin.url">
+      <Group>
+        <Value>git config --get remote.origin.url</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git diff {FileSpec}">
+      <Group>
+        <Value>git diff {FileSpec}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git add {FileSpec}">
+      <Group>
+        <Value>git add {FileSpec}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git log --graph">
+      <Group>
+        <Value>git log --graph</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git push --force">
+      <Group>
+        <Value>git push --force</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git log --graph --oneline --decorate --all">
+      <Group>
+        <Value>git log --graph --oneline --decorate --all</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git log --graph --abbrev-commit --decorate --date=relative --all">
+      <Group>
+        <Value>git log --graph --abbrev-commit --decorate --date=relative --all</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git cherry-pick --quit">
+      <Group>
+        <Value>git cherry-pick --quit</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git rebase --continue">
+      <Group>
+        <Value>git rebase --continue</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git push origin {CheckoutBranch}">
+      <Group>
+        <Value>git push origin {CheckoutBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git format-patch {RemoteBranch}">
+      <Group>
+        <Value>git format-patch {RemoteBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git checkout -b {CheckoutBranch} {RemoteBranch}">
+      <Group>
+        <Value>git checkout -b {CheckoutBranch} {RemoteBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git merge --squash {CheckoutBranch}">
+      <Group>
+        <Value>git merge --squash {CheckoutBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git push -f origin {CheckoutBranch}:{RemoteBranch}">
+      <Group>
+        <Value>git push -f origin {CheckoutBranch}:{RemoteBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git push origin {CheckoutBranch}:{RemoteBranch}">
+      <Group>
+        <Value>git push origin {CheckoutBranch}:{RemoteBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git push -f origin {LocalBranch}">
+      <Group>
+        <Value>git push -f origin {LocalBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git push -f origin {RemoteBranch}">
+      <Group>
+        <Value>git push -f origin {RemoteBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git add -A">
+      <Group>
+        <Value>git add -A</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git commit -m &quot;{Comment}&quot; --amend">
+      <Group>
+        <Value>git commit -m "{Comment}" --amend</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git push origin {RemoteBranch}">
+      <Group>
+        <Value>git push origin {RemoteBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git push -f origin {CheckoutBranch}">
+      <Group>
+        <Value>git push -f origin {CheckoutBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git push origin --delete {RemoteBranch}">
+      <Group>
+        <Value>git push origin --delete {RemoteBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git branch -d {LocalBranch}">
+      <Group>
+        <Value>git branch -d {LocalBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git fetch --prune">
+      <Group>
+        <Value>git fetch --prune</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git fetch --all --prune">
+      <Group>
+        <Value>git fetch --all --prune</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git checkout .">
+      <Group>
+        <Value>git checkout .</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git branch -d {CheckoutBranch}">
+      <Group>
+        <Value>git branch -d {CheckoutBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git reset">
+      <Group>
+        <Value>git reset</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git clean -n">
+      <Group>
+        <Value>git clean -n</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git clean -fd">
+      <Group>
+        <Value>git clean -fd</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git reset --hard">
+      <Group>
+        <Value>git reset --hard</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git branch -d {RemoteBranch}">
+      <Group>
+        <Value>git branch -d {RemoteBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git rebase origin/{RemoteBranch}">
+      <Group>
+        <Value>git rebase origin/{RemoteBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git checkout {RemoteBranch}">
+      <Group>
+        <Value>git checkout {RemoteBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git branch -D {LocalBranch}">
+      <Group>
+        <Value>git branch -D {LocalBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git reset --soft HEAD~{Head}">
+      <Group>
+        <Value>git reset --soft HEAD~{Head}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git reset --soft {Head}">
+      <Group>
+        <Value>git reset --soft {Head}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git reset --hard {Head}">
+      <Group>
+        <Value>git reset --hard {Head}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git fetch {RemoteBranch}">
+      <Group>
+        <Value>git fetch {RemoteBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git pull --no-commit --rebase origin {RemoteBranch}">
+      <Group>
+        <Value>git pull --no-commit --rebase origin {RemoteBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git rebase --abort">
+      <Group>
+        <Value>git rebase --abort</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git cherry-pick --abort">
+      <Group>
+        <Value>git cherry-pick --abort</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git pull origin {CheckoutBranch}">
+      <Group>
+        <Value>git pull origin {CheckoutBranch}</Value>
+      </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git cherry-pick --continue">
+      <Group>
+        <Value>git cherry-pick --continue</Value>
+      </Group>
+    </ParameterSetting>
+  </ParameterSettings>
+</Profile>

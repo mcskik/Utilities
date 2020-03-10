@@ -1,0 +1,14 @@
+<Profile Name="ProfSyst">
+ <Parameters>
+  <Parameter Name="SourcePath" Value="C:\_BK\Support\Hex\Hex\In" />
+  <Parameter Name="TargetPath" Value="C:\_BK\Support\Hex\Hex\Out" />
+  <Parameter Name="ShowTabs" Value="No" />
+ </Parameters>
+ <Directories>
+  <Directory Name="Log" Path="C:\_BK\Support\Hex\Hex\Log" />
+ </Directories>
+ <Programs>
+  <Program Name="ViewerWindows" File="C:\WINDOWS\SYSTEM32\Notepad.exe" />
+  <Program Name="ViewerUnix"    File="C:\Program Files\Windows NT\Accessories\wordpad.exe" />
+ </Programs>
+</Profile>

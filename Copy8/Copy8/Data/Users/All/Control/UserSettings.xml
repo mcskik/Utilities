@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Profile>
+  <Selected>
+    <Key>[C:\_BK]-[D:\_BK]</Key>
+  </Selected>
+  <UserSettings>
+    <UserSetting Key="[C:\_BK]-[D:\_BK]">
+      <Directories>
+        <NewBaseDir>C:\_BK</NewBaseDir>
+        <OldBaseDir>D:\_BK</OldBaseDir>
+      </Directories>
+      <Options>
+        <CopyRule>ReplaceOnlyWithNewer</CopyRule>
+        <MonitoredTypesOnly>true</MonitoredTypesOnly>
+      </Options>
+    </UserSetting>
+  </UserSettings>
+</Profile>

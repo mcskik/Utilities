@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SystemProfile>
+  <Parameters>
+    <Logging>Yes</Logging>
+    <Verbose>No</Verbose>
+    <ReportViewer>Unix</ReportViewer>
+  </Parameters>
+  <Directories>
+    <HomePath>C:\</HomePath>
+    <DataPath>C:\_BK\Support\Lookout\Lookout\Data\</DataPath>
+    <SystemPath>[@DataPath@]System\</SystemPath>
+    <UsersPath>[@DataPath@]Users\</UsersPath>
+    <MasterPath>[@UsersPath@]All\</MasterPath>
+    <MasterControlPath>[@MasterPath@]Control\</MasterControlPath>
+    <MasterInputPath>[@MasterPath@]Input\</MasterInputPath>
+    <MasterOutputPath>[@MasterPath@]Output\</MasterOutputPath>
+    <CurrentPath>[@UsersPath@][@UserName@]\</CurrentPath>
+    <CurrentControlPath>[@CurrentPath@]Control\</CurrentControlPath>
+    <CurrentInputPath>[@CurrentPath@]Input\</CurrentInputPath>
+    <CurrentOutputPath>[@CurrentPath@]Output\</CurrentOutputPath>
+    <CurrentApkContentsPath>[@CurrentOutputPath@]ApkContents\</CurrentApkContentsPath>
+    <CurrentLogPath>[@CurrentOutputPath@]Log\</CurrentLogPath>
+    <ApkContentsPath>[@CurrentApkContentsPath@]</ApkContentsPath>
+    <LogPath>[@CurrentLogPath@]</LogPath>
+  </Directories>
+  <Files>
+    <MasterUserSettings>[@MasterControlPath@]UserSettings.xml</MasterUserSettings>
+    <CurrentUserSettings>[@CurrentControlPath@]UserSettings.xml</CurrentUserSettings>
+  </Files>
+  <Programs>
+    <ViewerWindows>C:\WINDOWS\SYSTEM32\Notepad.exe</ViewerWindows>
+    <ViewerUnix>C:\WINDOWS\SYSTEM32\Notepad.exe</ViewerUnix>
+  </Programs>
+</SystemProfile>

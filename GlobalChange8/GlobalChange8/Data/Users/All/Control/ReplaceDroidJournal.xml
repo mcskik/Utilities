@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReplaceDroidDetails>
+  <Switches>
+    <EditAll>Yes</EditAll>
+    <ApplyChanges>Yes</ApplyChanges>
+    <SourceHlq>C:\Temp\Sample\Lifebelt</SourceHlq>
+  </Switches>
+  <Steps>
+    <Step Name="primary">
+      <Edits>
+        <Edit Active="true" Find="JOURNAL" Replacement="LEDGER"/>
+        <Edit Active="true" Find="Journal" Replacement="Ledger"/>
+        <Edit Active="true" Find="journal" Replacement="ledger"/>
+      </Edits>
+    </Step>
+  </Steps>
+</ReplaceDroidDetails>

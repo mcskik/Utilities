@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{57258AD9-3F28-490A-8A2F-95D3E2A44552}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Git8</RootNamespace>
+    <AssemblyName>Git8</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ProfileData">
+      <HintPath>..\..\ProfileData\ProfileData\bin\Release\ProfileData.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataLayer\Profile\Administrator.cs" />
+    <Compile Include="DataLayer\Profile\ApplicationProfile.cs" />
+    <Compile Include="DataLayer\Profile\CommandSetting.cs" />
+    <Compile Include="DataLayer\Profile\CommandSettings.cs" />
+    <Compile Include="DataLayer\Profile\IProfileManager.cs" />
+    <Compile Include="DataLayer\Profile\ParameterSetting.cs" />
+    <Compile Include="DataLayer\Profile\ParameterSettings.cs" />
+    <Compile Include="DataLayer\Profile\ProfileManager.cs" />
+    <Compile Include="DataLayer\Profile\RepositorySetting.cs" />
+    <Compile Include="DataLayer\Profile\RepositorySettings.cs" />
+    <Compile Include="DataLayer\Profile\SystemProfile.cs" />
+    <Compile Include="DataLayer\Tracing\ITracer.cs" />
+    <Compile Include="DataLayer\Tracing\Tracer.cs" />
+    <Compile Include="Models\Commander.cs" />
+    <Compile Include="Models\CommandLine.cs" />
+    <Compile Include="Models\CommandSampler.cs" />
+    <Compile Include="Models\Journaler.cs" />
+    <Compile Include="Models\Parser.cs" />
+    <Compile Include="Models\Translator.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\frmRepository.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\frmRepository.Designer.cs">
+      <DependentUpon>frmRepository.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Data\Config\RepositorySettings.xml" />
+    <EmbeddedResource Include="Data\Config\SystemProfile.xml" />
+    <EmbeddedResource Include="Data\Config\TemplateSettings.xml" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Views\frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmRepository.resx">
+      <DependentUpon>frmRepository.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Data\Output\Journal\Git_Journal_20170312%40101423.log" />
+    <None Include="Data\Output\Journal\Git_Journal_20170312%40101622.log" />
+    <None Include="Data\Output\Journal\Git_Journal_20170312%40112637.log" />
+    <None Include="Data\Output\Journal\Git_Journal_20170312%40121402.log" />
+    <None Include="Data\Output\Journal\Git_Journal_20170312%40151539.log" />
+    <None Include="Data\Output\Journal\Git_Journal_20170314%40201424.log" />
+    <None Include="Data\Output\Journal\Git_Journal_20170314%40202040.log" />
+    <None Include="Data\Output\Journal\Git_Journal_20170314%40202123.log" />
+    <None Include="Data\Output\Journal\Git_Journal_20170314%40203854.log" />
+    <None Include="Data\Output\Journal\Git_Journal_20170314%40204011.log" />
+    <None Include="Data\Output\Journal\Git_Journal_20170316%40093906.log" />
+    <None Include="Data\Output\Journal\Git_Journal_Commit_Amend_And_Force_Push.log" />
+    <None Include="Data\Output\Journal\Git_Journal_Create_And_Delete_Local_Temporary_Branch.log" />
+    <None Include="Data\Output\Journal\Git_Journal_Create_Temp_Branch_and_CherryPick_From_Another_Branch_OnTo_It.log" />
+    <None Include="Data\Output\Journal\Git_Journal_Delete_Local_Branch_And_Checkout_Another.log" />
+    <None Include="Data\Output\Journal\Git_Journal_Diff_Add_Push.log" />
+    <None Include="Data\Output\Journal\Git_Journal_Rebase_Local1629_BasedOn_Remote1630.log" />
+    <None Include="Data\Output\Journal\Git_Journal_Squash_Lots_Of_Commits_From_One_Branch_Onto_A_Temp_Branch.log" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Log\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\Config\CR\BranchCheckoutSettings.xml" />
+    <Content Include="Data\Config\CR\BranchLocalSettings.xml" />
+    <Content Include="Data\Config\CR\BranchRemoteSettings.xml" />
+    <Content Include="Data\Config\CR\CommandSettings.xml" />
+    <Content Include="Data\Config\CR\CommentSettings.xml" />
+    <Content Include="Data\Config\CR\FileSpecSettings.xml" />
+    <Content Include="Data\Config\CR\HeadSettings.xml" />
+    <Content Include="Data\Config\CR\ShaSettings.xml" />
+    <Content Include="Data\Config\CR\StashSettings.xml" />
+    <Content Include="Data\Config\FA\BranchCheckoutSettings.xml" />
+    <Content Include="Data\Config\FA\BranchLocalSettings.xml" />
+    <Content Include="Data\Config\FA\BranchRemoteSettings.xml" />
+    <Content Include="Data\Config\FA\CommandSettings.xml" />
+    <Content Include="Data\Config\FA\CommentSettings.xml" />
+    <Content Include="Data\Config\FA\FileSpecSettings.xml" />
+    <Content Include="Data\Config\FA\HeadSettings.xml" />
+    <Content Include="Data\Config\FA\ShaSettings.xml" />
+    <Content Include="Data\Config\FA\StashSettings.xml" />
+    <Content Include="Data\Config\G8\BranchCheckoutSettings.xml" />
+    <Content Include="Data\Config\G8\BranchLocalSettings.xml" />
+    <Content Include="Data\Config\G8\BranchRemoteSettings.xml" />
+    <Content Include="Data\Config\G8\CommandSettings.xml" />
+    <Content Include="Data\Config\G8\CommentSettings.xml" />
+    <Content Include="Data\Config\G8\FileSpecSettings.xml" />
+    <Content Include="Data\Config\G8\HeadSettings.xml" />
+    <Content Include="Data\Config\G8\ShaSettings.xml" />
+    <Content Include="Data\Config\G8\StashSettings.xml" />
+    <Content Include="Data\Config\Settings\BranchCheckoutSettings.xml" />
+    <Content Include="Data\Config\Settings\BranchLocalSettings.xml" />
+    <Content Include="Data\Config\Settings\BranchRemoteSettings.xml" />
+    <Content Include="Data\Config\Settings\CommandSettings.xml" />
+    <Content Include="Data\Config\Settings\CommentSettings.xml" />
+    <Content Include="Data\Config\Settings\FileSpecSettings.xml" />
+    <Content Include="Data\Config\Settings\HeadSettings.xml" />
+    <Content Include="Data\Config\Settings\ShaSettings.xml" />
+    <Content Include="Data\Config\Settings\StashSettings.xml" />
+    <Content Include="Data\Config\SR\BranchCheckoutSettings.xml" />
+    <Content Include="Data\Config\SR\BranchLocalSettings.xml" />
+    <Content Include="Data\Config\SR\BranchRemoteSettings.xml" />
+    <Content Include="Data\Config\SR\CommandSettings.xml" />
+    <Content Include="Data\Config\SR\CommentSettings.xml" />
+    <Content Include="Data\Config\SR\FileSpecSettings.xml" />
+    <Content Include="Data\Config\SR\HeadSettings.xml" />
+    <Content Include="Data\Config\SR\ShaSettings.xml" />
+    <Content Include="Data\Config\SR\StashSettings.xml" />
+    <Content Include="Data\Output\Commands\git_branch_-a_20170314%40204212.txt" />
+    <Content Include="Data\Output\Commands\git_checkout_-b_feature_MAS-1629-edit-a-fare-alert-TEMP_origin_feature_MAS-1630-fare-alerts-screen-from-profile_20170316%40104451.txt" />
+    <Content Include="Data\Output\Commands\git_checkout_feature_MAS-1629-edit-a-fare-alert_20170315%40101616.txt" />
+    <Content Include="Data\Output\Commands\git_checkout_feature_MAS-1629-edit-a-fare-alert_20170316%40094227.txt" />
+    <Content Include="Data\Output\Commands\git_checkout_feature_MAS-1629-lon-edit-a-fare-alert_20170316%40114424.txt" />
+    <Content Include="Data\Output\Commands\git_commit_-m__Squash_multiple_commits_to_a_different_temporary_branch__--amend_20170316%40122401.txt" />
+    <Content Include="Data\Output\Commands\git_commit_-m__Squash_multiple_commits_to_a_different_temporary_branch__20170316%40121731.txt" />
+    <Content Include="Data\Output\Commands\git_commit_-m__Squash_multiple_commits_to_a_different_temporary_branch__20170316%40121818.txt" />
+    <Content Include="Data\Output\Commands\git_commit_-m__Squash_multiple_commits_to_a_different_temporary_branch__20170316%40122125.txt" />
+    <Content Include="Data\Output\Commands\git_commit_-m___MAS-1629__LON_-_Edit_a_fare_alert_-_Working_but_still_some_synchronization_issues__--amend_20170316%40174606.txt" />
+    <Content Include="Data\Output\Commands\git_config_--get_remote_origin_url_20170314%40204113.txt" />
+    <Content Include="Data\Output\Commands\git_format-patch_origin_feature_MAS-1630-fare-alerts-screen-from-profile_--stdout___MAS1629_EditFareAlert_20170316_0950_patch_20170316%40095216.txt" />
+    <Content Include="Data\Output\Commands\git_format-patch_origin_feature_MAS-1630-fare-alerts-screen-from-profile_--stdout___Temp_Git_Patch_MAS1629_20170316_0941_patch_20170316%40094451.txt" />
+    <Content Include="Data\Output\Commands\git_format-patch_origin_feature_MAS-1630-fare-alerts-screen-from-profile_20170316%40095246.txt" />
+    <Content Include="Data\Output\Commands\git_log_--graph_20170314%40201451.txt" />
+    <Content Include="Data\Output\Commands\git_merge_--squash_feature_MAS-1629-edit-a-fare-alert_20170316%40104945.txt" />
+    <Content Include="Data\Output\Commands\git_push_-f_origin_feature_MAS-1629-edit-a-fare-alert-TEMP_feature_MAS-1629-lon-edit-a-fare-alert_20170316%40114216.txt" />
+    <Content Include="Data\Output\Commands\git_push_-f_origin_feature_MAS-1629-lon-edit-a-fare-alert_20170316%40174717.txt" />
+    <Content Include="Data\Output\Commands\git_push_origin_feature_MAS-1629-edit-a-fare-alert_20170315%40111320.txt" />
+    <Content Include="Data\Output\Commands\git_push_origin_feature_MAS-1629-lon-edit-a-fare-alert_20170316%40174644.txt" />
+    <Content Include="Data\Output\Commands\git_push_origin_master_20170316%40122553.txt" />
+    <Content Include="Data\Output\Commands\git_rebase_--continue_20170315%40104041.txt" />
+    <Content Include="Data\Output\Commands\git_rebase_origin_feature_MAS-1630-fare-alerts-screen-from-profile_20170315%40101916.txt" />
+    <Content Include="Data\Output\Commands\git_remote_show_origin_20170314%40204132.txt" />
+    <Content Include="Data\Output\Commands\git_stash_list_20170314%40204253.txt" />
+    <Content Include="Data\Output\Commands\git_status_20170314%40201436.txt" />
+    <Content Include="Data\Output\Commands\git_status_20170314%40201449.txt" />
+    <Content Include="Data\Output\Commands\git_status_20170316%40094254.txt" />
+    <Content Include="Data\Output\Journal\Git_RefLog_1.txt" />
+    <Content Include="Data\Output\Journal\SourceTree_Git_Pull_And_REbase_From_Another_Branch.txt" />
+    <Content Include="Data_Bkp\Config\CF\BranchCheckoutSettings.xml" />
+    <Content Include="Data_Bkp\Config\CF\BranchLocalSettings.xml" />
+    <Content Include="Data_Bkp\Config\CF\BranchRemoteSettings.xml" />
+    <Content Include="Data_Bkp\Config\CF\CommandSettings.xml" />
+    <Content Include="Data_Bkp\Config\CF\CommentSettings.xml" />
+    <Content Include="Data_Bkp\Config\CF\FileSpecSettings.xml" />
+    <Content Include="Data_Bkp\Config\CF\HeadSettings.xml" />
+    <Content Include="Data_Bkp\Config\CF\ShaSettings.xml" />
+    <Content Include="Data_Bkp\Config\CF\StashSettings.xml" />
+    <Content Include="Data_Bkp\Config\MM\BranchCheckoutSettings.xml" />
+    <Content Include="Data_Bkp\Config\MM\BranchLocalSettings.xml" />
+    <Content Include="Data_Bkp\Config\MM\BranchRemoteSettings.xml" />
+    <Content Include="Data_Bkp\Config\MM\CommandSettings.xml" />
+    <Content Include="Data_Bkp\Config\MM\CommentSettings.xml" />
+    <Content Include="Data_Bkp\Config\MM\FileSpecSettings.xml" />
+    <Content Include="Data_Bkp\Config\MM\HeadSettings.xml" />
+    <Content Include="Data_Bkp\Config\MM\ShaSettings.xml" />
+    <Content Include="Data_Bkp\Config\MM\StashSettings.xml" />
+    <Content Include="Data_Bkp\Config\RepositorySettings.xml" />
+    <Content Include="Data_Bkp\Config\Settings\BranchCheckoutSettings.xml" />
+    <Content Include="Data_Bkp\Config\Settings\BranchLocalSettings.xml" />
+    <Content Include="Data_Bkp\Config\Settings\BranchRemoteSettings.xml" />
+    <Content Include="Data_Bkp\Config\Settings\CommandSettings.xml" />
+    <Content Include="Data_Bkp\Config\Settings\CommentSettings.xml" />
+    <Content Include="Data_Bkp\Config\Settings\FileSpecSettings.xml" />
+    <Content Include="Data_Bkp\Config\Settings\HeadSettings.xml" />
+    <Content Include="Data_Bkp\Config\Settings\ShaSettings.xml" />
+    <Content Include="Data_Bkp\Config\Settings\StashSettings.xml" />
+    <Content Include="Data_Bkp\Config\SystemProfile.xml" />
+    <Content Include="Data_Bkp\Config\TemplateSettings.xml" />
+    <Content Include="Img\G8.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

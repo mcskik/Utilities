@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CloneDroidDetails>
+  <Switches>
+    <InspectAll>Yes</InspectAll>
+    <CloneAll>Yes</CloneAll>
+    <EditAll>Yes</EditAll>
+    <RegexEditAll>Yes</RegexEditAll>
+    <PackageNameRoot>com.example.sample</PackageNameRoot>
+    <SourceHlq>C:\_Sample</SourceHlq>
+    <PassOneTargetHlq>C:\Temp\SourceAll\Sample</PassOneTargetHlq>
+    <PassTwoTargetHlq>C:\Temp\TargetOnly\Sample</PassTwoTargetHlq>
+    <SourceSection>sample</SourceSection>
+    <TargetSection>example</TargetSection>
+  </Switches>
+  <Steps>
+    <Step Name="primary">
+      <Edits>
+        <Edit Active="true" Find="SAMPLE" Replacement="EXAMPLE"/>
+        <Edit Active="true" Find="Sample" Replacement="Example"/>
+        <Edit Active="true" Find="sample" Replacement="example"/>
+        <Edit Active="true" Find="C:\_BK\Sample" Replacement="C:\_BK\Example"/>
+      </Edits>
+      <RegexEdits>
+        <RegexEdit Active="true">
+          <FindPrefix></FindPrefix>
+          <FindSuffix></FindSuffix>
+          <Replacement></Replacement>
+        </RegexEdit>
+        <RegexEdit Active="true">
+          <FindPrefix></FindPrefix>
+          <FindSuffix></FindSuffix>
+          <Replacement></Replacement>
+        </RegexEdit>
+        <RegexEdit Active="true">
+          <FindPrefix></FindPrefix>
+          <FindSuffix></FindSuffix>
+          <Replacement></Replacement>
+        </RegexEdit>
+      </RegexEdits>
+    </Step>
+  </Steps>
+</CloneDroidDetails>

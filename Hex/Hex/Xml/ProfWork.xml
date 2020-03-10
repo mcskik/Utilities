@@ -1,0 +1,10 @@
+<Profile Name="ProfWork">
+  <Parameters>
+    <Parameter Name="SourceFile" Value="C:\_BK\Support\Hex\Hex\In\Sample.txt" />
+    <Parameter Name="TargetFile" Value="C:\_BK\Support\Hex\Hex\Out\Sample.hex" />
+    <Parameter Name="MarkHex" Value="0A" />
+    <Parameter Name="WithChar" Value="@" />
+    <Parameter Name="Occurrences" Value="255" />
+    <Parameter Name="StopAfter" Value="0" />
+  </Parameters>
+</Profile>

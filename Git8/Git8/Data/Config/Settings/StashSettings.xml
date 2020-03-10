@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Profile>
+  <Selected>
+    <Key>Sample_Stash_1</Key>
+  </Selected>
+  <ParameterSettings>
+    <ParameterSetting Key="Sample_Stash_1">
+      <Group>
+        <Value>Sample_Stash_1</Value>
+      </Group>
+    </ParameterSetting>
+  </ParameterSettings>
+</Profile>
