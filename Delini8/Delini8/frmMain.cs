@@ -1,4 +1,5 @@
 using Delini8.DataLayer.Profile;
+using Delini8.DataLayer.Tracing;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,18 +16,23 @@ namespace Delini8
 
         private void cmdCount_Click(object sender, EventArgs e)
         {
-            string sTopLevelPath = Administrator.ProfileManager.SystemProfile.SourcePath;
             long nEstimate = 0;
             Dir oDir = new Dir();
             txtLines.Text = "0";
             ArrayList oDirs = new ArrayList();
-            oDir.DirList(sTopLevelPath, ref nEstimate);
-            txtLines.Text = oDir.LineCount.ToString();
+            oDir.DirList(Administrator.ProfileManager.SystemProfile.SourcePath, ref nEstimate);
+            var allCounters = oDir.Counters["All"];
+            long totalLines = 0;
+            if (allCounters.ContainsKey("TotalLines"))
+            {
+                totalLines = allCounters["TotalLines"];
+            }
+            txtLines.Text = totalLines.ToString();
             Administrator.Tracer.WriteLine();
             string message = "Index".PadRight(17, ' ');
             foreach (KeyValuePair<int, string> group in oDir.GroupNames)
             {
-                message += "," + group.Value.PadRight(7, ' ');
+                message += "," + group.Value.PadLeft(7, ' ');
             }
             Administrator.Tracer.WriteLine(message);
             foreach (KeyValuePair<int, string> name in oDir.CounterNames)
@@ -49,11 +55,8 @@ namespace Delini8
                 }
                 Administrator.Tracer.WriteLine(message);
             }
-            Administrator.Tracer.WriteLine();
-            //foreach (KeyValuePair<string, string> ext in oDir.Exts)
-            //{
-            //    Administrator.Tracer.WriteLine(ext.Key);
-            //}
+            //Administrator.Tracer.Outcome();
+            //Administrator.Tracer.Finish();
             Administrator.View();
         }
     }

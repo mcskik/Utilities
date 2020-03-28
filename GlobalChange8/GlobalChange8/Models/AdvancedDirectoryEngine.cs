@@ -225,12 +225,14 @@ namespace GlobalChange8.Models
                                     entry.SourceFile = entry.StdFile;
                                     entry.TargetFile = entry.StdFile;
                                     entry.StdType = "dir";
-                                    string pathPart = string.Empty;
-                                    entry.FolderGroup = GetFolderGroup(spec, ref pathPart);
-                                    string matchSpec = GetMatchSegment(spec, pathPart);
-                                    entry.FolderGroupMatchFileStem = matchSpec;
+                                    string matchAfter = string.Empty;
+                                    entry.FolderGroup = GetFolderGroup(spec, ref matchAfter);
+                                    string matchSpec = GetMatchPart(spec, matchAfter);
+                                    entry.FolderGroupMatchPath = matchSpec;
+                                    entry.FolderGroupMatchStem = matchSpec;
                                     entry.FolderGroupMatchFileSpec = matchSpec;
-                                    entry.FolderGroupFullFileStem = spec;
+                                    entry.FolderGroupFullPath = spec;
+                                    entry.FolderGroupFullStem = spec;
                                     entry.FolderGroupFullFileSpec = spec;
                                     entry.CtlComparison = string.Empty;
                                     directoryListing.Add(entry);
@@ -283,12 +285,15 @@ namespace GlobalChange8.Models
                                     entry.SourceFile = entry.StdFile;
                                     entry.TargetFile = entry.StdFile;
                                     entry.StdType = ext;
-                                    string pathPart = string.Empty;
-                                    entry.FolderGroup = GetFolderGroup(spec, ref pathPart);
-                                    string matchSpec = GetMatchSegment(spec, pathPart);
-                                    entry.FolderGroupMatchFileStem = RemoveExt(matchSpec, fullExt);
+                                    string matchAfter = string.Empty;
+                                    entry.FolderGroup = GetFolderGroup(spec, ref matchAfter);
+                                    entry.FolderGroupMatchPath = GetMatchPart(fileInfoArray[row].DirectoryName, matchAfter);
+                                    string matchSpec = GetMatchPart(spec, matchAfter);
+                                    string matchStem = RemoveExt(matchSpec, fullExt);
+                                    entry.FolderGroupMatchStem = matchStem;
                                     entry.FolderGroupMatchFileSpec = matchSpec;
-                                    entry.FolderGroupFullFileStem = RemoveExt(spec, fullExt);
+                                    entry.FolderGroupFullPath = fileInfoArray[row].DirectoryName;
+                                    entry.FolderGroupFullStem = RemoveExt(spec, fullExt);
                                     entry.FolderGroupFullFileSpec = spec;
                                     entry.CtlComparison = string.Empty;
                                     directoryListing.Add(entry);
@@ -317,10 +322,10 @@ namespace GlobalChange8.Models
             }
         }
 
-        private string GetFolderGroup(string path, ref string pathPart)
+        private string GetFolderGroup(string path, ref string matchAfter)
         {
-            string folderGroupName = string.Empty;
-            pathPart = string.Empty;
+            string folderGroup = string.Empty;
+            matchAfter = string.Empty;
             Dictionary<string, string> folderGroups = new Dictionary<string, string>();
             folderGroups.Add("MAIN", @"\main\");
             folderGroups.Add("TEST", @"\test\");
@@ -333,34 +338,38 @@ namespace GlobalChange8.Models
             foreach (KeyValuePair<string, string> group in folderGroups)
             {
                 string groupName = group.Key;
-                string groupMatchPart = group.Value;
-                if (path.Contains(groupMatchPart))
+                string groupPath = group.Value;
+                if (path.Contains(groupPath))
                 {
-                    folderGroupName = groupName;
-                    pathPart = groupMatchPart;
+                    folderGroup = groupName;
+                    matchAfter = groupPath;
                     break;
                 }
             }
-            return folderGroupName;
+            return folderGroup;
         }
 
-        private string GetMatchSegment(string full, string pathPart)
+        private string GetMatchPart(string full, string matchAfter)
         {
-            string matchSegment = full;
-            if (full.Length > 0 && pathPart.Length > 0)
+            string matchPart = full;
+            if (full.Length > 0 && matchAfter.Length > 0)
             {
-                int pos = full.IndexOf(pathPart);
+                int pos = full.IndexOf(matchAfter);
                 if (pos != -1)
                 {
-                    matchSegment = full.Substring(pos);
+                    pos += matchAfter.Length;
+                    if (pos < full.Length)
+                    {
+                        matchPart = full.Substring(pos);
+                    }
                 }
             }
-            return matchSegment;
+            return matchPart;
         }
 
         private string RemoveExt(string fileSpec, string fullExt)
         {
-            string stem = string.Empty;
+            string stem = fileSpec;
             if (fileSpec.Length > 0 && fullExt.Length > 0)
             {
                 stem = fileSpec.Replace(fullExt, string.Empty);

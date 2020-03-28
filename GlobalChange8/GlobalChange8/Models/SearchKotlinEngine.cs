@@ -13,7 +13,7 @@ using System.Text;
 namespace GlobalChange8.Models
 {
     /// <summary>
-    /// Directory search object.
+    /// Directory search object (Kotlin).
     /// </summary>
     /// <remarks>
     /// Search all selected file types contained
@@ -22,7 +22,7 @@ namespace GlobalChange8.Models
     /// information.
     /// </remarks>
     /// <author>Kenneth McSkimming</author>
-    public class SearchEngine
+    public class SearchKotlinEngine
     {
         #region Events.
         public event EventDelegate EventBeginProgress;
@@ -105,7 +105,9 @@ namespace GlobalChange8.Models
         protected bool _regex = false;
         protected bool _allTypes = false;
         protected bool _ignoreUntil = false;
+        protected bool _bufferUntil = false;
         protected bool _getReady = false;
+        protected bool _headerCommentDone = false;
         #endregion
         #region Other members.
         protected Dir _dir;
@@ -116,6 +118,7 @@ namespace GlobalChange8.Models
         protected string _sourceCode = string.Empty;
         protected List<int> _endPositions = new List<int>();
         protected Dictionary<string, string> _apiClassNameMapping;
+        protected List<string> _buffer = new List<string>();
         #endregion
         #endregion
 
@@ -318,7 +321,7 @@ namespace GlobalChange8.Models
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public SearchEngine()
+        public SearchKotlinEngine()
         {
             _apiClassNameMapping = new Dictionary<string, string>();
             //TODO: Add any mapping to change class names every time.
@@ -778,6 +781,7 @@ namespace GlobalChange8.Models
         /// </summary>
         protected virtual bool GlobalChange(string fileSpec)
         {
+            _headerCommentDone = false;
             StringBuilder contents = new StringBuilder();
             string line = string.Empty;
             bool first = true;
@@ -849,6 +853,8 @@ namespace GlobalChange8.Models
 
         protected void SwaggerModeChanges(ref bool hit, ref bool changed, ref bool first, string fileSpec, long count, string record, ref string line, ref StringBuilder contents, ref bool blockStarted, ref bool skipUntil)
         {
+            string temp = string.Empty;
+            string trimmedLine = line.Trim();
             foreach (KeyValuePair<string, string> entry in _apiClassNameMapping)
             {
                 string find = " " + entry.Key + " ";
@@ -864,41 +870,44 @@ namespace GlobalChange8.Models
                     line = line.Replace(find, replacement);
                 }
             }
-            if(line.Contains("OpenAPI spec version"))
+            if (line.Contains("OpenAPI spec version"))
             {
+                //TODO: DONE
                 //This was an attempt to work with non-model files which didn't work.
                 //Ignore all lines until the end of the horrible GCM JSON example at the top ends.
                 //_getReady = true;
             }
-            if (line.Contains("*/") && _getReady)
+            if (line.Contains("package io.swagger.client.models"))
             {
-                //This was an attempt to work with non-model files which didn't work.
-                //Ignore all lines until the end of the horrible GCM JSON example at the top ends.
-                //_ignoreUntil = false;
-            }
-            if (line.Contains("package io.swagger.client.model"))
-            {
+                //TODO: DONE
                 //Ignore all lines until the package is found.
                 _ignoreUntil = false;
                 // Replace package name.
-                line = ReplacementValue(line, "package io.swagger.client.model", "package com.sample.example.common.models.api", ref hit, ref changed);
+                line = ReplacementValue(line, "package io.swagger.client.models", "package com.sample.example.common.models.api", ref hit, ref changed);
                 ConditionalAppendLine(ref contents, line);
                 RecordChange(hit, ref first, fileSpec, count, record, line);
                 skipUntil = false;
-            }
-            else if (line.Contains("import com.google.gson.annotations.SerializedName"))
-            {
-                //Ignore all lines until the package is found.
-                _ignoreUntil = false;
-                // Insert "import com.google.gson.annotations.Expose;"
-                string insert = "import com.google.gson.annotations.Expose;";
-                ConditionalAppendLine(ref contents, insert);
-                ConditionalAppendLine(ref contents, line);
+                ConditionalAppendLine(ref contents, string.Empty);
                 hit = true;
                 changed = true;
-                RecordInsert(hit, ref first, fileSpec, count, record, insert);
+                RecordInsert(hit, ref first, fileSpec, count, record, string.Empty);
             }
-            else if (line.Contains("import io.swagger"))
+            else if (line.Contains("import io.swagger.client.models"))
+            {
+                //TODO: DONE
+                //Ignore all lines until the package is found.
+                _ignoreUntil = false;
+                // Replace import stem.
+                line = ReplacementValue(line, "import io.swagger.client.models", "import com.sample.example.common.models.api", ref hit, ref changed);
+                ConditionalAppendLine(ref contents, line);
+                RecordChange(hit, ref first, fileSpec, count, record, line);
+                skipUntil = false;
+                ConditionalAppendLine(ref contents, string.Empty);
+                hit = true;
+                changed = true;
+                RecordInsert(hit, ref first, fileSpec, count, record, string.Empty);
+            }
+            else if (trimmedLine == string.Empty)
             {
                 //Ignore all lines until the package is found.
                 _ignoreUntil = false;
@@ -907,7 +916,35 @@ namespace GlobalChange8.Models
                 changed = true;
                 RecordSkip(hit, ref first, fileSpec, count, record, line);
             }
-            else if (line.Contains("public class"))
+            else if (trimmedLine == "/**")
+            {
+                _ignoreUntil = false;
+                if (!_headerCommentDone)
+                {
+                    _buffer = new List<string>();
+                    _bufferUntil = true;
+                    RecordBuffer(hit, ref first, fileSpec, count, record, line);
+                }
+            }
+            else if (trimmedLine.StartsWith("*"))
+            {
+                RecordBuffer(hit, ref first, fileSpec, count, record, line);
+            }
+            else if (line.Contains("/*") && line.Contains("*/"))
+            {
+                RecordKeep(hit, ref first, fileSpec, count, record, line);
+                ConditionalAppendLine(ref contents, line);
+            }
+            else if (line.Contains("*/"))
+            {
+                if (!_headerCommentDone)
+                {
+                    RecordBuffer(hit, ref first, fileSpec, count, record, line);
+                }
+                _headerCommentDone = true;
+                _bufferUntil = false;
+            }
+            else if (line.Contains("data class"))
             {
                 //Ignore all lines until the package is found.
                 _ignoreUntil = false;
@@ -916,84 +953,23 @@ namespace GlobalChange8.Models
                 if (parts.Length > 2)
                 {
                     string className = parts[2];
-                    string comment1 = "/**";
-                    string comment2 = String.Format(" * API{0}.", CommentFromClassName(className));
-                    string comment3 = " */";
-                    ConditionalAppendLine(ref contents, comment1);
-                    ConditionalAppendLine(ref contents, comment2);
-                    ConditionalAppendLine(ref contents, comment3);
-                    hit = true;
-                    changed = true;
-                    RecordInsert(hit, ref first, fileSpec, count, record, comment1);
-                    RecordInsert(hit, ref first, fileSpec, count, record, comment2);
-                    RecordInsert(hit, ref first, fileSpec, count, record, comment3);
+                    string classComment = String.Format(" * API{0}.", CommentFromClassName(className));
+                    for (int ptr = 0; ptr < _buffer.Count; ptr++)
+                    {
+                        string bufferLine = _buffer[ptr];
+                        bufferLine = StripType(bufferLine);
+                        ConditionalAppendLine(ref contents, bufferLine);
+                        if (ptr == 0)
+                        {
+                            ConditionalAppendLine(ref contents, classComment);
+                            hit = true;
+                            changed = true;
+                            RecordInsert(hit, ref first, fileSpec, count, record, classComment);
+                        }
+                    }
                 }
                 ConditionalAppendLine(ref contents, line);
             }
-            else if (line.Contains("@ApiModel"))
-            {
-                //Ignore all lines until the package is found.
-                _ignoreUntil = false;
-                // Drop lines like this: @ApiModel(description = "")
-                hit = true;
-                changed = true;
-                RecordSkip(hit, ref first, fileSpec, count, record, line);
-            }
-            else if (line.Contains("@ApiModelProperty"))
-            {
-                //Ignore all lines until the package is found.
-                _ignoreUntil = false;
-                // Drop lines like this: @ApiModelProperty(value = "One or more unique request IDs")
-                hit = true;
-                changed = true;
-                RecordSkip(hit, ref first, fileSpec, count, record, line);
-            }
-            else if (line.Contains("@SerializedName"))
-            {
-                //Ignore all lines until the package is found.
-                _ignoreUntil = false;
-                // Insert @Expose after all @SerializedName lines.
-                string insert = "  @Expose";
-                ConditionalAppendLine(ref contents, line);
-                ConditionalAppendLine(ref contents, insert);
-                hit = true;
-                changed = true;
-                RecordInsert(hit, ref first, fileSpec, count, record, insert);
-            }
-            else if (line.Contains("@Override"))
-            {
-                //Ignore all lines until the package is found.
-                _ignoreUntil = false;
-                // Start of a method block to ignore.
-                hit = true;
-                changed = true;
-                skipUntil = true;
-                RecordSkip(hit, ref first, fileSpec, count, record, line);
-            }
-            //else if (line.Contains("public boolean equals(Object o)"))
-            //{
-            //    // Start of a method block to ignore.
-            //    skipUntil = true;
-            //}
-            //else if (line.Contains("public int hashCode()"))
-            //{
-            //    // Start of a method block to ignore.
-            //    skipUntil = true;
-            //}
-            //else if (line.Contains("public String toString()"))
-            //{
-            //    // Start of a method block to ignore.
-            //    skipUntil = true;
-            //}
-            //else if (line.Contains("return sb.toString()"))
-            //{
-            //   //End of ignored method block.
-            //   skipUntil = false;
-            //   hit = true;
-            //   changed = true;
-            //   RecordHit(hit, ref first, header, fileSpec, count, record, line);
-            //   skipOneMore = true;
-            //}
             else if (line.Contains("[@END_OF_BLOCK@]"))
             {
                 // End of ignored method block.
@@ -1015,29 +991,15 @@ namespace GlobalChange8.Models
             }
             else
             {
-                if (line.Trim().Length == 0)
-                {
-                    if (blockStarted)
-                    {
-                        ConditionalAppendLine(ref contents);
-                    }
-                }
-                else
-                {
-                    if (!blockStarted)
-                    {
-                        if (line.Trim() != "}")
-                        {
-                            ConditionalAppendLine(ref contents);
-                        }
-                    }
-                    blockStarted = true;
-                    // Replace version number which comes from the UI find and replacement fields.
-                    line = ReplacementValue(line, _find, _replacement, ref hit, ref changed);
-                    ConditionalAppendLine(ref contents, line);
-                    RecordChange(hit, ref first, fileSpec, count, record, line);
-                }
+                RecordKeep(hit, ref first, fileSpec, count, record, line);
+                ConditionalAppendLine(ref contents, line);
             }
+        }
+
+        private string StripType(string line)
+        {
+            line = line.Replace("kotlin.", string.Empty);
+            return line;
         }
 
         protected void ConditionalAppendLine(ref StringBuilder contents)
@@ -1167,6 +1129,45 @@ namespace GlobalChange8.Models
                 SignalCriteriaPass(header);
                 _log.WriteLn(header);
             }
+        }
+
+        /// <summary>
+        /// Record buffer.
+        /// </summary>
+        protected void RecordBuffer(bool hit, ref bool first, string fileSpec, long count, string record, string line)
+        {
+            string header = string.Empty;
+            if (first)
+            {
+                header = "\r\n" + fileSpec + "\r\n";
+                header += string.Empty.PadRight(fileSpec.Length, '-');
+                SignalCriteriaPass(header);
+                _log.WriteLn(header);
+                first = false;
+            }
+            header = "Buffer  : (" + count.ToString("00000") + ") - " + line;
+            _buffer.Add(line);
+            SignalCriteriaPass(header);
+            _log.WriteLn(header);
+        }
+
+        /// <summary>
+        /// Record keep.
+        /// </summary>
+        protected void RecordKeep(bool hit, ref bool first, string fileSpec, long count, string record, string line)
+        {
+            string header = string.Empty;
+            if (first)
+            {
+                header = "\r\n" + fileSpec + "\r\n";
+                header += string.Empty.PadRight(fileSpec.Length, '-');
+                SignalCriteriaPass(header);
+                _log.WriteLn(header);
+                first = false;
+            }
+            header = "Keep    : (" + count.ToString("00000") + ") - " + line;
+            SignalCriteriaPass(header);
+            _log.WriteLn(header);
         }
 
         /// <summary>

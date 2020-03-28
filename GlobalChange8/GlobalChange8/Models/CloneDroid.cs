@@ -18,7 +18,7 @@ namespace GlobalChange8.Models
     /// <remarks>
     /// Search all selected file types contained
     /// within the specified top level directory path,
-    /// and apply all the custom changes required for mode = "Clone".
+    /// and apply all the custom changes required for mode = "CloneDroid".
     /// </remarks>
     /// <author>Kenneth McSkimming</author>
     public class CloneDroid
@@ -314,11 +314,11 @@ namespace GlobalChange8.Models
 
         private void EvaluatePackages(string sourceDir, string targetDir)
         {
+            sourceDir = sourceDir.Replace(SourceHlq, string.Empty);
+            targetDir = targetDir.Replace(SourceHlq, string.Empty);
             if (sourceDir != targetDir)
             {
                 _folderRuleCount++;
-                sourceDir = sourceDir.Replace(SourceHlq, string.Empty);
-                targetDir = targetDir.Replace(SourceHlq, string.Empty);
                 var folderRule = new EditRule(sourceDir, targetDir, _folderRuleCount);
                 _folderRules.Add(folderRule.Order, folderRule);
                 string sourcePackage = ExtractPackage(sourceDir);
@@ -486,6 +486,7 @@ namespace GlobalChange8.Models
         {
             _log.WriteLn();
             _log.WriteTimedMsg("000", "I", "Edit Rules:");
+            _log.WriteLn();
             PrintEditRules(_editRules);
             if (IsAffirmative(RegexEditAll))
             {

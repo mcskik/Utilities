@@ -1,3 +1,4 @@
+using GlobalChange8.Models;
 using Log8;
 using ProfileData.DataLayer.Profile;
 using GlobalChange8.DataLayer.Profile;
@@ -11,13 +12,13 @@ using R = Routines8.Routines;
 namespace GlobalChange8.Models
 {
     /// <summary>
-    /// Model generation engine (Models).
+    /// Model generation engine (Models) (Kotlin).
     /// </summary>
     /// <remarks>
     /// Generate model classes.
     /// </remarks>
     /// <author>Kenneth McSkimming</author>
-    public class ModelsEngine
+    public class ModelsKotlinEngine
     {
         const string SPECIAL = @" ¦`¬!""£$%^&*()-_=+[]{};:'@#~\|,.<>/?";
         const char SPACE = ' ';
@@ -35,10 +36,14 @@ namespace GlobalChange8.Models
         protected string _mode = string.Empty;
         protected Logger _log = null;
 
+        public string CommonModelsPackageName { get; set; }
+        public string FeaturesModelsPackageName { get; set; }
         public string SourceModelsDirectory { get; set; }
         public string TargetModelsDirectory { get; set; }
 
         protected SortedDictionary<string, string> _apiToModelClassNameMapping;
+        private int _apiToModelClassNameEditRuleCount = 0;
+        protected SortedDictionary<string, EditRule> _apiToModelClassNameEditRules;
 
         private int classFileCount = 0;
         private int classFileLineCount = 0;
@@ -93,7 +98,7 @@ namespace GlobalChange8.Models
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public ModelsEngine()
+        public ModelsKotlinEngine()
         {
             Load();
         }
@@ -105,6 +110,19 @@ namespace GlobalChange8.Models
         {
             string fileSpec = String.Format(@"{0}{1}.xml", Administrator.ProfileManager.SystemProfile.CloneConfigurationPath, runMode);
             XDocument doc = XDocument.Load(fileSpec);
+            foreach (XElement flag in doc.Descendants("Switches").Elements())
+            {
+                string flagName = flag.Name.LocalName;
+                switch (flagName)
+                {
+                    case "CommonModelsPackageName":
+                        CommonModelsPackageName = (string)flag;
+                        break;
+                    case "FeaturesModelsPackageName":
+                        FeaturesModelsPackageName = (string)flag;
+                        break;
+                }
+            }
             foreach (XElement directory in doc.Descendants("Directories").Elements())
             {
                 string directoryFieldName = directory.Name.LocalName;
@@ -119,6 +137,8 @@ namespace GlobalChange8.Models
                 }
             }
             _apiToModelClassNameMapping = new SortedDictionary<string, string>();
+            _apiToModelClassNameEditRules = new SortedDictionary<string, EditRule>();
+            _apiToModelClassNameEditRuleCount = 0;
         }
 
         /// <summary>
@@ -148,9 +168,9 @@ namespace GlobalChange8.Models
             char cSeparator = System.IO.Path.DirectorySeparatorChar;
             _log = new Logger();
             _log.Prefix = "GCE";
-            _log.Title = "Global Change/Clone Engine (Clone API Models) " + Administrator.ProfileManager.ApplicationProfile.Version;
+            _log.Title = "Global Change/Clone Engine (Clone API Kotlin Models) " + Administrator.ProfileManager.ApplicationProfile.Version;
             FileHelper.PathCheck(Administrator.ProfileManager.SystemProfile.LogPath);
-            _log.Begin(String.Format("{0}Global_Change_Clone_API_Models_{1}.log", Administrator.ProfileManager.SystemProfile.LogPath, DateTime.Now.ToString("yyyyMMdd@HHmmss")));
+            _log.Begin(String.Format("{0}Global_Change_Clone_API_Kotlin_Models_{1}.log", Administrator.ProfileManager.SystemProfile.LogPath, DateTime.Now.ToString("yyyyMMdd@HHmmss")));
             string sourceDirectory = SourceModelsDirectory;
             string targetDirectory = TargetModelsDirectory;
             XCopyModels(sourceDirectory, targetDirectory);
@@ -200,6 +220,9 @@ namespace GlobalChange8.Models
                             string targetClassName = sourceClassName + MODEL_CLASS_SUFFIX;
                             string targetFileName = targetClassName + ext;
                             _apiToModelClassNameMapping.Add(sourceClassName, targetClassName);
+                            _apiToModelClassNameEditRuleCount++;
+                            var _apiToModelClassNameEditRule = new EditRule(sourceClassName, targetClassName, _apiToModelClassNameEditRuleCount);
+                            _apiToModelClassNameEditRules.Add(_apiToModelClassNameEditRule.Order, _apiToModelClassNameEditRule);
                             try
                             {
                                 string targetFile = System.IO.Path.Combine(targetDirectory.ToString(), targetFileName);
@@ -278,9 +301,9 @@ namespace GlobalChange8.Models
             char cSeparator = System.IO.Path.DirectorySeparatorChar;
             _log = new Logger();
             _log.Prefix = "GCE";
-            _log.Title = "Global Change/Clone Engine (Edit Models) " + Administrator.ProfileManager.ApplicationProfile.Version;
+            _log.Title = "Global Change/Clone Engine (Edit Kotlin Models) " + Administrator.ProfileManager.ApplicationProfile.Version;
             FileHelper.PathCheck(Administrator.ProfileManager.SystemProfile.LogPath);
-            _log.Begin(String.Format("{0}Global_Change_Edit_Models_{1}.log", Administrator.ProfileManager.SystemProfile.LogPath, DateTime.Now.ToString("yyyyMMdd@HHmmss")));
+            _log.Begin(String.Format("{0}Global_Change_Edit_Kotlin_Models_{1}.log", Administrator.ProfileManager.SystemProfile.LogPath, DateTime.Now.ToString("yyyyMMdd@HHmmss")));
             string targetDirectory = TargetModelsDirectory;
             XEditModels(targetDirectory);
             classFileLineChangeCount = lineChangeCount;
@@ -379,9 +402,8 @@ namespace GlobalChange8.Models
             _ignoreUntil = true;
             StringBuilder contents = new StringBuilder();
             List<string> memberVariableLines = new List<string>();
-            bool memberVariableOnNextLine = false;
-            bool memberVariablesOpened = false;
-            bool memberVariablesClosed = false;
+            List<string> memberVarLines = new List<string>();
+            List<string> importModelClasses = new List<string>();
             string line = string.Empty;
             bool first = true;
             bool hit = false;
@@ -390,6 +412,74 @@ namespace GlobalChange8.Models
             string record = string.Empty;
             long count = 0;
             string currentClassName = System.IO.Path.GetFileNameWithoutExtension(fileSpec);
+            var importsBuffer = new List<string>();
+            // Read ahead to see which other model classes need import statements.
+            try
+            {
+                if (File.Exists(fileSpec))
+                {
+                    string modelClassName = System.IO.Path.GetFileNameWithoutExtension(fileSpec);
+                    string apiModelClassName = modelClassName.Replace("ModelState", string.Empty);
+                    importModelClasses.Add(apiModelClassName);
+                    fileInfo = R.GetFileInfo(fileSpec);
+                    StreamReader sr = new StreamReader(fileSpec);
+                    if (sr.Peek() >= 0)
+                    {
+                        do
+                        {
+                            record = sr.ReadLine();
+                            line = record;
+                            var trimmedLine = line.Trim();
+                            if (trimmedLine.StartsWith("/*") && trimmedLine.EndsWith("*/"))
+                            {
+                                memberVarLines.Add(line);
+                            }
+                            else if (trimmedLine.StartsWith("val"))
+                            {
+                                memberVarLines.Add(line);
+                            }
+                            else if (trimmedLine.StartsWith(")"))
+                            {
+                                GeneratorKotlin generator = null;
+                                EntityMetaBlock block = null;
+                                try
+                                {
+                                    generator = new GeneratorKotlin(modelClassName, memberVarLines, _apiToModelClassNameMapping);
+                                    block = generator.ImportMemberVariables();
+                                    foreach (Vector vector in block.MemberVariables)
+                                    {
+                                        string apiType = vector.ApiType;
+                                        string apiInnerType = InnerType(vector.ApiType);
+                                        if (_apiToModelClassNameMapping.ContainsKey(apiType))
+                                        {
+                                            if (!importModelClasses.Contains(apiType))
+                                            {
+                                                //importModelClasses.Add(apiType);
+                                            }
+                                        }
+                                        if (_apiToModelClassNameMapping.ContainsKey(apiInnerType))
+                                        {
+                                            if (!importModelClasses.Contains(apiInnerType))
+                                            {
+                                                //importModelClasses.Add(apiInnerType);
+                                            }
+                                        }
+                                    }
+                                }
+                                catch (Exception e1)
+                                {
+                                    string msg = e1.Message;
+                                }
+                            }
+                        } while (sr.Peek() >= 0);
+                    }
+                    sr.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            // Now process file normally.
             try
             {
                 if (File.Exists(fileSpec))
@@ -399,98 +489,20 @@ namespace GlobalChange8.Models
                     StreamReader sr = new StreamReader(fileSpec);
                     if (sr.Peek() >= 0)
                     {
-                        memberVariableOnNextLine = false;
-                        memberVariablesOpened = false;
-                        memberVariablesClosed = false;
                         do
                         {
                             count++;
                             classFileLineCount++;
                             record = sr.ReadLine();
                             line = record;
-                            if (memberVariableOnNextLine)
-                            {
-                                memberVariableLines.Add(line);
-                                line = line.Replace(" Boolean ", " boolean ");
-                                line = line.Replace(" Integer ", " int ");
-                                line = line.Replace(" Int ", " int ");
-                                line = line.Replace(" Long ", " long ");
-                                line = line.Replace(" = null", string.Empty);
-                                memberVariableOnNextLine = false;
-                            }
-                            if (memberVariablesOpened && !memberVariablesClosed)
-                            {
-                                if (line.Trim().Length == 0)
-                                {
-                                    memberVariablesClosed = true;
-                                    Generator generator = null;
-                                    EntityMetaBlock block = null;
-                                    try
-                                    {
-                                        generator = new Generator(modelClassName, memberVariableLines, _apiToModelClassNameMapping);
-                                        block = generator.ImportMemberVariables();
-                                    }
-                                    catch (Exception e1)
-                                    {
-                                    }
-                                    try
-                                    {
-                                        List<string> defaultConstructor = generator.GenerateDefaultConstructor(block);
-                                        foreach (string ln in defaultConstructor)
-                                        {
-                                            contents.AppendLine(ln);
-                                        }
-                                    }
-                                    catch (Exception e2)
-                                    {
-                                    }
-                                    try
-                                    {
-                                        List<string> apiObjectConstructor = generator.GenerateApiObjectConstructor(block);
-                                        foreach (string ln in apiObjectConstructor)
-                                        {
-                                            contents.AppendLine(ln);
-                                        }
-                                    }
-                                    catch (Exception e3)
-                                    {
-                                    }
-                                    try
-                                    {
-                                        List<string> parcelConstructor = generator.GenerateParameterisedParcelConstructor(block);
-                                        foreach (string ln in parcelConstructor)
-                                        {
-                                            contents.AppendLine(ln);
-                                        }
-                                    }
-                                    catch (Exception e4)
-                                    {
-                                    }
-                                }
-                            }
-                            if (line.Contains("@Expose"))
-                            {
-                                memberVariablesOpened = true;
-                                if (!memberVariablesClosed)
-                                {
-                                    memberVariableOnNextLine = true;
-                                }
-                                continue;
-                            }
-                            else if (line.Contains("Expose;"))
+                            var trimmedLine = line.Trim();
+                            if (line.Contains("package com.ubtsupport.streamline3admin"))
                             {
                                 continue;
                             }
-                            else if (line.Contains("@SerializedName"))
+                            if (line.Contains("import"))
                             {
-                                continue;
-                            }
-                            else if (line.Contains("SerializedName;"))
-                            {
-                                continue;
-                            }
-                            else if (line.Contains("package com.sample.example"))
-                            {
+                                importsBuffer.Add(line);
                                 continue;
                             }
                             if (_ignoreUntil)
@@ -512,13 +524,97 @@ namespace GlobalChange8.Models
                                     continue;
                                 }
                             }
-                            if (line.Contains("public class"))
+                            if (trimmedLine.StartsWith("/*") && trimmedLine.EndsWith("*/"))
+                            {
+                                memberVariableLines.Add(line);
+                            }
+                            if (trimmedLine.StartsWith("val"))
+                            {
+                                memberVariableLines.Add(line);
+                            }
+                            if (trimmedLine.StartsWith(")"))
+                            {
+                                GeneratorKotlin generator = null;
+                                EntityMetaBlock block = null;
+                                try
+                                {
+                                    generator = new GeneratorKotlin(modelClassName, memberVariableLines, _apiToModelClassNameMapping);
+                                    block = generator.ImportMemberVariables();
+                                    int counter = 0;
+                                    int maximum = block.MemberVariables.Count;
+                                    foreach (Vector vector in block.MemberVariables)
+                                    {
+                                        counter++;
+                                        if (vector.Summary.Trim().Length > 0)
+                                        {
+                                            string comment = "    " + vector.Summary;
+                                            contents.AppendLine(comment);
+                                        }
+                                        StringBuilder output = new StringBuilder("    var ");
+                                        output.Append(vector.Variable);
+                                        output.Append(": ");
+                                        output.Append(vector.Type);
+                                        output.Append(" = ");
+                                        output.Append(vector.DefaultValue);
+                                        if (counter < maximum)
+                                        {
+                                            output.Append(",");
+                                        }
+                                        contents.AppendLine(output.ToString());
+                                    }
+                                    contents.AppendLine(@") {");
+                                }
+                                catch (Exception e1)
+                                {
+                                }
+                                try
+                                {
+                                    List<string> apiObjectConstructor = generator.GenerateApiObjectConstructor(block);
+                                    foreach (string ln in apiObjectConstructor)
+                                    {
+                                        contents.AppendLine(ln);
+                                    }
+                                    contents.AppendLine(@"}");
+                                }
+                                catch (Exception e3)
+                                {
+                                }
+                            }
+                            if (line.Contains("data class"))
                             {
                                 // Ignore all lines until the package is found.
                                 _ignoreUntil = false;
                                 // Insert package line.
-                                string packageLine = "package com.example.kotlinmodelsexperiment.common.models.data;";
+                                string packageLine = "package " + FeaturesModelsPackageName;
                                 ConditionalAppendLine(ref contents, packageLine);
+                                ConditionalAppendLine(ref contents, string.Empty);
+                                // Insert constants import line.
+                                string importLine = "import com.ubtsupport.streamline3admin.common.constants.Constants";
+                                ConditionalAppendLine(ref contents, importLine);
+                                //if (FeaturesModelsPackageName != CommonModelsPackageName)
+                                //{
+                                //    // Insert API models import line.
+                                //    importLine = "import " + CommonModelsPackageName;
+                                //    ConditionalAppendLine(ref contents, importLine);
+                                //}
+                                // Insert referenced API model class import lines.
+                                foreach (var modelClass in importModelClasses)
+                                {
+                                    importLine = "import " + CommonModelsPackageName + "." + modelClass;
+                                    ConditionalAppendLine(ref contents, importLine);
+                                }
+                                // Insert referenced modelState class import lines.
+                                //foreach (var import in importsBuffer)
+                                //{
+                                //    var impLine = import;
+                                //    impLine = impLine.Replace(CommonModelsPackageName, FeaturesModelsPackageName);
+                                //    //Replace all the API class names with the Model class names.
+                                //    impLine = EditLine(_apiToModelClassNameEditRules, impLine);
+                                //    ConditionalAppendLine(ref contents, impLine);
+                                //}
+                                // Insert parceler import line.
+                                importLine = "import org.parceler.Parcel";
+                                ConditionalAppendLine(ref contents, importLine);
                                 ConditionalAppendLine(ref contents, string.Empty);
                                 // Insert comment block at start of class.
                                 string[] parts = line.Split(' ');
@@ -537,47 +633,16 @@ namespace GlobalChange8.Models
                                     RecordInsert(hit, ref first, fileSpec, count, record, comment2);
                                     RecordInsert(hit, ref first, fileSpec, count, record, comment3);
                                 }
-                                ConditionalAppendLine(ref contents, "@Parcel");
+                                ConditionalAppendLine(ref contents, "@Parcel(Parcel.Serialization.BEAN)");
                                 //Replace all the API class names with the Model class names.
-                                foreach (KeyValuePair<string, string> entry in _apiToModelClassNameMapping)
-                                {
-                                    //ChangeOldClassNameToNewClassName(string.Empty, entry, string.Empty, ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName(".", entry, ";", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName("<", entry, ">", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName("<", entry, ",", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName(" ", entry, ",", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName(" ", entry, ">", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName(" ", entry, "<", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName("(", entry, ")", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName("(", entry, " ", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName(" ", entry, "(", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName(" ", entry, ")", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName(" ", entry, " ", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName(string.Empty, entry, ".", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                    ChangeOldClassNameToNewClassName(string.Empty, entry, " ", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                }
+                                line = EditLine(_apiToModelClassNameEditRules, line);
+                                line = line.Replace(" (", "(");
                                 ConditionalAppendLine(ref contents, line);
                                 continue;
                             }
                             //Replace all the API class names with the Model class names.
-                            foreach (KeyValuePair<string, string> entry in _apiToModelClassNameMapping)
-                            {
-                                //ChangeOldClassNameToNewClassName(string.Empty, entry, string.Empty, ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName(".", entry, ";", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName("<", entry, ">", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName("<", entry, ",", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName(" ", entry, ",", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName(" ", entry, ">", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName(" ", entry, "<", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName("(", entry, ")", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName("(", entry, " ", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName(" ", entry, "(", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName(" ", entry, ")", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName(" ", entry, " ", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName(string.Empty, entry, ".", ref line, ref changed, ref first, fileSpec, count, ref record);
-                                ChangeOldClassNameToNewClassName(string.Empty, entry, " ", ref line, ref changed, ref first, fileSpec, count, ref record);
-                            }
-                            contents.AppendLine(line);
+                            line = EditLine(_apiToModelClassNameEditRules, line);
+                            //contents.AppendLine(line);
                             if (_action == "Cancel")
                             {
                                 break;
@@ -595,6 +660,27 @@ namespace GlobalChange8.Models
             {
             }
             return hit;
+        }
+
+        private string InnerType(string Type)
+        {
+            string innerType = Type.Replace("Mutable", string.Empty);
+            innerType = innerType.Replace("ArrayList<", string.Empty);
+            innerType = innerType.Replace("Array<", string.Empty);
+            innerType = innerType.Replace("List<", string.Empty);
+            innerType = innerType.Replace(">", string.Empty);
+            return innerType;
+        }
+
+        private string EditLine(SortedDictionary<string, EditRule> editRules, string line)
+        {
+            foreach (KeyValuePair<string, EditRule> rule in editRules)
+            {
+                string find = rule.Value.Find;
+                string replacement = rule.Value.Replacement;
+                line = line.Replace(find, replacement);
+            }
+            return line;
         }
 
         protected void ConditionalAppendLine(ref StringBuilder contents, string line)

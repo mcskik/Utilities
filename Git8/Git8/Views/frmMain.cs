@@ -76,17 +76,8 @@ namespace Git8.Views
 
         private void cmdGitLogFilter_Click(object sender, EventArgs e)
         {
-            string command = "git log --graph -200";
+            string command = "git log --graph -5000";
             Run(command);
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("XXX-003 This is comment number 3");
-            sb.AppendLine("XXX-002 This is comment number 2");
-            sb.AppendLine("XXX-001 This is comment number 1");
-            sb.AppendLine("XXX-004 This is comment number 4XXX-005 This is comment number 5XXX-006 This is comment number 6");
-            sb.AppendLine("XXX-007This is comment number 7XXX-008This is comment number 5XXX-009This is comment number 9");
-            sb.AppendLine("XXX-011 This is comment number 11");
-            sb.AppendLine("XXX-010 This is comment number 10");
-            rtxOutput.Text = sb.ToString();
             Filter();
         }
 
@@ -115,6 +106,7 @@ namespace Git8.Views
                         }
                         else
                         {
+                            //If number ends before end of line.
                             if (numeric.Length > 0)
                             {
                                 prefix = COMMENT_PREFIX + numeric;
@@ -123,17 +115,54 @@ namespace Git8.Views
                                 comment = prefix + " " + remainder;
                                 if (comments.ContainsKey(prefix))
                                 {
-                                    if (comment.Length > comments[prefix].Length)
+                                    string existing = comments[prefix];
+                                    int existingHyphens = CountLetter(existing, "-");
+                                    int candidateHyphens = CountLetter(comment, "-");
+                                    int commentLength = comment.Length;
+                                    if (candidateHyphens < existingHyphens)
                                     {
-                                        comments[prefix] = comment;
+                                        commentLength += 12;
+                                    }
+                                    string candidate = comment;
+                                    if (candidateHyphens > 1)
+                                    {
+                                        candidate = MakeCommentFromBranchName(comment);
+                                    }
+                                    if (commentLength > comments[prefix].Length)
+                                    {
+                                        comments[prefix] = candidate;
                                     }
                                 }
                                 else
                                 {
-                                    comments.Add(prefix, comment);
+                                    int candidateHyphens = CountLetter(comment, "-");
+                                    string candidate = comment;
+                                    if (candidateHyphens > 1)
+                                    {
+                                        candidate = MakeCommentFromBranchName(comment);
+                                    }
+                                    comments[prefix] = candidate;
                                 }
                             }
                             break;
+                        }
+                    }
+                    //If number ends at end of line.
+                    if (numeric.Length > 0)
+                    {
+                        prefix = COMMENT_PREFIX + numeric;
+                        remainder = string.Empty;
+                        comment = prefix;
+                        if (comments.ContainsKey(prefix))
+                        {
+                            if (comment.Length > comments[prefix].Length)
+                            {
+                                comments[prefix] = comment;
+                            }
+                        }
+                        else
+                        {
+                            comments.Add(prefix, comment);
                         }
                     }
                 }
@@ -150,6 +179,91 @@ namespace Git8.Views
             {
                 rtxOutput.Text = sb.ToString();
             }
+        }
+
+        private int CountLetter(string text, string character)
+        {
+            int count = 0;
+            text = text.Trim();
+            for (int pos = 0; pos < text.Length; pos++)
+            {
+                string letter = text.Substring(pos, 1);
+                if (letter.CompareTo(character) == 0)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        private static string MakeCommentFromBranchName(string text)
+        {
+            const int ZERO = 0;
+            const string SPACE = " ";
+            const string HYPHEN = "-";
+            const string DIGITS = "0123456789";
+            StringBuilder comment = new StringBuilder();
+            text = text.Trim() + SPACE;
+            int pos1 = text.LastIndexOf(HYPHEN);
+            if (pos1 >= ZERO)
+            {
+                int pos2 = text.IndexOf(SPACE, pos1);
+                if (pos2 >= ZERO)
+                {
+                    text = text.Substring(ZERO, pos2);
+                }
+                bool firstHyphenReached = false;
+                bool firstDigit = false;
+                bool endOfPrefix = false;
+                bool firstDescription = false;
+                for (int pos = ZERO; pos < text.Length; pos++)
+                {
+                    String letter = text.Substring(pos, 1);
+                    if (letter == HYPHEN)
+                    {
+                        firstHyphenReached = true;
+                        if (!endOfPrefix)
+                        {
+                            comment.Append(HYPHEN);
+                            endOfPrefix = true;
+                        }
+                        else
+                        {
+                            comment.Append(SPACE);
+                        }
+                    }
+                    else if (DIGITS.Contains(letter))
+                    {
+                        comment.Append(letter);
+                    }
+                    else
+                    {
+                        if (!firstHyphenReached)
+                        {
+                            comment.Append(letter.ToUpper());
+                        }
+                        else
+                        {
+                            if (!firstDescription)
+                            {
+                                if (letter != SPACE)
+                                {
+                                    firstDescription = true;
+                                }
+                                if (letter != HYPHEN)
+                                {
+                                    comment.Append(letter.ToUpper());
+                                }
+                            }
+                            else
+                            {
+                                comment.Append(letter);
+                            }
+                        }
+                    }
+                }
+            }
+            return comment.ToString();
         }
 
         private void cmdParse_Click(object sender, EventArgs e)
@@ -249,6 +363,11 @@ namespace Git8.Views
         {
             SaveTemplateField();
             synchroniseTemplateAndCommandFields();
+        }
+
+        private void rtxDescription_Leave(object sender, EventArgs e)
+        {
+            SaveTemplateField();
         }
 
         private void cboCheckoutBranch_Leave(object sender, EventArgs e)
@@ -363,6 +482,7 @@ namespace Git8.Views
             cboCommandTemplate.DataSource = sortedTemplateSettings;
             cboCommandTemplate.DropDownStyle = ComboBoxStyle.DropDown;
             setCboCommandTemplateText(Administrator.ProfileManager.TemplateSettings.SelectedKey);
+            rtxDescription.Text = Administrator.ProfileManager.TemplateSettings.SelectedItem.Description;
         }
 
         private void InitialiseCheckoutBranchField()
@@ -556,6 +676,7 @@ namespace Git8.Views
         private void SaveTemplateField()
         {
             string text = cboCommandTemplate.Text;
+            string description = rtxDescription.Text;
             if (text.Trim().Length == 0)
             {
                 Administrator.ProfileManager.TemplateSettings.Delete(Administrator.ProfileManager.TemplateSettings.SelectedKey);
@@ -564,17 +685,29 @@ namespace Git8.Views
             }
             if (!Administrator.ProfileManager.TemplateSettings.Keys.Contains(text))
             {
-                ParameterSetting setting = new ParameterSetting
+                TemplateParameterSetting setting = new TemplateParameterSetting
                 {
                     Key = text,
                     Value = text,
+                    Description = description
                 };
                 Administrator.ProfileManager.TemplateSettings.Persist(setting);
                 InitialiseTemplateField();
             }
             else
             {
+                if (description != Administrator.ProfileManager.TemplateSettings.SelectedItem.Description)
+                {
+                    TemplateParameterSetting setting = new TemplateParameterSetting
+                    {
+                        Key = text,
+                        Value = text,
+                        Description = description
+                    };
+                    Administrator.ProfileManager.TemplateSettings.Persist(setting);
+                }
                 Administrator.ProfileManager.TemplateSettings.Select(text);
+                rtxDescription.Text = Administrator.ProfileManager.TemplateSettings.SelectedItem.Description;
             }
         }
 
@@ -600,6 +733,35 @@ namespace Git8.Views
             else
             {
                 Administrator.ProfileManager.BranchCheckoutSettings.Select(text);
+            }
+            // Change related fields.
+            if (text.Trim().Length > 0)
+            {
+                cboRemoteBranch.Text = text;
+                cboLocalBranch.Text = text;
+                string currentCommentIssueIdentifier = GetIssueIdentifier(cboComment.Text);
+                string newBranchIssueIdentifier = GetIssueIdentifier(text);
+                if (newBranchIssueIdentifier.Length > 0)
+                {
+                    if (newBranchIssueIdentifier != currentCommentIssueIdentifier)
+                    {
+                        List<string> sortedComments = Administrator.ProfileManager.CommentSettings.Keys.ToList();
+                        sortedComments.Sort();
+                        string comment = string.Empty;
+                        foreach (string c in sortedComments)
+                        {
+                            if (c.StartsWith(newBranchIssueIdentifier))
+                            {
+                                comment = c;
+                                break;
+                            }
+                        }
+                        if (comment.Length > 0)
+                        {
+                            cboComment.Text = comment;
+                        }
+                    }
+                }
             }
         }
 
@@ -789,6 +951,57 @@ namespace Git8.Views
             {
                 Administrator.ProfileManager.CommentSettings.Select(text);
             }
+            // Change related fields.
+            if (text.Trim().Length > 0)
+            {
+                string currentBranchIssueIdentifier = GetIssueIdentifier(cboCheckoutBranch.Text);
+                string newCommentIssueIdentifier = GetIssueIdentifier(text);
+                if (newCommentIssueIdentifier.Length > 0)
+                {
+                    if (newCommentIssueIdentifier != currentBranchIssueIdentifier)
+                    {
+                        List<string> sortedBranches = Administrator.ProfileManager.BranchCheckoutSettings.Keys.ToList();
+                        sortedBranches.Sort();
+                        string branch = string.Empty;
+                        foreach (string b in sortedBranches)
+                        {
+                            if (b.Contains(newCommentIssueIdentifier))
+                            {
+                                branch = b;
+                                break;
+                            }
+                        }
+                        if (branch.Length > 0)
+                        {
+                            cboCheckoutBranch.Text = branch;
+                        }
+                    }
+                }
+            }
+        }
+
+        private string GetIssueIdentifier(string text)
+        {
+            string issueIdentifier = string.Empty;
+            if (text.Trim().Length > 0)
+            {
+                const string ISSUE_PREFIX = "SAA-";
+                int pos1 = text.IndexOf(ISSUE_PREFIX);
+                if (pos1 != -1)
+                {
+                    pos1 += ISSUE_PREFIX.Length;
+                    int pos2 = text.IndexOf(" ", pos1);
+                    if (pos2 == -1)
+                    {
+                        pos2 = text.IndexOf("-", pos1);
+                    }
+                    if (pos2 != -1)
+                    {
+                        issueIdentifier = ISSUE_PREFIX + text.Substring(pos1, pos2 - pos1);
+                    }
+                }
+            }
+            return issueIdentifier;
         }
 
         private void SaveStashField()

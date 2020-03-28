@@ -28,6 +28,8 @@ namespace Delini8.DataLayer.Profile
             }
         }
 
+        public static String LogPath { get; set; }
+
         public static Tracer Tracer
         {
             get

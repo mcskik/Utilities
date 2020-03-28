@@ -76,7 +76,6 @@
     <Compile Include="Models\AdvancedDirectoryEntry.cs" />
     <Compile Include="Models\Comparison.cs" />
     <Compile Include="Models\Comparisons.cs" />
-    <Compile Include="Models\Interrupt.cs" />
     <Compile Include="Models\RegexEditRule.cs" />
     <Compile Include="Models\TextTypesHelper.cs" />
     <Compile Include="Models\ReplaceDroid.cs" />
@@ -90,17 +89,22 @@
     <Compile Include="DataLayer\Profile\SystemProfile.cs" />
     <Compile Include="DataLayer\Profile\UserSetting.cs" />
     <Compile Include="DataLayer\Profile\UserSettings.cs" />
+    <Compile Include="Models\CloneDroid.cs" />
+    <Compile Include="Models\GeneratorKotlin.cs" />
+    <Compile Include="Models\Interrupt.cs" />
+    <Compile Include="Models\ModelsKotlinEngine.cs" />
+    <Compile Include="Models\ReproEngine.cs" />
+    <Compile Include="Models\SearchKotlinEngine.cs" />
+    <Compile Include="Models\SearchReplaceMultipleEngine.cs" />
+    <Compile Include="Models\EntityMetaBlock.cs" />
+    <Compile Include="Models\Generator.cs" />
+    <Compile Include="Models\ModelsEngine.cs" />
     <Compile Include="Models\CsvSplitter.cs" />
     <Compile Include="Models\Dir.cs" />
     <Compile Include="Models\DirectoryExclusionsHelper.cs" />
     <Compile Include="Models\DirEntity.cs" />
     <Compile Include="Models\DirectoryEntry.cs" />
-    <Compile Include="Models\EntityMetaBlock.cs" />
-    <Compile Include="Models\Generator.cs" />
-    <Compile Include="Models\ModelsEngine.cs" />
     <Compile Include="Models\MonitoredTypesHelper.cs" />
-    <Compile Include="Models\CloneDroid.cs" />
-    <Compile Include="Models\ReproEngine.cs" />
     <Compile Include="Models\RunMode.cs" />
     <Compile Include="Models\CloneEngine.cs" />
     <Compile Include="Models\SearchEngineClone.cs" />
@@ -130,6 +134,7 @@
     <Content Include="Data\Users\All\Control\CloneDroidGuids.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Data\Users\All\Control\ModelsFromApiA.xml" />
     <Content Include="Data\Users\All\Control\ReplaceDroidJournal.xml">
       <SubType>Designer</SubType>
     </Content>

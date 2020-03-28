@@ -18,8 +18,8 @@ namespace Delini8
     {
         #region Events.
         public event EventDelegate EventBeginProgress;
-		public event EventDelegate EventUpdateProgress;
-		public event EventDelegate EventEndOfProgress;
+        public event EventDelegate EventUpdateProgress;
+        public event EventDelegate EventEndOfProgress;
         #endregion
 
         #region Event helper routines.
@@ -29,25 +29,25 @@ namespace Delini8
         /// <param name="psMethod">Which method in overall process is running.</param>
         public void SignalBeginProgress(string psMethod)
         {
-			if( EventBeginProgress != null )
+            if (EventBeginProgress != null)
             {
-				EventParameters oEventParameters = new EventParameters(psMethod);
-				EventBeginProgress(this,oEventParameters);
-			}
-		}
+                EventParameters oEventParameters = new EventParameters(psMethod);
+                EventBeginProgress(this, oEventParameters);
+            }
+        }
 
-		/// <summary>
+        /// <summary>
         /// Trigger update progress event.
-		/// </summary>
+        /// </summary>
         /// <param name="psMethod">Which method in overall process is running.</param>
         public void SignalUpdateProgress(string psMethod)
         {
-			if( EventUpdateProgress != null )
+            if (EventUpdateProgress != null)
             {
-				EventParameters oEventParameters = new EventParameters(psMethod);
-				EventUpdateProgress(this,oEventParameters);
-			}
-		}
+                EventParameters oEventParameters = new EventParameters(psMethod);
+                EventUpdateProgress(this, oEventParameters);
+            }
+        }
 
         /// <summary>
         /// Trigger end of progress event.
@@ -55,16 +55,12 @@ namespace Delini8
         /// <param name="psMethod">Which method in overall process is running.</param>
         public void SignalEndOfProgress(string psMethod)
         {
-			if( EventEndOfProgress != null )
+            if (EventEndOfProgress != null)
             {
-				EventParameters oEventParameters = new EventParameters(psMethod);
-				EventEndOfProgress(this,oEventParameters);
-			}
+                EventParameters oEventParameters = new EventParameters(psMethod);
+                EventEndOfProgress(this, oEventParameters);
+            }
         }
-        #endregion
-
-		#region Member variables.
-		private long mnLineCount = 0;
         #endregion
 
         #region Properties.
@@ -72,26 +68,128 @@ namespace Delini8
         public Dictionary<string, Dictionary<string, long>> Counters { get; set; }
         public SortedDictionary<int, string> GroupNames { get; set; }
         public SortedDictionary<int, string> CounterNames { get; set; }
+        #endregion
 
-        public long LineCount
-		{
-			get
-			{
-				return mnLineCount;
-			}
-		}
-		#endregion
-
-		#region Constructors.
-		/// <summary>
+        #region Constructors.
+        /// <summary>
         /// Default constructor.
         /// </summary>
-		public Dir()
-		{
-		}
+        public Dir()
+        {
+        }
         #endregion
 
         #region Public methods.
+        /// <summary>
+        /// Scan directory information into the directory ArrayList.
+        /// </summary>
+	public virtual void DirList(string psQualifier, ref long pnEstimate)
+        {
+            InitializeCounts();
+            ArrayList oDirs = new ArrayList();
+            string sDirectory = "";
+            long nCount;
+            long nEntries;
+            SignalBeginProgress("DirList");
+            try
+            {
+                //Build directory and file list.
+                oDirs = new ArrayList();
+                psQualifier = psQualifier.Trim();
+                psQualifier = R.Strip(psQualifier, "TRAILING", @"\");
+                oDirs.Add(psQualifier);
+                pnEstimate = 1;
+                nCount = 1;
+                nEntries = oDirs.Count;
+                while (nCount <= nEntries)
+                {
+                    sDirectory = oDirs[(int)nCount - 1].ToString();
+                    DirLevel(psQualifier, sDirectory, ref oDirs, ref pnEstimate);
+                    nCount = nCount + 1;
+                    nEntries = oDirs.Count;
+                }
+            }
+            catch (Exception oException)
+            {
+                Console.WriteLine(oException.Message);
+            }
+            finally
+            {
+                FinalizeCounts();
+                SignalEndOfProgress("DirList");
+            }
+        }
+
+        /// <summary>
+        /// Append directory level information into the specified recordset.
+        /// </summary>
+	public void DirLevel(string psQualifier, string psDirectory, ref ArrayList poDirs, ref long pnEstimate)
+        {
+            string sSpec;
+            string sPath;
+            string sName;
+            sPath = psDirectory;
+            if (psDirectory.Length > psQualifier.Length)
+            {
+                psDirectory = psDirectory.Substring(psQualifier.Length);
+            }
+            else
+            {
+                psDirectory = string.Empty;
+            }
+            try
+            {
+                DirectoryInfo oDirectory = new DirectoryInfo(sPath);
+                oDirectory.Refresh();
+                DirectoryInfo[] aDirs = oDirectory.GetDirectories();
+                for (int nRow = 0; nRow < aDirs.Length; nRow++)
+                {
+                    try
+                    {
+                        sName = aDirs[nRow].Name;
+                        sSpec = sPath + "\\" + sName;
+                        if (aDirs[nRow].Exists)
+                        {
+                            poDirs.Add(sSpec);
+                            pnEstimate += 1;
+                            SignalUpdateProgress("DirList");
+                        }
+                    }
+                    catch (Exception oExceptionA)
+                    {
+                        Console.WriteLine(oExceptionA.Message);
+                    }
+                }
+                FileInfo[] aFiles = oDirectory.GetFiles();
+                for (int nRow = 0; nRow < aFiles.Length; nRow++)
+                {
+                    try
+                    {
+                        sName = aFiles[nRow].Name;
+                        sSpec = sPath + "\\" + sName;
+                        if (aFiles[nRow].Exists)
+                        {
+                            string sContents = R.ReadFile(sSpec);
+                            Classify(aFiles[nRow], R.TextRows(sContents));
+                            pnEstimate += 1;
+                            SignalUpdateProgress("DirList");
+                        }
+                    }
+                    catch (Exception oExceptionB)
+                    {
+                        Console.WriteLine(oExceptionB.Message);
+                    }
+                }
+            }
+            catch (Exception oExceptionD)
+            {
+                Console.WriteLine(oExceptionD.Message);
+            }
+            finally
+            {
+            }
+        }
+
         public void InitializeCounts()
         {
             Counters = new Dictionary<string, Dictionary<string, long>>();
@@ -109,39 +207,47 @@ namespace Delini8
             CounterNames.Add(6, "KotlinFiles");
             CounterNames.Add(7, "ProgramLines");
             CounterNames.Add(8, "ProgramFiles");
-            CounterNames.Add(9, "DataLines");
-            CounterNames.Add(10, "DataFiles");
-            CounterNames.Add(11, "BuildLines");
-            CounterNames.Add(12, "BuildFiles");
-            CounterNames.Add(13, "CommonLines");
-            CounterNames.Add(14, "CommonFiles");
-            CounterNames.Add(15, "FeaturesLines");
-            CounterNames.Add(16, "FeaturesFiles");
-            CounterNames.Add(17, "CodeLines");
-            CounterNames.Add(18, "CodeFiles");
-            CounterNames.Add(19, "ManifestLines");
-            CounterNames.Add(20, "ManifestFiles");
-            CounterNames.Add(21, "XmlLines");
-            CounterNames.Add(22, "XmlFiles");
-            CounterNames.Add(23, "MarkupLines");
-            CounterNames.Add(24, "MarkupFiles");
-            CounterNames.Add(25, "ColorLines");
-            CounterNames.Add(26, "ColorFiles");
-            CounterNames.Add(27, "DrawableLines");
-            CounterNames.Add(28, "DrawableFiles");
-            CounterNames.Add(29, "LayoutLines");
-            CounterNames.Add(30, "LayoutFiles");
-            CounterNames.Add(31, "MenuLines");
-            CounterNames.Add(32, "MenuFiles");
-            CounterNames.Add(33, "MipmapLines");
-            CounterNames.Add(34, "MipmapFiles");
-            CounterNames.Add(35, "ValuesLines");
-            CounterNames.Add(36, "ValuesFiles");
-            CounterNames.Add(37, "ImageFiles");
-            CounterNames.Add(38, "OtherLines");
-            CounterNames.Add(39, "OtherFiles");
-            CounterNames.Add(40, "GrandTotalLines");
-            CounterNames.Add(41, "GrandTotalFiles");
+            CounterNames.Add(9, "HtmlLines");
+            CounterNames.Add(10, "HtmlFiles");
+            CounterNames.Add(11, "JsonLines");
+            CounterNames.Add(12, "JsonFiles");
+            CounterNames.Add(13, "DataLines");
+            CounterNames.Add(14, "DataFiles");
+            CounterNames.Add(15, "GradleLines");
+            CounterNames.Add(16, "GradleFiles");
+            CounterNames.Add(17, "PropertiesLines");
+            CounterNames.Add(18, "PropertiesFiles");
+            CounterNames.Add(19, "ProLines");
+            CounterNames.Add(20, "ProFiles");
+            CounterNames.Add(21, "BuildLines");
+            CounterNames.Add(22, "BuildFiles");
+            CounterNames.Add(23, "CommonLines");
+            CounterNames.Add(24, "CommonFiles");
+            CounterNames.Add(25, "FeaturesLines");
+            CounterNames.Add(26, "FeaturesFiles");
+            CounterNames.Add(27, "CodeLines");
+            CounterNames.Add(28, "CodeFiles");
+            CounterNames.Add(29, "XmlLines");
+            CounterNames.Add(30, "XmlFiles");
+            CounterNames.Add(31, "ManifestLines");
+            CounterNames.Add(32, "ManifestFiles");
+            CounterNames.Add(33, "ColorLines");
+            CounterNames.Add(34, "ColorFiles");
+            CounterNames.Add(35, "DrawableLines");
+            CounterNames.Add(36, "DrawableFiles");
+            CounterNames.Add(37, "LayoutLines");
+            CounterNames.Add(38, "LayoutFiles");
+            CounterNames.Add(39, "MenuLines");
+            CounterNames.Add(40, "MenuFiles");
+            CounterNames.Add(41, "ValuesLines");
+            CounterNames.Add(42, "ValuesFiles");
+            CounterNames.Add(43, "MarkupLines");
+            CounterNames.Add(44, "MarkupFiles");
+            CounterNames.Add(45, "OtherLines");
+            CounterNames.Add(46, "OtherFiles");
+            CounterNames.Add(47, "ImageFiles");
+            CounterNames.Add(48, "GrandTotalLines");
+            CounterNames.Add(49, "GrandTotalFiles");
             foreach (KeyValuePair<int, string> group in GroupNames)
             {
                 Dictionary<string, long> groupCounters = new Dictionary<string, long>();
@@ -154,133 +260,27 @@ namespace Delini8
             Exts = new SortedDictionary<string, string>();
         }
 
-        /// <summary>
-        /// Scan directory information into the directory ArrayList.
-        /// </summary>
-        public virtual void DirList(string psQualifier, ref long pnEstimate)
-		{
-            InitializeCounts();
-            ArrayList oDirs = new ArrayList();
-			string sDirectory = string.Empty;
-			long nCount;
-			long nEntries;
-			SignalBeginProgress("DirList");
-			try
-			{
-				//Build directory and file list.
-				oDirs = new ArrayList();
-				mnLineCount = 0;
-				psQualifier = psQualifier.Trim();
-				psQualifier = R.Strip(psQualifier, "TRAILING", @"\");
-				oDirs.Add(psQualifier);
-				pnEstimate = 1;
-				nCount = 1;
-				nEntries = oDirs.Count;
-				while (nCount <= nEntries)
-				{
-					sDirectory = oDirs[(int)nCount - 1].ToString();
-					DirLevel(psQualifier, sDirectory, ref oDirs, ref pnEstimate);
-					nCount = nCount + 1;
-					nEntries = oDirs.Count;
-				}
-			}
-			catch (Exception oException)
-			{
-				Console.WriteLine(oException.Message);
-			}
-			finally
-			{
-				SignalEndOfProgress("DirList");
-			}
-            FinalizeCounts();
-        }
-
-        /// <summary>
-        /// Append directory level information into the specified recordset.
-        /// </summary>
-		public void DirLevel(string psQualifier, string psDirectory, ref ArrayList poDirs, ref long pnEstimate)
-		{
-			string sSpec;
-			string sPath;
-			string sName;
-			sPath = psDirectory;
-			if (psDirectory.Length > psQualifier.Length)
-			{
-				psDirectory = psDirectory.Substring(psQualifier.Length);
-			}
-			else
-			{
-				psDirectory = string.Empty;
-			}
-			try
-			{
-				DirectoryInfo oDirectory = new DirectoryInfo(sPath);
-				oDirectory.Refresh();
-				DirectoryInfo[] aDirs = oDirectory.GetDirectories();
-				for (int nRow = 0; nRow < aDirs.Length; nRow++)
-				{
-					try
-					{
-						sName = aDirs[nRow].Name;
-						sSpec = sPath + "\\" + sName;
-						if (aDirs[nRow].Exists)
-						{
-							poDirs.Add(sSpec);
-							pnEstimate += 1;
-							SignalUpdateProgress("DirList");
-						}
-					}
-					catch (Exception oExceptionA)
-					{
-						Console.WriteLine(oExceptionA.Message);
-					}
-				}
-				FileInfo[] aFiles = oDirectory.GetFiles();
-				for (int nRow = 0; nRow < aFiles.Length; nRow++)
-				{
-					try
-					{
-						sName = aFiles[nRow].Name;
-						sSpec = sPath + "\\" + sName;
-						if (aFiles[nRow].Exists)
-						{
-							string sContents = R.ReadFile(sSpec);
-                            long lines = R.TextRows(sContents);
-                            mnLineCount += lines;
-                            Classify(aFiles[nRow], lines);
-							pnEstimate += 1;
-							SignalUpdateProgress("DirList");
-						}
-					}
-					catch (Exception oExceptionB)
-					{
-						Console.WriteLine(oExceptionB.Message);
-					}
-				}
-			}
-			catch (Exception oExceptionD)
-			{
-				Console.WriteLine(oExceptionD.Message);
-			}
-			finally
-			{
-			}
-		}
-
-        public void Classify(FileInfo fileInfo, long lines)
+        private void Classify(FileInfo fileInfo, long lines)
         {
             bool classified = false;
             string path = fileInfo.DirectoryName;
             string name = fileInfo.Name;
             string ext = fileInfo.Extension;
+            ext = ext.ToLower();
             if (ext.Length > 1 && ext.StartsWith("."))
             {
                 ext = ext.Substring(1);
             }
             //TODO: Any types you want to ignore.
             if (ext == "apk") return;
+            if (ext == "bat") return;
+            if (ext == "gitignore") return;
+            if (ext == "gradlew") return;
+            if (name == "gradlew") return;
             if (ext == "jar") return;
             if (ext == "jks") return;
+            if (ext == "log") return;
+            if (ext == "ttf") return;
             if (!Exts.ContainsKey(ext))
             {
                 Exts.Add(ext, ext);
@@ -290,30 +290,6 @@ namespace Delini8
             //Types.
             switch (ext)
             {
-                case "bat":
-                    classified = true;
-                    SubClassify("Build", path, name, ext, lines);
-                    break;
-                case "gitignore":
-                    classified = true;
-                    SubClassify("Build", path, name, ext, lines);
-                    break;
-                case "gradle":
-                    classified = true;
-                    SubClassify("Build", path, name, ext, lines);
-                    break;
-                case "pro":
-                    classified = true;
-                    SubClassify("Build", path, name, ext, lines);
-                    break;
-                case "properties":
-                    classified = true;
-                    SubClassify("Build", path, name, ext, lines);
-                    break;
-                case "json":
-                    classified = true;
-                    SubClassify("Data", path, name, ext, lines);
-                    break;
                 case "java":
                     classified = true;
                     SubClassify("Java", path, name, ext, lines);
@@ -324,15 +300,43 @@ namespace Delini8
                     SubClassify("Kotlin", path, name, ext, lines);
                     SubClassify("Program", path, name, ext, lines);
                     break;
+                case "html":
+                    classified = true;
+                    SubClassify("Html", path, name, ext, lines);
+                    SubClassify("Data", path, name, ext, lines);
+                    break;
+                case "json":
+                    classified = true;
+                    SubClassify("Json", path, name, ext, lines);
+                    SubClassify("Data", path, name, ext, lines);
+                    break;
+                case "gradle":
+                    classified = true;
+                    SubClassify("Gradle", path, name, ext, lines);
+                    SubClassify("Build", path, name, ext, lines);
+                    break;
+                case "properties":
+                    classified = true;
+                    SubClassify("Properties", path, name, ext, lines);
+                    SubClassify("Build", path, name, ext, lines);
+                    break;
+                case "pro":
+                    classified = true;
+                    SubClassify("Pro", path, name, ext, lines);
+                    SubClassify("Build", path, name, ext, lines);
+                    break;
                 case "xml":
+                    //These are sub classified separately as well into the different types of xml files.
                     classified = true;
                     SubClassify("Xml", path, name, ext, lines);
                     break;
                 case "jpg":
+                    //No line count for these.
                     classified = true;
                     SubClassify("Image", path, name, ext, lines);
                     break;
                 case "png":
+                    //No line count for these.
                     classified = true;
                     SubClassify("Image", path, name, ext, lines);
                     break;
@@ -340,66 +344,59 @@ namespace Delini8
                     break;
             }
 
-            //Groups
+            //Groups.
             if (path.Contains("common"))
             {
-                classified = true;
                 SubClassify("Common", path, name, ext, lines);
                 SubClassify("Code", path, name, ext, lines);
             }
             else if (path.Contains("features"))
             {
-                classified = true;
                 SubClassify("Features", path, name, ext, lines);
                 SubClassify("Code", path, name, ext, lines);
             }
 
-            //Folders
+            //Folders.
             if (ext == "xml")
             {
                 if (name.Contains("AndroidManifest"))
                 {
-                    classified = true;
                     SubClassify("Manifest", path, name, ext, lines);
                     SubClassify("Markup", path, name, ext, lines);
                 }
-                if (path.Contains("color"))
+                else if (path.Contains("color"))
                 {
-                    classified = true;
                     SubClassify("Color", path, name, ext, lines);
                     SubClassify("Markup", path, name, ext, lines);
                 }
-                if (path.Contains("drawable"))
+                else if (path.Contains("drawable"))
                 {
-                    classified = true;
                     SubClassify("Drawable", path, name, ext, lines);
                     SubClassify("Markup", path, name, ext, lines);
                 }
-                if (path.Contains("layout"))
+                else if (path.Contains("layout"))
                 {
-                    classified = true;
                     SubClassify("Layout", path, name, ext, lines);
                     SubClassify("Markup", path, name, ext, lines);
                 }
-                if (path.Contains("menu"))
+                else if (path.Contains("menu"))
                 {
-                    classified = true;
                     SubClassify("Menu", path, name, ext, lines);
                     SubClassify("Markup", path, name, ext, lines);
                 }
                 if (path.Contains("mipmap"))
                 {
-                    classified = true;
                     SubClassify("Mipmap", path, name, ext, lines);
                     SubClassify("Markup", path, name, ext, lines);
                 }
                 else if (path.Contains("values"))
                 {
-                    classified = true;
                     SubClassify("Values", path, name, ext, lines);
                     SubClassify("Markup", path, name, ext, lines);
                 }
             }
+
+            //Other.
             if (!classified)
             {
                 SubClassify("Other", path, name, ext, lines);
@@ -410,7 +407,7 @@ namespace Delini8
         {
             if (ext == "jpg" || ext == "png")
             {
-                //Lines not available for images.
+                // Lines count not avaialble for image files.
                 lines = 0;
             }
             if (Counters.ContainsKey("All"))
@@ -453,7 +450,7 @@ namespace Delini8
             }
         }
 
-        public void FinalizeCounts()
+        private void FinalizeCounts()
         {
             FinalizeCount("Program");
             FinalizeCount("Data");
@@ -463,7 +460,7 @@ namespace Delini8
             FinalizeCount("Other");
         }
 
-        public void FinalizeCount(string counterNamePrefix)
+        private void FinalizeCount(string counterNamePrefix)
         {
             FinalizeCountHelper("All", counterNamePrefix);
             FinalizeCountHelper("Main", counterNamePrefix);
@@ -471,7 +468,7 @@ namespace Delini8
             FinalizeCountHelper("BBB", counterNamePrefix);
         }
 
-        public void FinalizeCountHelper(string groupName, string counterNamePrefix)
+        private void FinalizeCountHelper(string groupName, string counterNamePrefix)
         {
             string counterNameLines = counterNamePrefix + "Lines";
             string counterNameFiles = counterNamePrefix + "Files";
@@ -482,6 +479,7 @@ namespace Delini8
                 {
                     if (counterNamePrefix != "Image")
                     {
+                        // Lines count not avaialble for image files.
                         groupCounters["GrandTotalLines"] += groupCounters[counterNameLines];
                     }
                 }
@@ -500,37 +498,37 @@ namespace Delini8
 
     #region Event parameters.
     /// <summary>
-	/// Class that defines data for event handling.
-	/// </summary>
-	public class EventParameters : EventArgs 
-	{   
-		#region Member Variables.
-		private string mEventData;
-		#endregion
+    /// Class that defines data for event handling.
+    /// </summary>
+    public class EventParameters : EventArgs
+    {
+        #region Member Variables.
+        private string mEventData;
+        #endregion
 
-		#region Properties.
-		/// <summary>
-		/// Event data.
-		/// </summary>
-        public string EventData 
-		{
-			get 
-			{
-				return mEventData;
-			}
-		}
-		#endregion
+        #region Properties.
+        /// <summary>
+        /// Event data.
+        /// </summary>
+        public string EventData
+        {
+            get
+            {
+                return mEventData;
+            }
+        }
+        #endregion
 
-		#region Constructors.
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="psEventData">Event data.</param>
-		public EventParameters(string psEventData) 
-		{
-			mEventData = psEventData;
-		}
-		#endregion
+        #region Constructors.
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="psEventData">Event data.</param>
+        public EventParameters(string psEventData)
+        {
+            mEventData = psEventData;
+        }
+        #endregion
     }
     #endregion
 }

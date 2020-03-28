@@ -7,7 +7,7 @@
     <UseFileTypeExclusions>Yes</UseFileTypeExclusions>
     <UseFileTypeInclusions>No</UseFileTypeInclusions>
     <FileSizeLimit>0</FileSizeLimit>
-    <LogFileKeepDays>2</LogFileKeepDays>
+    <LogFileKeepDays>1</LogFileKeepDays>
     <ReportViewer>Unix</ReportViewer>
   </Parameters>
   <Directories>

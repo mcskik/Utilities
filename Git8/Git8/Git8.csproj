@@ -53,6 +53,8 @@
     <Compile Include="DataLayer\Profile\CommandSetting.cs" />
     <Compile Include="DataLayer\Profile\CommandSettings.cs" />
     <Compile Include="DataLayer\Profile\IProfileManager.cs" />
+    <Compile Include="DataLayer\Profile\TemplateParameterSettings.cs" />
+    <Compile Include="DataLayer\Profile\TemplateParameterSetting.cs" />
     <Compile Include="DataLayer\Profile\ParameterSetting.cs" />
     <Compile Include="DataLayer\Profile\ParameterSettings.cs" />
     <Compile Include="DataLayer\Profile\ProfileManager.cs" />
@@ -132,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Log\" />
+    <Folder Include="Data\Output\Journal\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\Config\CR\BranchCheckoutSettings.xml" />

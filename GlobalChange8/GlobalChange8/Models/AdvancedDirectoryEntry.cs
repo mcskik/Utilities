@@ -75,11 +75,13 @@ namespace GlobalChange8.Models
                             entry.TargetFile = values[10];
                             entry.StdType = values[11];
                             entry.FolderGroup = values[12];
-                            entry.FolderGroupMatchFileStem = values[13];
-                            entry.FolderGroupMatchFileSpec = values[14];
-                            entry.FolderGroupFullFileStem = values[15];
-                            entry.FolderGroupFullFileSpec = values[16];
-                            entry.CtlComparison = values[17];
+                            entry.FolderGroupMatchPath = values[13];
+                            entry.FolderGroupMatchStem = values[14];
+                            entry.FolderGroupMatchFileSpec = values[15];
+                            entry.FolderGroupFullPath = values[16];
+                            entry.FolderGroupFullStem = values[17];
+                            entry.FolderGroupFullFileSpec = values[18];
+                            entry.CtlComparison = values[19];
                             // When using a snapshot taken from the source to represent a projected snapshot that should exist at the target after synchronization
                             // then we must edit the StdHlq to make it appear to have come from the target so that the comparison will not think everything has changed.
                             if (interpretation == InterpretationEnum.Target)
@@ -124,7 +126,7 @@ namespace GlobalChange8.Models
                     ProfileData.Models.Helpers.FileHelper.Delete(fileSpec);
                     sw = File.CreateText(fileSpec);
                     string line = string.Empty;
-                    line = "StdHlq,StdDir,StdFile,StdSize,StdDate,SourceDate,TargetDate,SourceHlq,SourceFile,TargetHlq,TargetFile,StdType,FolderGroup,FolderGroupMatchFileStem,FolderGroupMatchFileSpec,FolderGroupFullFileStem,FolderGroupFullFileSpec,CtlComparison";
+                    line = "StdHlq,StdDir,StdFile,StdSize,StdDate,SourceDate,TargetDate,SourceHlq,SourceFile,TargetHlq,TargetFile,StdType,FolderGroup,FolderGroupMatchPath,FolderGroupMatchStem,FolderGroupMatchFileSpec,FolderGroupFullPath,FolderGroupFullStem,FolderGroupFullFileSpec,CtlComparison";
                     sw.WriteLine(line);
                     foreach (var entry in this)
                     {
@@ -143,9 +145,11 @@ namespace GlobalChange8.Models
                         sb.Append(String.Format(@"""{0}"",", entry.TargetFile));
                         sb.Append(String.Format(@"""{0}"",", entry.StdType));
                         sb.Append(String.Format(@"""{0}"",", entry.FolderGroup));
-                        sb.Append(String.Format(@"""{0}"",", entry.FolderGroupMatchFileStem));
+                        sb.Append(String.Format(@"""{0}"",", entry.FolderGroupMatchPath));
+                        sb.Append(String.Format(@"""{0}"",", entry.FolderGroupMatchStem));
                         sb.Append(String.Format(@"""{0}"",", entry.FolderGroupMatchFileSpec));
-                        sb.Append(String.Format(@"""{0}"",", entry.FolderGroupFullFileStem));
+                        sb.Append(String.Format(@"""{0}"",", entry.FolderGroupFullPath));
+                        sb.Append(String.Format(@"""{0}"",", entry.FolderGroupFullStem));
                         sb.Append(String.Format(@"""{0}"",", entry.FolderGroupFullFileSpec));
                         sb.Append(String.Format(@"""{0}"",", entry.CtlComparison));
                         line = sb.ToString();
@@ -189,9 +193,11 @@ namespace GlobalChange8.Models
         public string TargetFile { get; set; }
         public string StdType { get; set; }
         public string FolderGroup { get; set; }
-        public string FolderGroupMatchFileStem { get; set; }
+        public string FolderGroupMatchPath { get; set; }
+        public string FolderGroupMatchStem { get; set; }
         public string FolderGroupMatchFileSpec { get; set; }
-        public string FolderGroupFullFileStem { get; set; }
+        public string FolderGroupFullPath { get; set; }
+        public string FolderGroupFullStem { get; set; }
         public string FolderGroupFullFileSpec { get; set; }
         public string CtlComparison { get; set; }
 
@@ -210,9 +216,11 @@ namespace GlobalChange8.Models
             TargetFile = string.Empty;
             StdType = string.Empty;
             FolderGroup = string.Empty;
-            FolderGroupMatchFileStem = string.Empty;
+            FolderGroupMatchPath = string.Empty;
+            FolderGroupMatchStem = string.Empty;
             FolderGroupMatchFileSpec = string.Empty;
-            FolderGroupFullFileStem = string.Empty;
+            FolderGroupFullPath = string.Empty;
+            FolderGroupFullStem = string.Empty;
             FolderGroupFullFileSpec = string.Empty;
             CtlComparison = COMPARISON_EMPTY;
         }
@@ -232,10 +240,12 @@ namespace GlobalChange8.Models
             TargetFile = targetFile;
             StdType = stdType;
             FolderGroup = string.Empty;
-            FolderGroupMatchFileStem = string.Empty;
+            FolderGroupMatchPath = string.Empty;
+            FolderGroupMatchStem = string.Empty;
             FolderGroupMatchFileSpec = string.Empty;
-            FolderGroupFullFileStem = string.Empty;
-            FolderGroupFullFileSpec = string.Empty;
+            FolderGroupFullPath = string.Empty;
+            FolderGroupFullStem = string.Empty;
+            FolderGroupFullFileSpec = targetFile;
             CtlComparison = ctlComparison;
         }
     }

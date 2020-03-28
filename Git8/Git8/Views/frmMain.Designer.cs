@@ -62,6 +62,7 @@
             this.cmdGitDiff = new System.Windows.Forms.Button();
             this.cmdGitAdd = new System.Windows.Forms.Button();
             this.cmdGitLogFilter = new System.Windows.Forms.Button();
+            this.rtxDescription = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // lblCommandLine
@@ -100,7 +101,7 @@
             this.rtxOutput.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtxOutput.Location = new System.Drawing.Point(12, 150);
             this.rtxOutput.Name = "rtxOutput";
-            this.rtxOutput.Size = new System.Drawing.Size(748, 701);
+            this.rtxOutput.Size = new System.Drawing.Size(748, 682);
             this.rtxOutput.TabIndex = 13;
             this.rtxOutput.Text = "";
             // 
@@ -279,7 +280,7 @@
             this.rtxJournal.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtxJournal.Location = new System.Drawing.Point(769, 150);
             this.rtxJournal.Name = "rtxJournal";
-            this.rtxJournal.Size = new System.Drawing.Size(786, 701);
+            this.rtxJournal.Size = new System.Drawing.Size(786, 682);
             this.rtxJournal.TabIndex = 14;
             this.rtxJournal.Text = "";
             // 
@@ -411,11 +412,23 @@
             this.cmdGitLogFilter.UseVisualStyleBackColor = true;
             this.cmdGitLogFilter.Click += new System.EventHandler(this.cmdGitLogFilter_Click);
             // 
+            // rtxDescription
+            // 
+            this.rtxDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtxDescription.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtxDescription.Location = new System.Drawing.Point(766, 838);
+            this.rtxDescription.Name = "rtxDescription";
+            this.rtxDescription.Size = new System.Drawing.Size(786, 54);
+            this.rtxDescription.TabIndex = 36;
+            this.rtxDescription.Text = "";
+            this.rtxDescription.Leave += new System.EventHandler(this.rtxDescription_Leave);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1567, 899);
+            this.Controls.Add(this.rtxDescription);
             this.Controls.Add(this.cmdGitLogFilter);
             this.Controls.Add(this.cmdGitAdd);
             this.Controls.Add(this.cmdGitDiff);
@@ -491,6 +504,7 @@
         private System.Windows.Forms.Button cmdGitDiff;
         private System.Windows.Forms.Button cmdGitAdd;
         private System.Windows.Forms.Button cmdGitLogFilter;
+        private System.Windows.Forms.RichTextBox rtxDescription;
     }
 }
 

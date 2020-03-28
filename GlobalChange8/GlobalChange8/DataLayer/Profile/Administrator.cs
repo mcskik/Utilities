@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace GlobalChange8.DataLayer.Profile
 {
@@ -21,6 +22,9 @@ namespace GlobalChange8.DataLayer.Profile
         private static Tracer _oldLogsTracer = null;
         private static SortedDictionary<string, string> _fileTypes;
 
+        /// <summary>
+        /// Profile Manager Instance.
+        /// </summary>
         public static ProfileManager ProfileManager
         {
             get

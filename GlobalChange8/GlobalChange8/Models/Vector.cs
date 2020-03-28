@@ -18,9 +18,11 @@ namespace GlobalChange8.Models
         private string _modifier;
         private bool _readOnly;
         private string _type;
+        private string _apiType;
         private string _variable;
         private string _property;
         private string _summary;
+        private string _defaultValue;
         #endregion
 
         #region Properties.
@@ -70,6 +72,21 @@ namespace GlobalChange8.Models
         }
 
         /// <summary>
+        /// Variable API type.
+        /// </summary>
+        public string ApiType
+        {
+            get
+            {
+                return _apiType;
+            }
+            set
+            {
+                _apiType = value;
+            }
+        }
+
+        /// <summary>
         /// Variable name.
         /// </summary>
         public string Variable
@@ -111,6 +128,21 @@ namespace GlobalChange8.Models
             set
             {
                 _summary = value;
+            }
+        }
+
+        /// <summary>
+        /// Default value.
+        /// </summary>
+        public string DefaultValue
+        {
+            get
+            {
+                return _defaultValue;
+            }
+            set
+            {
+                _defaultValue = value;
             }
         }
         #endregion

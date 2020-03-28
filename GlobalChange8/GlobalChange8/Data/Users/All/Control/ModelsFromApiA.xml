@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelsDetails>
+  <Switches>
+    <CommonModelsPackageName>com.sample.common.models</CommonModelsPackageName>
+    <FeaturesModelsPackageName>com.sample.features.example.common</FeaturesModelsPackageName>
+  </Switches>
+  <Directories>
+    <SourceModels>C:\Models\Api</SourceModels>
+    <TargetModels>C:\Models\Models</TargetModels>
+  </Directories>
+</ModelsDetails>

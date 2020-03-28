@@ -54,6 +54,8 @@ namespace Copy8
         /// </summary>
         private static bool IsExcludedDirectory(string directory)
         {
+            const string BUILD_SRC = "buildSrc";
+            const string BUILD_ALT = "alternativeSrc";
             bool exclude = false;
             if (useDirectoryExclusions)
             {
@@ -61,6 +63,10 @@ namespace Copy8
                 {
                     foreach (var exclusion in excludeDirectories)
                     {
+                        if (directory.Contains(BUILD_SRC))
+                        {
+                            directory = directory.Replace(BUILD_SRC, BUILD_ALT);
+                        }
                         if (directory.Contains(exclusion))
                         {
                             exclude = true;

@@ -42,7 +42,7 @@
   </Includes>
   <Programs>
     <ViewerWindows>C:\WINDOWS\SYSTEM32\Notepad.exe</ViewerWindows>
-    <ViewerUnix>C:\Program Files\windows nt\accessories\wordpad.exe</ViewerUnix>
+    <ViewerUnix>C:\WINDOWS\SYSTEM32\Notepad.exe</ViewerUnix>
     <ViewerUnixKeep>C:\Program Files\windows nt\accessories\wordpad.exe</ViewerUnixKeep>
     <ViewerHtml>C:\Program Files (x86)\Mozilla Firefox\firefox.exe</ViewerHtml>
     <MeldProgram>C:\Program Files (x86)\Meld\Meld.exe</MeldProgram>

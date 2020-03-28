@@ -1,303 +1,573 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Profile>
   <Selected>
-    <Key>git push -f origin {CheckoutBranch}</Key>
+    <Key>git push origin {CheckoutBranch}</Key>
   </Selected>
-  <ParameterSettings>
-    <ParameterSetting Key="git cherry-pick {Sha}">
-      <Group>
-        <Value>git cherry-pick {Sha}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git branch -a">
-      <Group>
-        <Value>git branch -a</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git log">
-      <Group>
-        <Value>git log</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git checkout {FileSpec}">
-      <Group>
-        <Value>git checkout {FileSpec}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git status">
-      <Group>
-        <Value>git status</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git add .">
+  <TemplateParameterSettings>
+    <TemplateParameterSetting Key="git add .">
       <Group>
         <Value>git add .</Value>
       </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git commit -m &quot;{Comment}&quot;">
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git add {FileSpec}">
       <Group>
-        <Value>git commit -m "{Comment}"</Value>
+        <Value>git add {FileSpec}</Value>
       </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git pull">
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git add -A">
       <Group>
-        <Value>git pull</Value>
+        <Value>git add -A</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git branch -a">
+      <Group>
+        <Value>git branch -a</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git branch -d {CheckoutBranch}">
+      <Group>
+        <Value>git branch -d {CheckoutBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git branch -d {LocalBranch}">
+      <Group>
+        <Value>git branch -d {LocalBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git branch -D {LocalBranch}">
+      <Group>
+        <Value>git branch -D {LocalBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git branch -d {RemoteBranch}">
+      <Group>
+        <Value>git branch -d {RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git branch -f {CheckoutBranch} master">
+      <Group>
+        <Value>git branch -f {CheckoutBranch} master</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git branch -f {CheckoutBranch} origin/dev">
+      <Group>
+        <Value>git branch -f {CheckoutBranch} origin/dev</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git branch -f {CheckoutBranch} origin/master">
+      <Group>
+        <Value>git branch -f {CheckoutBranch} origin/master</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git checkout .">
+      <Group>
+        <Value>git checkout .</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git checkout {CheckoutBranch}">
+      <Group>
+        <Value>git checkout {CheckoutBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git checkout {FileSpec}">
+      <Group>
+        <Value>git checkout {FileSpec}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git checkout {RemoteBranch}">
+      <Group>
+        <Value>git checkout {RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git checkout -b {CheckoutBranch}">
+      <Group>
+        <Value>git checkout -b {CheckoutBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git checkout -b {CheckoutBranch} {RemoteBranch}">
+      <Group>
+        <Value>git checkout -b {CheckoutBranch} {RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git checkout -B {CheckoutBranch} dev">
+      <Group>
+        <Value>git checkout -B {CheckoutBranch} dev</Value>
       </Group>
     </ParameterSetting>
     <ParameterSetting Key="git push">
       <Group>
         <Value>git push</Value>
       </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git push -f">
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git cherry-pick {Sha}">
       <Group>
-        <Value>git push -f</Value>
+        <Value>git cherry-pick {Sha}</Value>
       </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git stash save &quot;{Stash}&quot;">
-      <Group>
-        <Value>git stash save "{Stash}"</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git stash list">
-      <Group>
-        <Value>git stash list</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git log -p">
-      <Group>
-        <Value>git log -p</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git log -p -2">
-      <Group>
-        <Value>git log -p -2</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git remote show origin">
-      <Group>
-        <Value>git remote show origin</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git config --get remote.origin.url">
-      <Group>
-        <Value>git config --get remote.origin.url</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git diff {FileSpec}">
-      <Group>
-        <Value>git diff {FileSpec}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git add {FileSpec}">
-      <Group>
-        <Value>git add {FileSpec}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git log --graph">
-      <Group>
-        <Value>git log --graph</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git push --force">
-      <Group>
-        <Value>git push --force</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git log --graph --oneline --decorate --all">
-      <Group>
-        <Value>git log --graph --oneline --decorate --all</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git log --graph --abbrev-commit --decorate --date=relative --all">
-      <Group>
-        <Value>git log --graph --abbrev-commit --decorate --date=relative --all</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git cherry-pick --quit">
-      <Group>
-        <Value>git cherry-pick --quit</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git rebase --continue">
-      <Group>
-        <Value>git rebase --continue</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git push origin {CheckoutBranch}">
-      <Group>
-        <Value>git push origin {CheckoutBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git format-patch {RemoteBranch}">
-      <Group>
-        <Value>git format-patch {RemoteBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git checkout -b {CheckoutBranch} {RemoteBranch}">
-      <Group>
-        <Value>git checkout -b {CheckoutBranch} {RemoteBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git merge --squash {CheckoutBranch}">
-      <Group>
-        <Value>git merge --squash {CheckoutBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git push -f origin {CheckoutBranch}:{RemoteBranch}">
-      <Group>
-        <Value>git push -f origin {CheckoutBranch}:{RemoteBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git push origin {CheckoutBranch}:{RemoteBranch}">
-      <Group>
-        <Value>git push origin {CheckoutBranch}:{RemoteBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git push -f origin {LocalBranch}">
-      <Group>
-        <Value>git push -f origin {LocalBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git push -f origin {RemoteBranch}">
-      <Group>
-        <Value>git push -f origin {RemoteBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git add -A">
-      <Group>
-        <Value>git add -A</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git commit -m &quot;{Comment}&quot; --amend">
-      <Group>
-        <Value>git commit -m "{Comment}" --amend</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git push origin {RemoteBranch}">
-      <Group>
-        <Value>git push origin {RemoteBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git push -f origin {CheckoutBranch}">
-      <Group>
-        <Value>git push -f origin {CheckoutBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git push origin --delete {RemoteBranch}">
-      <Group>
-        <Value>git push origin --delete {RemoteBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git branch -d {LocalBranch}">
-      <Group>
-        <Value>git branch -d {LocalBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git fetch --prune">
-      <Group>
-        <Value>git fetch --prune</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git fetch --all --prune">
-      <Group>
-        <Value>git fetch --all --prune</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git checkout .">
-      <Group>
-        <Value>git checkout .</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git branch -d {CheckoutBranch}">
-      <Group>
-        <Value>git branch -d {CheckoutBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git reset">
-      <Group>
-        <Value>git reset</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git clean -n">
-      <Group>
-        <Value>git clean -n</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git clean -fd">
-      <Group>
-        <Value>git clean -fd</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git reset --hard">
-      <Group>
-        <Value>git reset --hard</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git branch -d {RemoteBranch}">
-      <Group>
-        <Value>git branch -d {RemoteBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git rebase origin/{RemoteBranch}">
-      <Group>
-        <Value>git rebase origin/{RemoteBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git checkout {RemoteBranch}">
-      <Group>
-        <Value>git checkout {RemoteBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git branch -D {LocalBranch}">
-      <Group>
-        <Value>git branch -D {LocalBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git reset --soft HEAD~{Head}">
-      <Group>
-        <Value>git reset --soft HEAD~{Head}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git reset --soft {Head}">
-      <Group>
-        <Value>git reset --soft {Head}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git reset --hard {Head}">
-      <Group>
-        <Value>git reset --hard {Head}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git fetch {RemoteBranch}">
-      <Group>
-        <Value>git fetch {RemoteBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git pull --no-commit --rebase origin {RemoteBranch}">
-      <Group>
-        <Value>git pull --no-commit --rebase origin {RemoteBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git rebase --abort">
-      <Group>
-        <Value>git rebase --abort</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git cherry-pick --abort">
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git cherry-pick --abort">
       <Group>
         <Value>git cherry-pick --abort</Value>
       </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git pull origin {CheckoutBranch}">
-      <Group>
-        <Value>git pull origin {CheckoutBranch}</Value>
-      </Group>
-    </ParameterSetting>
-    <ParameterSetting Key="git cherry-pick --continue">
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git cherry-pick --continue">
       <Group>
         <Value>git cherry-pick --continue</Value>
       </Group>
-    </ParameterSetting>
-  </ParameterSettings>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git cherry-pick --quit">
+      <Group>
+        <Value>git cherry-pick --quit</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git clean -f -d">
+      <Group>
+        <Value>git clean -f -d</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git clean -fd">
+      <Group>
+        <Value>git clean -fd</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git clean -n">
+      <Group>
+        <Value>git clean -n</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git commit">
+      <Group>
+        <Value>git commit</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git commit --amend --reset-author --no-edit">
+      <Group>
+        <Value>git commit --amend --reset-author --no-edit</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git commit -m &quot;{Comment}&quot;">
+      <Group>
+        <Value>git commit -m "{Comment}"</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git commit -m &quot;{Comment}&quot; --amend">
+      <Group>
+        <Value>git commit -m "{Comment}" --amend</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git config user.name &quot;Kenneth McSkimming&quot;">
+      <Group>
+        <Value>git config user.name "Kenneth McSkimming"</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git config --get remote.origin.url">
+      <Group>
+        <Value>git config --get remote.origin.url</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git config --global user.email &quot;&quot;">
+      <Group>
+        <Value>git config --global user.email ""</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git config --global user.email &quot;firstname.lastname@gmail.com&quot;">
+      <Group>
+        <Value>git config --global user.email "firstname.lastname@gmail.com"</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git config user.email &quot;firstname.lastname@gmail.com&quot;">
+      <Group>
+        <Value>git config user.email "firstname.lastname@gmail.com"</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git config user.name">
+      <Group>
+        <Value>git config user.name</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git config user.name &quot;username&quot;">
+      <Group>
+        <Value>git config user.name "username"</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git diff {CheckoutBranch}..{RemoteBranch}">
+      <Group>
+        <Value>git diff {CheckoutBranch}..{RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git diff {FileSpec}">
+      <Group>
+        <Value>git diff {FileSpec}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git diff origin/{CheckoutBranch}..origin/{RemoteBranch}">
+      <Group>
+        <Value>git diff origin/{CheckoutBranch}..origin/{RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git fetch {RemoteBranch}">
+      <Group>
+        <Value>git fetch {RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git fetch --all">
+      <Group>
+        <Value>git fetch --all</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git fetch --all --prune">
+      <Group>
+        <Value>git fetch --all --prune</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git fetch --prune">
+      <Group>
+        <Value>git fetch --prune</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git format-patch {RemoteBranch}">
+      <Group>
+        <Value>git format-patch {RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git log">
+      <Group>
+        <Value>git log</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git log --all --graph --decorate --oneline --simplify-by-decoration">
+      <Group>
+        <Value>git log --all --graph --decorate --oneline --simplify-by-decoration</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git log --graph">
+      <Group>
+        <Value>git log --graph</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git log --graph -100">
+      <Group>
+        <Value>git log --graph -100</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git log --graph -2000">
+      <Group>
+        <Value>git log --graph -2000</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git log --graph -5000">
+      <Group>
+        <Value>git log --graph -5000</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git log --graph --abbrev-commit --decorate --date=relative --all">
+      <Group>
+        <Value>git log --graph --abbrev-commit --decorate --date=relative --all</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git log --graph --decorate">
+      <Group>
+        <Value>git log --graph --decorate</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git log --graph --oneline --decorate --all">
+      <Group>
+        <Value>git log --graph --oneline --decorate --all</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git log --graph --pretty=oneline --abbrev-commit">
+      <Group>
+        <Value>git log --graph --pretty=oneline --abbrev-commit</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git log -p">
+      <Group>
+        <Value>git log -p</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git log -p -2">
+      <Group>
+        <Value>git log -p -2</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git merge --squash {CheckoutBranch}">
+      <Group>
+        <Value>git merge --squash {CheckoutBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git merge --squash HEAD@{1}">
+      <Group>
+        <Value>git merge --squash HEAD@{1}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git pull">
+      <Group>
+        <Value>git pull</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git pull --no-commit --rebase origin {RemoteBranch}">
+      <Group>
+        <Value>git pull --no-commit --rebase origin {RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git pull origin {CheckoutBranch}">
+      <Group>
+        <Value>git pull origin {CheckoutBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git pull origin {RemoteBranch} --allow-unrelated-histories">
+      <Group>
+        <Value>git pull origin {RemoteBranch} --allow-unrelated-histories</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push">
+      <Group>
+        <Value>git push</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push --delete origin 1.0.0.0">
+      <Group>
+        <Value>git push --delete origin 1.0.0.0</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push -f">
+      <Group>
+        <Value>git push -f</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push -f origin {CheckoutBranch}">
+      <Group>
+        <Value>git push -f origin {CheckoutBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push -f origin {CheckoutBranch}:{RemoteBranch}">
+      <Group>
+        <Value>git push -f origin {CheckoutBranch}:{RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push -f origin {LocalBranch}">
+      <Group>
+        <Value>git push -f origin {LocalBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push -f origin {RemoteBranch}">
+      <Group>
+        <Value>git push -f origin {RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push --force">
+      <Group>
+        <Value>git push --force</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push origin {CheckoutBranch}">
+      <Group>
+        <Value>git push origin {CheckoutBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push origin {CheckoutBranch}:{RemoteBranch}">
+      <Group>
+        <Value>git push origin {CheckoutBranch}:{RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push origin {RemoteBranch}">
+      <Group>
+        <Value>git push origin {RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push origin --delete {RemoteBranch}">
+      <Group>
+        <Value>git push origin --delete {RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push origin dev">
+      <Group>
+        <Value>git push origin dev</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git push -u origin +dev">
+      <Group>
+        <Value>git push -u origin +dev</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git rebase --abort">
+      <Group>
+        <Value>git rebase --abort</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git rebase --continue">
+      <Group>
+        <Value>git rebase --continue</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git rebase origin/{RemoteBranch}">
+      <Group>
+        <Value>git rebase origin/{RemoteBranch}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reflog">
+      <Group>
+        <Value>git reflog</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git remote show origin">
+      <Group>
+        <Value>git remote show origin</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset">
+      <Group>
+        <Value>git reset</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --hard">
+      <Group>
+        <Value>git reset --hard</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --hard {CheckoutBranch} master">
+      <Group>
+        <Value>git reset --hard {CheckoutBranch} master</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --hard {Head}">
+      <Group>
+        <Value>git reset --hard {Head}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --hard {Sha}">
+      <Group>
+        <Value>git reset --hard {Sha}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --hard HEAD~1">
+      <Group>
+        <Value>git reset --hard HEAD~1</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --hard HEAD~2">
+      <Group>
+        <Value>git reset --hard HEAD~2</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --hard HEAD~3">
+      <Group>
+        <Value>git reset --hard HEAD~3</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --hard HEAD~4">
+      <Group>
+        <Value>git reset --hard HEAD~4</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --hard HEAD~5">
+      <Group>
+        <Value>git reset --hard HEAD~5</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --hard master">
+      <Group>
+        <Value>git reset --hard master</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --hard origin/master">
+      <Group>
+        <Value>git reset --hard origin/master</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset HEAD@{1}">
+      <Group>
+        <Value>git reset HEAD@{1}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset HEAD@{6}">
+      <Group>
+        <Value>git reset HEAD@{6}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset HEAD~">
+      <Group>
+        <Value>git reset HEAD~</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --merge ORIG_HEAD">
+      <Group>
+        <Value>git reset --merge ORIG_HEAD</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --soft {Head}">
+      <Group>
+        <Value>git reset --soft {Head}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --soft HEAD~{Head}">
+      <Group>
+        <Value>git reset --soft HEAD~{Head}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git reset --soft HEAD~5">
+      <Group>
+        <Value>git reset --soft HEAD~5</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git revert -m HEAD">
+      <Group>
+        <Value>git revert -m HEAD</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git revert {Sha}">
+      <Group>
+        <Value>git revert {Sha}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git revert HEAD">
+      <Group>
+        <Value>git revert HEAD</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git revert -m 1 {Sha}">
+      <Group>
+        <Value>git revert -m 1 {Sha}</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git revert -m HEAD">
+      <Group>
+        <Value>git revert -m HEAD</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git show-branch master">
+      <Group>
+        <Value>git show-branch master</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git show-ref --tags -d">
+      <Group>
+        <Value>git show-ref --tags -d</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git stash list">
+      <Group>
+        <Value>git stash list</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git stash save &quot;{Stash}&quot;">
+      <Group>
+        <Value>git stash save "{Stash}"</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git status">
+      <Group>
+        <Value>git status</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git tag -l">
+      <Group>
+        <Value>git tag -l</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git tag -n99">
+      <Group>
+        <Value>git tag -n99</Value>
+      </Group>
+    </TemplateParameterSetting>
+  </TemplateParameterSettings>
 </Profile>

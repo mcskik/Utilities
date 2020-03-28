@@ -1,8 +1,8 @@
-﻿using GlobalChange8.Views;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using GlobalChange8.Views;
 
-namespace Search8
+namespace GlobalChange8
 {
     internal sealed class Program
     {

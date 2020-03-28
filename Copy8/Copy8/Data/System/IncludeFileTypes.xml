@@ -13,6 +13,7 @@
     <FileType Ext="cls" Active="Yes" Category="Text" Desc="Vb Class" />
     <FileType Ext="config" Active="Yes" Category="Text" Desc="C Sharp Configuration File" />
     <FileType Ext="cs" Active="Yes" Category="Text" Desc="C Sharp Class" />
+    <FileType Ext="cpp" Active="Yes" Category="Text" Desc="C++ Class" />
     <FileType Ext="csproj" Active="Yes" Category="Text" Desc="C Sharp Project" />
     <FileType Ext="css" Active="Yes" Category="Text" Desc="Cascading Style Sheet" />
     <FileType Ext="csv" Active="Yes" Category="Text" Desc="Comma Separated Values File" />
@@ -20,6 +21,7 @@
     <FileType Ext="dtsx" Active="Yes" Category="Text" Desc="SSIS DTSX Package File" />
     <FileType Ext="err" Active="Yes" Category="Text" Desc="Unspecified Error File" />
     <FileType Ext="frm" Active="Yes" Category="Text" Desc="Vb Form" />
+    <FileType Ext="h" Active="Yes" Category="Text" Desc="C++ Header" />
     <FileType Ext="htm" Active="Yes" Category="Text" Desc="Html source" />
     <FileType Ext="html" Active="Yes" Category="Text" Desc="Html source" />
     <FileType Ext="ini" Active="Yes" Category="Text" Desc="Initialisation files" />

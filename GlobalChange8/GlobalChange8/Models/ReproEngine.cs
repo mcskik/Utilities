@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
+using System.Linq;
 
 namespace GlobalChange8.Models
 {
@@ -32,6 +33,7 @@ namespace GlobalChange8.Models
         protected string _mode = string.Empty;
         protected Logger _log = null;
 
+        public string RunMode { get; set; }
         public string CloneAll { get; set; }
         public string EditAll { get; set; }
         public string UseTargetSample { get; set; }
@@ -45,15 +47,17 @@ namespace GlobalChange8.Models
         protected SortedDictionary<string, string> _fileRules;
         protected SortedDictionary<string, string> _editRules;
 
-        private int _directoryRuleCount = 0;
-        private int _fileRuleCount = 0;
+        private int _directoryRulesCount = 0;
+        private int _directoryRulesSkippedCount = 0;
+        private int _fileRulesCount = 0;
+        private int _fileRulesSkippedCount = 0;
         private int _directoriesCopiedCount = 0;
         private int _filesCopiedCount = 0;
         private int _filesChangedCount = 0;
         private int _linesChangedCount = 0;
 
-        AdvancedDirectoryEntries _TargetSampleDirectoryListing;
-        private long _TargetSampleTotalBytes = 0;
+        protected AdvancedDirectoryEntries _targetSampleDirectoryListing;
+        protected long _targetSampleTotalBytes = 0;
 
         /// <summary>
         /// Action.
@@ -105,6 +109,13 @@ namespace GlobalChange8.Models
         /// </summary>
         public ReproEngine()
         {
+            _directoryRulesCount = 0;
+            _directoryRulesSkippedCount = 0;
+            _fileRulesCount = 0;
+            _fileRulesSkippedCount = 0;
+            _directoriesCopiedCount = 0;
+            _filesCopiedCount = 0;
+            _linesChangedCount = 0;
             Load();
         }
 
@@ -113,6 +124,7 @@ namespace GlobalChange8.Models
         /// </summary>
         public void LoadConfiguration(string runMode)
         {
+            RunMode = runMode;
             string fileSpec = String.Format(@"{0}{1}.xml", Administrator.ProfileManager.SystemProfile.CloneConfigurationPath, runMode);
             XDocument doc = XDocument.Load(fileSpec);
             foreach (XElement flag in doc.Descendants("Switches").Elements())
@@ -146,53 +158,64 @@ namespace GlobalChange8.Models
             }
             foreach (XElement step in doc.Descendants("Step"))
             {
-                //Directory Rules.
-                _directoryRuleCount = 0;
-                _directoryRules = new SortedDictionary<string, string>();
-                _directoryRules.Add(SourceHlq, TargetHlq);
-                foreach (XElement directories in step.Descendants("Directories"))
+                foreach (XElement clone in step.Descendants("Clone"))
                 {
-                    foreach (XElement rule in directories.Descendants("Copy"))
+                    //Directory Rules.
+                    _directoryRulesCount = 0;
+                    _directoryRules = new SortedDictionary<string, string>();
+                    _directoryRules.Add(SourceHlq, TargetHlq);
+                    foreach (XElement directories in clone.Descendants("Directories"))
                     {
-                        string active = (string)rule.Attribute("Active");
-                        if (IsAffirmative(active))
+                        foreach (XElement copy in directories.Descendants("Copy"))
                         {
-                            string type = (string)rule.Attribute("Type");
-                            string section = (string)rule.Attribute("Section");
-                            string source = (string)rule.Attribute("Source");
-                            //This is used if the source directory that you are copying from is different to the one used when the rules were originally created.
-                            source = source.Replace(RuleBaseHlq, SourceHlq);
-                            string target = (string)rule.Attribute("Target");
-                            target = DeriveRuleTarget(source, target);
-                            if (!_directoryRules.ContainsKey(source))
+                            string active = (string)copy.Attribute("Active");
+                            if (IsAffirmative(active))
                             {
-                                _directoryRuleCount++;
-                                _directoryRules.Add(source, target);
+                                string type = (string)copy.Attribute("Type");
+                                string section = (string)copy.Attribute("Section");
+                                string source = (string)copy.Attribute("Source");
+                                //This is used if the source directory that you are copying from is different to the one used when the rules were originally created.
+                                source = source.Replace(RuleBaseHlq, SourceHlq);
+                                string target = (string)copy.Attribute("Target");
+                                target = DeriveRuleTarget(source, target);
+                                if (!_directoryRules.ContainsKey(source))
+                                {
+                                    _directoryRulesCount++;
+                                    _directoryRules.Add(source, target);
+                                }
+                            }
+                            else
+                            {
+                                _directoryRulesSkippedCount++;
                             }
                         }
                     }
-                }
-                //File Rules.
-                _fileRules = new SortedDictionary<string, string>();
-                _fileRuleCount = 0;
-                foreach (XElement files in step.Descendants("Files"))
-                {
-                    foreach (XElement rule in files.Descendants("Copy"))
+                    //File Rules.
+                    _fileRules = new SortedDictionary<string, string>();
+                    _fileRulesCount = 0;
+                    foreach (XElement files in clone.Descendants("Files"))
                     {
-                        string active = (string)rule.Attribute("Active");
-                        if (IsAffirmative(active))
+                        foreach (XElement copy in files.Descendants("Copy"))
                         {
-                            string type = (string)rule.Attribute("Type");
-                            string section = (string)rule.Attribute("Section");
-                            string source = (string)rule.Attribute("Source");
-                            //This is used if the source directory that you are copying from is different to the one used when the rules were originally created.
-                            source = source.Replace(RuleBaseHlq, SourceHlq);
-                            string target = (string)rule.Attribute("Target");
-                            target = DeriveRuleTarget(source, target);
-                            if (!_fileRules.ContainsKey(source))
+                            string active = (string)copy.Attribute("Active");
+                            if (IsAffirmative(active))
                             {
-                                _fileRuleCount++;
-                                _fileRules.Add(source, target);
+                                string type = (string)copy.Attribute("Type");
+                                string section = (string)copy.Attribute("Section");
+                                string source = (string)copy.Attribute("Source");
+                                //This is used if the source directory that you are copying from is different to the one used when the rules were originally created.
+                                source = source.Replace(RuleBaseHlq, SourceHlq);
+                                string target = (string)copy.Attribute("Target");
+                                target = DeriveRuleTarget(source, target);
+                                if (!_fileRules.ContainsKey(source))
+                                {
+                                    _fileRulesCount++;
+                                    _fileRules.Add(source, target);
+                                }
+                            }
+                            else
+                            {
+                                _fileRulesSkippedCount++;
                             }
                         }
                     }
@@ -205,53 +228,58 @@ namespace GlobalChange8.Models
         }
 
         /// <summary>
-        /// Load target sample data by scanning an existing target directory to obtain information about existing target directories and files.
+        /// Load target sample data which can be used to ensure that existing target directories and files take precedence for updates to existing directories and files.
+        /// Directory and file rules will be used for any directories or files which are not decided by the presence of existing directories and files.
+        /// This essantially means that any new directories or files use the directory and file rules.
         /// </summary>
-        public void LoadTargetSampleData()
+        protected void LoadTargetSampleData()
         {
             AdvancedDirectoryEngine directoryEngine = new AdvancedDirectoryEngine();
             directoryEngine.Interrupt = new Interrupt("OK");
-            _TargetSampleDirectoryListing = directoryEngine.DirList(TargetSampleHlq, ref _TargetSampleTotalBytes);
-            long totalBytes = _TargetSampleTotalBytes;
+            _targetSampleTotalBytes = 0;
+            _targetSampleDirectoryListing = directoryEngine.DirList(TargetSampleHlq, ref _targetSampleTotalBytes);
+            long totalBytes = _targetSampleTotalBytes;
         }
 
-        private string ExtractSymbolicTarget(string targetEntry)
+        private string ExtractSymbolicTarget(string targetPath)
         {
-            //TODO: Replace hard coding with something more generic.
-            CurrentPath = targetEntry;
-            string symbolicTarget = "DEFAULT";
-            if (targetEntry.Contains(@"\main\"))
+            //TODO: Need to remove hard coding at some point.
+            CurrentPath = targetPath;
+            string symbolicTarget = "default";
+            if (targetPath.Contains(@"\main\"))
             {
-                symbolicTarget = "MAIN";
+                symbolicTarget = "main";
             }
-            else if (targetEntry.Contains(@"\test\"))
+            else if (targetPath.Contains(@"\test\"))
             {
-                symbolicTarget = "TEST";
+                symbolicTarget = "test";
             }
-            else if (targetEntry.Contains(@"\aaa\"))
+            else if (targetPath.Contains(@"\aaa\"))
             {
-                symbolicTarget = "AAA";
+                symbolicTarget = "aaa";
             }
-            else if (targetEntry.Contains(@"\aaaTest\"))
+            else if (targetPath.Contains(@"\aaaTest\"))
             {
-                symbolicTarget = "AAATEST";
+                symbolicTarget = "aaaTest";
             }
-            else if (targetEntry.Contains(@"\bbb\"))
+            else if (targetPath.Contains(@"\bbb\"))
             {
-                symbolicTarget = "BBB";
+                symbolicTarget = "bbb";
             }
-            else if (targetEntry.Contains(@"\bbbTest\"))
+            else if (targetPath.Contains(@"\bbbTest\"))
             {
-                symbolicTarget = "BBBTEST";
+                symbolicTarget = "bbbTest";
             }
-            return symbolicTarget.PadRight(7);
+            return symbolicTarget.ToUpper().PadRight(7);
         }
 
         private string DeriveRuleTarget(string source, string target)
         {
+            //TODO: Eventually remove hard coded values with something more generic.
             string ruleTarget = target;
-            List<string> symbolicTargets = new List<string>();
+            var symbolicTargets = new List<string>();
             symbolicTargets.Add("main");
+            symbolicTargets.Add("test");
             symbolicTargets.Add("aaa");
             symbolicTargets.Add("aaaTest");
             symbolicTargets.Add("bbb");
@@ -260,31 +288,37 @@ namespace GlobalChange8.Models
             {
                 string symbolicSource = "main";
                 string symbolicTarget = target;
+                ruleTarget = source.Replace(SourceHlq, TargetHlq);
                 if (target == "main")
                 {
+                    //Going back to old structure.
                     symbolicSource = "aaa";
                 }
                 else if (target == "test")
                 {
+                    //Going back to old structure.
                     symbolicSource = "aaaTest";
                 }
                 else if (target == "aaa")
                 {
+                    //Going to new structure.
                     symbolicSource = "main";
                 }
                 else if (target == "aaaTest")
                 {
+                    //Going to new structure.
                     symbolicSource = "test";
                 }
                 else if (target == "bbb")
                 {
+                    //Going from dummy section in old structure.
                     symbolicSource = "main";
                 }
                 else if (target == "bbbTest")
                 {
+                    //Going from dummy section in old structure.
                     symbolicSource = "test";
                 }
-                ruleTarget = source.Replace(SourceHlq, TargetHlq);
                 ruleTarget = ruleTarget.Replace(@"\" + symbolicSource + @"\", @"\" + symbolicTarget + @"\");
             }
             return ruleTarget;
@@ -292,30 +326,30 @@ namespace GlobalChange8.Models
 
         private string DeriveFullTargetDirectory(string sourceDirectory)
         {
+            //Only search directory rules.
             CurrentPath = sourceDirectory;
             string targetDirectory = sourceDirectory.Replace(SourceHlq, TargetHlq);
-            KeyValuePair<string, string> rulePair = new KeyValuePair<string, string>(SourceHlq, TargetHlq);
-            rulePair = FindMostSpecificLongestDirectoryRuleMatch();
+            KeyValuePair<string, string> rulePair = FindMostSpecificLongestDirectoryRuleMatch();
             string sourceRule = rulePair.Key;
             string targetRule = rulePair.Value;
-            if (sourceDirectory.Length >= sourceRule.Length)
+            if (targetDirectory.Length >= sourceRule.Length)
             {
-                targetDirectory = sourceDirectory.Replace(sourceRule, targetRule);
+                targetDirectory = targetDirectory.Replace(sourceRule, targetRule);
             }
             return targetDirectory;
         }
 
         private string DeriveFullTargetFile(string sourceFileSpec)
         {
+            //Deliberately search both directory and file rules since all files will not necessarily have a file rule whereas all files will have a directory rule even if it is the default one.
             CurrentPath = sourceFileSpec;
             string targetFileSpec = sourceFileSpec.Replace(SourceHlq, TargetHlq);
-            KeyValuePair<string, string> rulePair = new KeyValuePair<string, string>(SourceHlq, TargetHlq);
-            rulePair = FindMostSpecificLongestFileRuleMatch();
+            KeyValuePair<string, string> rulePair = FindMostSpecificLongestRuleMatch();
             string sourceRule = rulePair.Key;
             string targetRule = rulePair.Value;
-            if (sourceFileSpec.Length >= sourceRule.Length)
+            if (targetFileSpec.Length >= sourceRule.Length)
             {
-                targetFileSpec = sourceFileSpec.Replace(sourceRule, targetRule);
+                targetFileSpec = targetFileSpec.Replace(sourceRule, targetRule);
             }
             return targetFileSpec;
         }
@@ -342,7 +376,7 @@ namespace GlobalChange8.Models
             return rulePair;
         }
 
-        private KeyValuePair<string, string> FindMostSpecificLongestFileRuleMatch()
+        private KeyValuePair<string, string> FindMostSpecificLongestRuleMatch()
         {
             KeyValuePair<string, string> rulePair = new KeyValuePair<string, string>(SourceHlq, TargetHlq);
             int longestMatchLength = 0;
@@ -365,26 +399,26 @@ namespace GlobalChange8.Models
             AdvancedDirectoryEntry mainMatch = null;
             AdvancedDirectoryEntry aaaMatch = null;
             AdvancedDirectoryEntry bbbMatch = null;
-            foreach (var entry in _TargetSampleDirectoryListing)
+            foreach (var entry in _targetSampleDirectoryListing)
             {
-                if (entry.StdType != "dir")
+                var existingFileMatches = (from existingFile in _targetSampleDirectoryListing
+                                           where CurrentPath.Contains(existingFile.FolderGroupMatchFileSpec) && existingFile.StdType != "dir"
+                                           select existingFile).ToList();
+                if (existingFileMatches.Count() > 0)
                 {
-                    if (CurrentPath.Contains(entry.FolderGroupMatchFileSpec))
+                    foreach (var existingFile in existingFileMatches)
                     {
-                        if (entry.FolderGroup == "MAIN" || entry.FolderGroup == "TEST")
+                        if (existingFile.FolderGroup == "MAIN" || existingFile.FolderGroup == "TEST")
                         {
-                            mainMatch = entry;
-                            break;
+                            mainMatch = existingFile;
                         }
-                        else if (entry.FolderGroup == "AAA" || entry.FolderGroup == "AAATEST" || entry.FolderGroup == "TESTAAA")
+                        else if (existingFile.FolderGroup == "BBB" || existingFile.FolderGroup == "BBBTEST")
                         {
-                            aaaMatch = entry;
-                            break;
+                            //Ignore BBB matches.
                         }
-                        else if (entry.FolderGroup == "BBB" || entry.FolderGroup == "BBBTEST" || entry.FolderGroup == "TESTBBB")
+                        else if (existingFile.FolderGroup == "AAA" || existingFile.FolderGroup == "AAATEST")
                         {
-                            bbbMatch = entry;
-                            break;
+                            aaaMatch = existingFile;
                         }
                     }
                 }
@@ -463,16 +497,21 @@ namespace GlobalChange8.Models
             char cSeparator = System.IO.Path.DirectorySeparatorChar;
             _log = new Logger();
             _log.Prefix = "GCE";
-            _log.Title = "Global Change/Repro Engine (Clone All) " + Administrator.ProfileManager.ApplicationProfile.Version;
+            _log.Title = "Global Change/Repro Engine (Clone All Entries) " + Administrator.ProfileManager.ApplicationProfile.Version;
             FileHelper.PathCheck(Administrator.ProfileManager.SystemProfile.LogPath);
             _log.Begin(String.Format("{0}Global_Change_Clone_All_{1}.log", Administrator.ProfileManager.SystemProfile.LogPath, DateTime.Now.ToString("yyyyMMdd@HHmmss")));
             string sourceDirectory = SourceHlq;
             XCopyAll(sourceDirectory);
             _log.WriteLn();
-            _log.WriteTimedMsg("000", "I", String.Format(@"Directories Copied = {0}", _directoriesCopiedCount));
-            _log.WriteTimedMsg("000", "I", String.Format(@"Files Copied       = {0}", _filesCopiedCount));
-            _log.WriteTimedMsg("000", "I", String.Format(@"Files Changed      = {0}", _filesChangedCount));
-            _log.WriteTimedMsg("000", "I", String.Format(@"Lines Changed      = {0}", _linesChangedCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"Directory Rules         = {0}", _directoryRulesCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"File Rules              = {0}", _fileRulesCount));
+            _log.WriteLn();
+            _log.WriteTimedMsg("000", "I", String.Format(@"Directory Rules Skipped = {0}", _directoryRulesSkippedCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"File Rules Skipped      = {0}", _fileRulesSkippedCount));
+            _log.WriteLn();
+            _log.WriteTimedMsg("000", "I", String.Format(@"Directories Copied      = {0}", _directoriesCopiedCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"Files Copied            = {0}", _filesCopiedCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"Lines Changed           = {0}", _linesChangedCount));
             _log.Outcome();
             _log.Terminate(Administrator.ProfileManager.SystemProfile.ViewerWindows);
         }
@@ -492,6 +531,7 @@ namespace GlobalChange8.Models
 
         private void XCopyAll(DirectoryInfo sourceDirectory)
         {
+            CurrentPath = sourceDirectory.FullName;
             string targetDir = DeriveFullTargetDirectory(sourceDirectory.FullName);
             DirectoryInfo targetDirectory = new DirectoryInfo(targetDir);
             if (!Directory.Exists(targetDirectory.FullName))
@@ -509,46 +549,50 @@ namespace GlobalChange8.Models
                     if (_action != "Cancel")
                     {
                         string sourceFileSpec = fi.FullName;
+                        CurrentPath = sourceFileSpec;
                         string sourceFileName = fi.Name;
                         string targetFileSpec = DeriveFullTargetFile(sourceFileSpec);
-                        try
+                        if (targetFileSpec != sourceFileSpec)
                         {
                             try
                             {
-                                if (File.Exists(targetFileSpec))
+                                try
                                 {
-                                    FileInfo targetFileInfo = new FileInfo(targetFileSpec);
-                                    if (targetFileInfo.Exists)
+                                    if (File.Exists(targetFileSpec))
                                     {
-                                        targetFileInfo.IsReadOnly = false;
+                                        FileInfo targetFileInfo = new FileInfo(targetFileSpec);
+                                        if (targetFileInfo.Exists)
+                                        {
+                                            targetFileInfo.IsReadOnly = false;
+                                        }
                                     }
+                                    FileHelper.PathCheck(targetFileSpec);
+                                    fi.CopyTo(targetFileSpec, true);
+                                    if (File.Exists(targetFileSpec))
+                                    {
+                                        FileInfo targetFileInfo = new FileInfo(targetFileSpec);
+                                        if (targetFileInfo.Exists)
+                                        {
+                                            targetFileInfo.IsReadOnly = false;
+                                        }
+                                    }
+                                    string symbolicTargetFileSpec = ExtractSymbolicTarget(targetFileSpec);
+                                    _log.WriteTimedMsg("000", "I", String.Format(@"{0} : File Copied To : {1}", symbolicTargetFileSpec, targetFileSpec));
+                                    _filesCopiedCount++;
                                 }
-                                FileHelper.PathCheck(targetFileSpec);
-                                fi.CopyTo(targetFileSpec, true);
-                                if (File.Exists(targetFileSpec))
+                                catch (Exception ex)
                                 {
-                                    FileInfo targetFileInfo = new FileInfo(targetFileSpec);
-                                    if (targetFileInfo.Exists)
-                                    {
-                                        targetFileInfo.IsReadOnly = false;
-                                    }
+                                    _log.WriteLn();
+                                    _log.WriteTimedMsg("000", "E", String.Format(@"{0} - File Copy Error : {1}{2}", targetFileSpec, Environment.NewLine, ex.Message));
+                                    _log.WriteLn();
                                 }
-                                string symbolicTargetFile = ExtractSymbolicTarget(targetFileSpec);
-                                _log.WriteTimedMsg("000", "I", String.Format(@"{0} : File Copied To : {1}", symbolicTargetFile, targetFileSpec));
-                                _filesCopiedCount++;
                             }
                             catch (Exception ex)
                             {
                                 _log.WriteLn();
-                                _log.WriteTimedMsg("000", "E", String.Format(@"{0} - File Copy Error : {1}{2}", targetFileSpec, Environment.NewLine, ex.Message));
+                                _log.WriteTimedMsg("000", "E", String.Format(@"{0} - Error : {1}{2}", sourceFileSpec, Environment.NewLine, ex.Message));
                                 _log.WriteLn();
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            _log.WriteLn();
-                            _log.WriteTimedMsg("000", "E", String.Format(@"{0} - Error : {1}{2}", sourceFileName, Environment.NewLine, ex.Message));
-                            _log.WriteLn();
                         }
                     }
                 }

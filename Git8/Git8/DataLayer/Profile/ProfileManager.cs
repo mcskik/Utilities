@@ -24,7 +24,7 @@ namespace Git8.DataLayer.Profile
         public ParameterSettings HeadSettings { get; set; }
         public ParameterSettings ShaSettings { get; set; }
         public ParameterSettings StashSettings { get; set; }
-        public ParameterSettings TemplateSettings { get; set; }
+        public TemplateParameterSettings TemplateSettings { get; set; }
         public RepositorySettings RepositorySettings { get; set; }
 
         public ProfileManager()
@@ -42,7 +42,7 @@ namespace Git8.DataLayer.Profile
             SystemProfile = new SystemProfile(ProfileCache);
             RepositorySettings = new RepositorySettings(ProfileCache);
             RepositorySettings.Load(SystemProfile.RepositorySettings);
-            TemplateSettings = new ParameterSettings(ProfileCache);
+            TemplateSettings = new TemplateParameterSettings(ProfileCache);
             TemplateSettings.Load(SystemProfile.TemplateSettings);
             Reload();            
         }

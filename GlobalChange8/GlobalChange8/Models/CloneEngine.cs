@@ -1,6 +1,6 @@
-using GlobalChange8.DataLayer.Profile;
 using Log8;
 using ProfileData.DataLayer.Profile;
+using GlobalChange8.DataLayer.Profile;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,6 +34,7 @@ namespace GlobalChange8.Models
         protected string _mode = string.Empty;
         protected Logger _log = null;
 
+        public string RunMode { get; set; }
         public string CloneJava { get; set; }
         public string EditJava { get; set; }
         public string CloneJavaAndroidTests { get; set; }
@@ -42,6 +43,8 @@ namespace GlobalChange8.Models
         public string EditJavaUnitTests { get; set; }
         public string CloneLayout { get; set; }
         public string EditLayout { get; set; }
+        public string CloneValues { get; set; }
+        public string EditValues { get; set; }
         public string SourceJavaDirectory { get; set; }
         public string TargetJavaDirectory { get; set; }
         public string SourceAndroidTestsJavaDirectory { get; set; }
@@ -50,6 +53,8 @@ namespace GlobalChange8.Models
         public string TargetUnitTestsJavaDirectory { get; set; }
         public string SourceLayoutDirectory { get; set; }
         public string TargetLayoutDirectory { get; set; }
+        public string SourceValuesDirectory { get; set; }
+        public string TargetValuesDirectory { get; set; }
 
         protected SortedDictionary<string, string> _classNamePrefixes;
         protected SortedDictionary<string, string> _classNamePatterns;
@@ -69,6 +74,9 @@ namespace GlobalChange8.Models
         private int layoutFileCount = 0;
         private int layoutFileLineCount = 0;
         private int layoutFileLineChangeCount = 0;
+        private int valuesFileCount = 0;
+        private int valuesFileLineCount = 0;
+        private int valuesFileLineChangeCount = 0;
         private int lineChangeCount = 0;
 
         /// <summary>
@@ -129,6 +137,7 @@ namespace GlobalChange8.Models
         /// </summary>
         public void LoadConfiguration(string runMode)
         {
+            RunMode = runMode;
             string fileSpec = String.Format(@"{0}{1}.xml", Administrator.ProfileManager.SystemProfile.CloneConfigurationPath, runMode);
             XDocument doc = XDocument.Load(fileSpec);
             foreach (XElement flag in doc.Descendants("Switches").Elements())
@@ -160,6 +169,12 @@ namespace GlobalChange8.Models
                     case "EditLayout":
                         EditLayout = (string)flag;
                         break;
+                    case "CloneValues":
+                        CloneValues = (string)flag;
+                        break;
+                    case "EditValues":
+                        EditValues = (string)flag;
+                        break;
                 }
             }
             foreach (XElement directory in doc.Descendants("Directories").Elements())
@@ -190,6 +205,12 @@ namespace GlobalChange8.Models
                         break;
                     case "TargetLayout":
                         TargetLayoutDirectory = (string)directory;
+                        break;
+                    case "SourceValues":
+                        SourceValuesDirectory = (string)directory;
+                        break;
+                    case "TargetValues":
+                        TargetValuesDirectory = (string)directory;
                         break;
                 }
             }
@@ -239,6 +260,10 @@ namespace GlobalChange8.Models
             {
                 CloneLayoutDirectory();
             }
+            if (IsAffirmative(CloneValues))
+            {
+                CloneValuesDirectory();
+            }
             if (IsAffirmative(EditJava))
             {
                 EditTargetJavaDirectory();
@@ -254,6 +279,10 @@ namespace GlobalChange8.Models
             if (IsAffirmative(EditLayout))
             {
                 EditTargetLayoutDirectory();
+            }
+            if (IsAffirmative(EditValues))
+            {
+                EditTargetValuesDirectory();
             }
             if (IsAffirmative(CloneJava) || IsAffirmative(EditJava))
             {
@@ -798,6 +827,116 @@ namespace GlobalChange8.Models
         }
 
         /// <summary>
+        /// Clone all values directory entries.
+        /// </summary>
+        private void CloneValuesDirectory()
+        {
+            char cSeparator = System.IO.Path.DirectorySeparatorChar;
+            _log = new Logger();
+            _log.Prefix = "GCE";
+            _log.Title = "Global Change/Clone Engine (Clone Values) " + Administrator.ProfileManager.ApplicationProfile.Version;
+            FileHelper.PathCheck(Administrator.ProfileManager.SystemProfile.LogPath);
+            _log.Begin(String.Format("{0}Global_Change_Clone_Values_{1}.log", Administrator.ProfileManager.SystemProfile.LogPath, DateTime.Now.ToString("yyyyMMdd@HHmmss")));
+            string sourceDirectory = SourceValuesDirectory;
+            XCopyValues(sourceDirectory);
+            _log.Outcome();
+            _log.Terminate(Administrator.ProfileManager.SystemProfile.ViewerWindows);
+        }
+
+        /// <summary>
+        /// Clone XML value files from a complete directory tree.
+        /// </summary>
+        private void XCopyValues(string sourceDirectory)
+        {
+            DirectoryInfo diSource = new DirectoryInfo(sourceDirectory);
+            _log.WriteLn();
+            _log.WriteTimedMsg("000", "I", "Begin XCopyValues");
+            XCopyValues(diSource);
+            _log.WriteLn();
+            _log.WriteTimedMsg("000", "I", "End XCopyValues");
+        }
+
+        private void XCopyValues(DirectoryInfo sourceDirectory)
+        {
+            DirectoryInfo targetDirectory = new DirectoryInfo(TargetValuesDirectory);
+            if (!Directory.Exists(targetDirectory.FullName))
+            {
+                Directory.CreateDirectory(targetDirectory.FullName);
+            }
+            if (DirectoryExclusionsHelper.AllowDirectory(sourceDirectory.FullName))
+            {
+                _log.WriteLn();
+                _log.WriteTimedMsg("000", "I", String.Format(@"Copy Values Directory : ""{0}""", sourceDirectory.ToString()));
+                foreach (FileInfo fi in sourceDirectory.GetFiles())
+                {
+                    if (_action != "Cancel")
+                    {
+                        string sourceFileName = string.Empty;
+                        string targetFileName = string.Empty;
+                        try
+                        {
+                            sourceFileName = fi.Name;
+                            targetFileName = fi.Name;
+                            string targetFile = System.IO.Path.Combine(targetDirectory.ToString(), targetFileName);
+                            try
+                            {
+                                FileInfo targetFileInfo = new FileInfo(targetFile);
+                                if (targetFileInfo.Exists)
+                                {
+                                    targetFileInfo.IsReadOnly = false;
+                                }
+                                fi.CopyTo(System.IO.Path.Combine(targetDirectory.ToString(), targetFileName), true);
+                                targetFileInfo = new FileInfo(targetFile);
+                                if (targetFileInfo.Exists)
+                                {
+                                    targetFileInfo.IsReadOnly = false;
+                                }
+                                _log.WriteTimedMsg("000", "I", String.Format(@"{0} - Values File Copied", targetFileName));
+                            }
+                            catch (Exception ex)
+                            {
+                                _log.WriteLn();
+                                _log.WriteTimedMsg("000", "E", String.Format(@"{0} - Values File Copy Error : {1}{2}", targetFileName, Environment.NewLine, ex.Message));
+                                _log.WriteLn();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _log.WriteLn();
+                            _log.WriteTimedMsg("000", "E", String.Format(@"{0} - Error : {1}{2}", sourceFileName, Environment.NewLine, ex.Message));
+                            _log.WriteLn();
+                        }
+                    }
+                }
+                foreach (DirectoryInfo di in sourceDirectory.GetDirectories())
+                {
+                    if (_action != "Cancel")
+                    {
+                        try
+                        {
+                            if (DirectoryExclusionsHelper.AllowDirectory(di.FullName))
+                            {
+                                XCopyValues(di);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _log.WriteLn();
+                            _log.WriteTimedMsg("000", "E", String.Format(@"{0} - Target Values Directory (Name too long) Error : {1}{2}", di.Name, Environment.NewLine, ex.Message));
+                            _log.WriteLn();
+                        }
+                    }
+                }
+            }
+            //Check if user has chosen to cancel run.
+            if (_action == "Cancel")
+            {
+                _log.WriteTimedMsg("000", "I", String.Format(@"XCopyValues cancelled"));
+                return;
+            }
+        }
+
+        /// <summary>
         /// Global change/edit target Java directory.
         /// </summary>
         private void EditTargetJavaDirectory()
@@ -997,6 +1136,7 @@ namespace GlobalChange8.Models
                             //Replace all the old class names with the new class names.
                             foreach (KeyValuePair<string, string> entry in _classNameMappings)
                             {
+                                // Originally added to support Java.
                                 ChangeOldClassNameToNewClassName(".", entry, ";", ref line, ref changed, ref first, fileSpec, count, ref record);
                                 ChangeOldClassNameToNewClassName("<", entry, ">", ref line, ref changed, ref first, fileSpec, count, ref record);
                                 ChangeOldClassNameToNewClassName("<", entry, ",", ref line, ref changed, ref first, fileSpec, count, ref record);
@@ -1008,8 +1148,15 @@ namespace GlobalChange8.Models
                                 ChangeOldClassNameToNewClassName(" ", entry, "(", ref line, ref changed, ref first, fileSpec, count, ref record);
                                 ChangeOldClassNameToNewClassName(" ", entry, ")", ref line, ref changed, ref first, fileSpec, count, ref record);
                                 ChangeOldClassNameToNewClassName(" ", entry, " ", ref line, ref changed, ref first, fileSpec, count, ref record);
+                                // Added to support Kotlin.
+                                ChangeOldClassNameToNewClassName(" ", entry, "?", ref line, ref changed, ref first, fileSpec, count, ref record);
+                                ChangeOldClassNameToNewClassName(" ", entry, ":", ref line, ref changed, ref first, fileSpec, count, ref record);
+                                // Originally added to support Java.
                                 ChangeOldClassNameToNewClassName(string.Empty, entry, ".", ref line, ref changed, ref first, fileSpec, count, ref record);
                                 ChangeOldClassNameToNewClassName(string.Empty, entry, " ", ref line, ref changed, ref first, fileSpec, count, ref record);
+                                // Added to support Kotlin.
+                                ChangeOldClassNameToNewClassName(" ", entry, string.Empty, ref line, ref changed, ref first, fileSpec, count, ref record);
+                                ChangeOldClassNameToNewClassName(string.Empty, entry, ":", ref line, ref changed, ref first, fileSpec, count, ref record);
                             }
                             //Replace all the old class variables with the new class variables.
                             foreach (KeyValuePair<string, string> entry in _classNameMappings)
@@ -1017,7 +1164,16 @@ namespace GlobalChange8.Models
                                 ChangeOldClassVariableToNewClassVariable(entry, ref line, ref changed, ref first, fileSpec, count, ref record);
                             }
                             //Replace all the old exact variable names with the new exact variable names.
-                            foreach (KeyValuePair<string, string> entry in _variableNameExacts)
+                            //foreach (KeyValuePair<string, string> entry in _variableNameExacts)
+                            //{
+                            //    ChangeOldClassNameToNewClassName(string.Empty, entry, string.Empty, ref line, ref changed, ref first, fileSpec, count, ref record);
+                            //}
+                            //Replace all the old exact text with the new exact text.
+                            //TODO: _variableNamePatterns is being deliberately used here as if all the patterns were already exact text.
+                            //TODO: This is because these patterns were originally only used for variable names but now we are looking for any text matches which are not necessarily variable.
+                            //TODO: This may need to be improved in the future and also maybe its use in XEditJava() variable names may need to be reviewed in the light of some things we have
+                            //TODO: discovered while doing this.
+                            foreach (KeyValuePair<string, string> entry in _variableNamePatterns)
                             {
                                 ChangeOldClassNameToNewClassName(string.Empty, entry, string.Empty, ref line, ref changed, ref first, fileSpec, count, ref record);
                             }
@@ -1228,6 +1384,192 @@ namespace GlobalChange8.Models
                             foreach (KeyValuePair<string, string> entry in _classNameMappings)
                             {
                                 ChangeOldClassNameToNewClassName(".", entry, string.Empty, ref line, ref changed, ref first, fileSpec, count, ref record);
+                            }
+                            //Replace all the old exact text with the new exact text.
+                            //TODO: _variableNamePatterns is being deliberately used here as if all the patterns were already exact text.
+                            //TODO: This is because these patterns were originally only used for variable names but now we are looking for any text matches which are not necessarily variable.
+                            //TODO: This may need to be improved in the future and also maybe its use in XEditJava() variable names may need to be reviewed in the light of some things we have
+                            //TODO: discovered while doing this.
+                            foreach (KeyValuePair<string, string> entry in _variableNamePatterns)
+                            {
+                                ChangeOldClassNameToNewClassName(string.Empty, entry, string.Empty, ref line, ref changed, ref first, fileSpec, count, ref record);
+                            }
+                            contents.AppendLine(line);
+                            if (_action == "Cancel")
+                            {
+                                break;
+                            }
+                        } while (sr.Peek() >= 0);
+                    }
+                    sr.Close();
+                    if (changed)
+                    {
+                        FileHelper.WriteFile(fileSpec, contents.ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return hit;
+        }
+
+        /// <summary>
+        /// Global change/edit target values directory.
+        /// </summary>
+        private void EditTargetValuesDirectory()
+        {
+            string fileSpec = String.Format(@"{0}{1}.xml", Administrator.ProfileManager.SystemProfile.CloneConfigurationPath, RunMode);
+            XDocument doc = XDocument.Load(fileSpec);
+            LoadMappingValues(doc, "VariableNameExacts", ref _variableNameExacts);
+            layoutFileLineChangeCount = lineChangeCount;
+            lineChangeCount = 0;
+            valuesFileCount = 0;
+            valuesFileLineCount = 0;
+            valuesFileLineChangeCount = 0;
+            char cSeparator = System.IO.Path.DirectorySeparatorChar;
+            _log = new Logger();
+            _log.Prefix = "GCE";
+            _log.Title = "Global Change/Clone Engine (Edit Values) " + Administrator.ProfileManager.ApplicationProfile.Version;
+            FileHelper.PathCheck(Administrator.ProfileManager.SystemProfile.LogPath);
+            _log.Begin(String.Format("{0}Global_Change_Edit_Values_{1}.log", Administrator.ProfileManager.SystemProfile.LogPath, DateTime.Now.ToString("yyyyMMdd@HHmmss")));
+            string targetDirectory = TargetValuesDirectory;
+            XEditValues(targetDirectory);
+            valuesFileLineChangeCount = lineChangeCount;
+            _log.WriteLn();
+            _log.WriteTimedMsg("000", "I", String.Format(@"Class Files    = {0}", classFileCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"Class Lines    = {0}", classFileLineCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"Class Changes  = {0}", classFileLineChangeCount));
+            _log.WriteLn();
+            _log.WriteTimedMsg("000", "I", String.Format(@"Layout Files   = {0}", layoutFileCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"Layout Lines   = {0}", layoutFileLineCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"Layout Changes = {0}", layoutFileLineChangeCount));
+            _log.WriteLn();
+            _log.WriteTimedMsg("000", "I", String.Format(@"Values Files   = {0}", valuesFileCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"Values Lines   = {0}", valuesFileLineCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"Values Changes = {0}", valuesFileLineChangeCount));
+            _log.WriteLn();
+            _log.WriteTimedMsg("000", "I", String.Format(@"Total Files    = {0}", classFileCount + layoutFileCount + valuesFileCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"Total Lines    = {0}", classFileLineCount + layoutFileLineCount + valuesFileLineCount));
+            _log.WriteTimedMsg("000", "I", String.Format(@"Total Changes  = {0}", classFileLineChangeCount + layoutFileLineChangeCount + valuesFileLineChangeCount));
+            _log.Outcome();
+            _log.Terminate(Administrator.ProfileManager.SystemProfile.ViewerWindows);
+        }
+
+        /// <summary>
+        /// Global change/edit target values directory.
+        /// </summary>
+        private void XEditValues(string targetDirectory)
+        {
+            DirectoryInfo diTarget = new DirectoryInfo(targetDirectory);
+            _log.WriteLn();
+            _log.WriteTimedMsg("000", "I", "Begin XEditValues");
+            XEditValues(diTarget);
+            _log.WriteLn();
+            _log.WriteTimedMsg("000", "I", "End XEditValues");
+        }
+
+        private void XEditValues(DirectoryInfo targetDirectory)
+        {
+            if (DirectoryExclusionsHelper.AllowDirectory(targetDirectory.FullName))
+            {
+                _log.WriteLn();
+                _log.WriteTimedMsg("000", "I", String.Format(@"Global Change Values Directory : ""{0}""", targetDirectory.ToString()));
+                foreach (FileInfo fi in targetDirectory.GetFiles())
+                {
+                    if (_action != "Cancel")
+                    {
+                        string targetFileName = string.Empty;
+                        try
+                        {
+                            targetFileName = fi.Name;
+                            try
+                            {
+                                string fileSpec = fi.FullName;
+                                EditValuesFile(fileSpec);
+                            }
+                            catch (Exception ex)
+                            {
+                                _log.WriteLn();
+                                _log.WriteTimedMsg("000", "E", String.Format(@"{0} - Error : {1}{2}", targetFileName, Environment.NewLine, ex.Message));
+                                _log.WriteLn();
+                            }
+                        }
+                        catch (Exception ex2)
+                        {
+                            _log.WriteLn();
+                            _log.WriteTimedMsg("000", "E", String.Format(@"{0} - Target Values File (Name too long) Error : {1}{2}", targetFileName, Environment.NewLine, ex2.Message));
+                            _log.WriteLn();
+                        }
+                    }
+                }
+                foreach (DirectoryInfo di in targetDirectory.GetDirectories())
+                {
+                    if (_action != "Cancel")
+                    {
+                        try
+                        {
+                            if (DirectoryExclusionsHelper.AllowDirectory(di.FullName))
+                            {
+                                XEditValues(di);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _log.WriteLn();
+                            _log.WriteTimedMsg("000", "E", String.Format(@"{0} - Target Values Directory (Name too long) Error : {1}{2}", di.Name, Environment.NewLine, ex.Message));
+                            _log.WriteLn();
+                        }
+                    }
+                }
+            }
+            //Check if user has chosen to cancel run.
+            if (_action == "Cancel")
+            {
+                _log.WriteTimedMsg("000", "I", String.Format(@"XEditValues cancelled"));
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Edit values XML file.
+        /// </summary>
+        /// <remarks>
+        /// Apply global changes to one values XML file.
+        /// </remarks>
+        protected bool EditValuesFile(string fileSpec)
+        {
+            valuesFileCount++;
+            StringBuilder contents = new StringBuilder();
+            string line = string.Empty;
+            bool first = true;
+            bool hit = false;
+            bool changed = false;
+            FileInfo fileInfo = null;
+            string record = string.Empty;
+            long count = 0;
+            try
+            {
+                if (File.Exists(fileSpec))
+                {
+                    fileInfo = R.GetFileInfo(fileSpec);
+                    StreamReader sr = new StreamReader(fileSpec);
+                    if (sr.Peek() >= 0)
+                    {
+                        do
+                        {
+                            count++;
+                            valuesFileLineCount++;
+                            record = sr.ReadLine();
+                            line = record;
+                            //Replace all the old exact text with the new exact text.
+                            //TODO: _variableNamePatterns is being deliberately used here as if all the patterns were already exact text.
+                            //TODO: This is because these patterns were originally only used for variable names but now we are looking for any text matches which are not necessarily variable.
+                            //TODO: This may need to be improved in the future and also maybe its use in XEditJava() variable names may need to be reviewed in the light of some things we have
+                            //TODO: discovered while doing this.
+                            foreach (KeyValuePair<string, string> entry in _variableNamePatterns)
+                            {
+                                ChangeOldClassNameToNewClassName(string.Empty, entry, string.Empty, ref line, ref changed, ref first, fileSpec, count, ref record);
                             }
                             contents.AppendLine(line);
                             if (_action == "Cancel")

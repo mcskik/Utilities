@@ -18,13 +18,16 @@ namespace GlobalChange8.Views
     {
         #region Member variables.
         private SearchEngine moSearch;
+        private SearchKotlinEngine moSearchKotlin;
         private CloneEngine moClone;
+        private SearchReplaceMultipleEngine moSearchReplaceMultipleEngine;
         private ReproEngine moRepro;
         private CloneDroid moCloneDroid;
         private ReplaceDroid moReplaceDroid;
         private ModelsEngine moModels;
+        private ModelsKotlinEngine moModelsKotlin;
         private bool mbSuppressCheckAllChanged = false;
-		private bool mbSuppressCheckAll = false;
+	    private bool mbSuppressCheckAll = false;
         private bool _resultsDisplayLimitReached = false;
 		#endregion
 
@@ -154,6 +157,36 @@ namespace GlobalChange8.Views
             }
         }
 
+        /// <summary>
+        /// Initiate search for Kotlin.
+        /// </summary>
+        private void cmdSearchKt_Click(object sender, EventArgs e)
+        {
+            if (!cboMode.Text.StartsWith("Clone"))
+            {
+                _resultsDisplayLimitReached = false;
+                if (System.IO.Directory.Exists(txtPath.Text))
+                {
+                    SaveParameters();
+                    txtResults.Text = string.Empty;
+                    moSearchKotlin.Action = "Search";
+                    moSearchKotlin.Search();
+                }
+                else
+                {
+                    string sMessage = @"Directory """ + txtPath.Text + @""" does not exist.";
+                    staStatusStrip.Text = sMessage;
+                    toolStripStatusLabel.Text = sMessage;
+                }
+            }
+            else
+            {
+                string sMessage = @"Cannot search when mode is set to ""Clone*""";
+                staStatusStrip.Text = sMessage;
+                toolStripStatusLabel.Text = sMessage;
+            }
+        }
+
         private void cmdClone_Click(object sender, EventArgs e)
         {
             if (cboMode.Text.StartsWith("Clone"))
@@ -177,6 +210,34 @@ namespace GlobalChange8.Views
             else
             {
                 string sMessage = @"Cannot clone unless mode is set to ""Clone*""";
+                staStatusStrip.Text = sMessage;
+                toolStripStatusLabel.Text = sMessage;
+            }
+        }
+
+        private void CmdSearchReplaceMultiple_Click(object sender, EventArgs e)
+        {
+            if (cboMode.Text.StartsWith("Replace"))
+            {
+                _resultsDisplayLimitReached = false;
+                if (System.IO.Directory.Exists(txtPath.Text))
+                {
+                    SaveParameters();
+                    txtResults.Text = string.Empty;
+                    moSearchReplaceMultipleEngine.Action = "Replace";
+                    moSearchReplaceMultipleEngine.LoadConfiguration(cboMode.Text);
+                    moSearchReplaceMultipleEngine.Run();
+                }
+                else
+                {
+                    string sMessage = @"Directory """ + txtPath.Text + @""" does not exist.";
+                    staStatusStrip.Text = sMessage;
+                    toolStripStatusLabel.Text = sMessage;
+                }
+            }
+            else
+            {
+                string sMessage = @"Cannot search replace multiple unless mode is set to ""Replace*""";
                 staStatusStrip.Text = sMessage;
                 toolStripStatusLabel.Text = sMessage;
             }
@@ -285,12 +346,32 @@ namespace GlobalChange8.Views
             }
         }
 
+        private void cmdModelsKotlin_Click(object sender, EventArgs e)
+        {
+            _resultsDisplayLimitReached = false;
+            if (System.IO.Directory.Exists(txtPath.Text))
+            {
+                SaveParameters();
+                txtResults.Text = string.Empty;
+                moModelsKotlin.Action = "Models";
+                moModelsKotlin.LoadConfiguration(cboMode.Text);
+                moModelsKotlin.Run();
+            }
+            else
+            {
+                string sMessage = @"Directory """ + txtPath.Text + @""" does not exist.";
+                staStatusStrip.Text = sMessage;
+                toolStripStatusLabel.Text = sMessage;
+            }
+        }
+
         /// <summary>
         /// Cancel run which is in progress.
         /// </summary>
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             moSearch.Action = "Cancel";
+            moSearchKotlin.Action = "Cancel";
         }
 
         /// <summary>
@@ -407,6 +488,100 @@ namespace GlobalChange8.Views
             }
             System.Windows.Forms.Application.DoEvents();
         }
+
+        /// <summary>
+        /// Start file progress indicator.
+        /// </summary>
+        void moSearchKotlin_EventBeginProgress(object poSender, SearchKotlinEngine.EventParameters poEventArgs)
+        {
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+            cmdSearch.Enabled = false;
+            cmdCancel.Enabled = true;
+            cmdClose.Enabled = false;
+            int nMaximum = poEventArgs.Number;
+            string sMessage = poEventArgs.Text;
+            staStatusStrip.Text = sMessage;
+            toolStripStatusLabel.Text = sMessage;
+            toolStripProgressBar.Minimum = 0;
+            toolStripProgressBar.Maximum = nMaximum;
+            toolStripProgressBar.Value = 0;
+            pbrPprogressBar.Minimum = 0;
+            pbrPprogressBar.Maximum = nMaximum;
+            pbrPprogressBar.Value = 0;
+            System.Windows.Forms.Application.DoEvents();
+        }
+
+        /// <summary>
+        /// Update file progress indicator.
+        /// </summary>
+        void moSearchKotlin_EventUpdateProgress(object poSender, SearchKotlinEngine.EventParameters poEventArgs)
+        {
+            if (System.Windows.Forms.Cursor.Current != System.Windows.Forms.Cursors.WaitCursor)
+            {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+            }
+            int nIncrement = poEventArgs.Number;
+            string sMessage = poEventArgs.Text;
+            staStatusStrip.Text = sMessage;
+            toolStripStatusLabel.Text = sMessage;
+            try
+            {
+                if (pbrPprogressBar.Value + nIncrement > pbrPprogressBar.Maximum)
+                {
+                    pbrPprogressBar.Maximum += Math.Max(pbrPprogressBar.Maximum, nIncrement);
+                    toolStripProgressBar.Maximum += Math.Max(toolStripProgressBar.Maximum, nIncrement);
+                }
+                pbrPprogressBar.Value += nIncrement;
+                toolStripProgressBar.Value += nIncrement;
+            }
+            catch
+            {
+            }
+            finally
+            {
+                System.Windows.Forms.Application.DoEvents();
+            }
+        }
+
+        /// <summary>
+        /// End file progress indicator.
+        /// </summary>
+        void moSearchKotlin_EventEndOfProgress(object poSender, SearchKotlinEngine.EventParameters poEventArgs)
+        {
+            pbrPprogressBar.Value = pbrPprogressBar.Maximum;
+            string sMessage = poEventArgs.Text;
+            staStatusStrip.Text = sMessage;
+            toolStripStatusLabel.Text = sMessage;
+            toolStripProgressBar.Value = toolStripProgressBar.Maximum;
+            cmdSearch.Enabled = true;
+            cmdCancel.Enabled = false;
+            cmdClose.Enabled = true;
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+            System.Windows.Forms.Application.DoEvents();
+        }
+
+        /// <summary>
+        /// Display found data in context.
+        /// </summary>
+        void moSearchKotlin_EventCriteriaPass(object poSender, SearchKotlinEngine.EventParameters poEventArgs)
+        {
+            string sData = poEventArgs.Text;
+            if (txtResults.Text.Length <= 8192)
+            {
+                txtResults.Text += sData + Environment.NewLine;
+            }
+            else
+            {
+                if (!_resultsDisplayLimitReached)
+                {
+                    txtResults.Text += "*************************" + Environment.NewLine;
+                    txtResults.Text += "* Display Limit Reached *" + Environment.NewLine;
+                    txtResults.Text += "*************************" + Environment.NewLine;
+                    _resultsDisplayLimitReached = true;
+                }
+            }
+            System.Windows.Forms.Application.DoEvents();
+        }
         #endregion
 
         #region Private methods.
@@ -416,15 +591,22 @@ namespace GlobalChange8.Views
         private void LoadParameters()
         {
             moSearch = new SearchEngine();
+            moSearchKotlin = new SearchKotlinEngine();
             moClone = new CloneEngine();
+            moSearchReplaceMultipleEngine = new SearchReplaceMultipleEngine();
             moRepro = new ReproEngine();
             moCloneDroid = new CloneDroid();
             moReplaceDroid = new ReplaceDroid();
             moModels = new ModelsEngine();
+            moModelsKotlin = new ModelsKotlinEngine();
             moSearch.EventCriteriaPass += new SearchEngine.EventDelegate(moSearch_EventCriteriaPass);
             moSearch.EventBeginProgress += new SearchEngine.EventDelegate(moSearch_EventBeginProgress);
             moSearch.EventUpdateProgress += new SearchEngine.EventDelegate(moSearch_EventUpdateProgress);
             moSearch.EventEndOfProgress += new SearchEngine.EventDelegate(moSearch_EventEndOfProgress);
+            moSearchKotlin.EventCriteriaPass += new SearchKotlinEngine.EventDelegate(moSearchKotlin_EventCriteriaPass);
+            moSearchKotlin.EventBeginProgress += new SearchKotlinEngine.EventDelegate(moSearchKotlin_EventBeginProgress);
+            moSearchKotlin.EventUpdateProgress += new SearchKotlinEngine.EventDelegate(moSearchKotlin_EventUpdateProgress);
+            moSearchKotlin.EventEndOfProgress += new SearchKotlinEngine.EventDelegate(moSearchKotlin_EventEndOfProgress);
             txtPath.Text = moSearch.Path;
             txtFilePattern.Text = moSearch.FilePattern;
             txtCriteria.Text = moSearch.SearchCriteria;
@@ -458,16 +640,27 @@ namespace GlobalChange8.Views
             moSearch.Replacement = txtReplacement.Text;
             moSearch.Mode = cboMode.Text;
             moSearch.Regex = chkRegex.Checked;
+            moSearchKotlin.Path = txtPath.Text;
+            moSearchKotlin.FilePattern = txtFilePattern.Text;
+            moSearchKotlin.SearchCriteria = txtCriteria.Text;
+            moSearchKotlin.Find = txtFind.Text;
+            moSearchKotlin.Replacement = txtReplacement.Text;
+            moSearchKotlin.Mode = cboMode.Text;
+            moSearchKotlin.Regex = chkRegex.Checked;
             SetDirectoryExclusions();
             SetOptions();
             SetExtensions();
-			moSearch.AllTypes = chkAllTypes.Checked;
+            moSearch.AllTypes = chkAllTypes.Checked;
+            moSearchKotlin.AllTypes = chkAllTypes.Checked;
             moClone.Mode = cboMode.Text;
+            moSearchReplaceMultipleEngine.Mode = cboMode.Text;
             moRepro.Mode = cboMode.Text;
             moCloneDroid.Mode = cboMode.Text;
             moReplaceDroid.Mode = cboMode.Text;
             moModels.Mode = cboMode.Text;
+            moModelsKotlin.Mode = cboMode.Text;
             moSearch.Save();
+            moSearchKotlin.Save();
         }
 
         /// <summary>
