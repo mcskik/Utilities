@@ -373,9 +373,9 @@ namespace GlobalChange8.Models
             {
                 _dir = new Dir();
                 _dir.Action = _action;
-                _dir.EventBeginProgress += new EventDelegate(_dir_EventBeginProgress);
-                _dir.EventUpdateProgress += new EventDelegate(_dir_EventUpdateProgress);
-                _dir.EventEndOfProgress += new EventDelegate(_dir_EventEndOfProgress);
+                _dir.EventBeginProgress += new GlobalChange8.Models.EventDelegate(_dir_EventBeginProgress);
+                _dir.EventUpdateProgress += new GlobalChange8.Models.EventDelegate(_dir_EventUpdateProgress);
+                _dir.EventEndOfProgress += new GlobalChange8.Models.EventDelegate(_dir_EventEndOfProgress);
                 _directoryListing = _dir.DirList(_path, ref _dirFilesEstimate);
             }
             Process();

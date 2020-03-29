@@ -315,8 +315,9 @@ namespace GlobalChange8.Models
         private void EvaluatePackages(string sourceDir, string targetDir)
         {
             sourceDir = sourceDir.Replace(SourceHlq, string.Empty);
-            targetDir = targetDir.Replace(SourceHlq, string.Empty);
-            if (sourceDir != targetDir)
+            string modifiedSourceHlq = EditLine(_editRules, SourceHlq);
+            targetDir = targetDir.Replace(modifiedSourceHlq, string.Empty);
+            if (sourceDir.Trim().Length > 0 && targetDir.Trim().Length > 0 && sourceDir != targetDir)
             {
                 _folderRuleCount++;
                 var folderRule = new EditRule(sourceDir, targetDir, _folderRuleCount);
@@ -486,7 +487,6 @@ namespace GlobalChange8.Models
         {
             _log.WriteLn();
             _log.WriteTimedMsg("000", "I", "Edit Rules:");
-            _log.WriteLn();
             PrintEditRules(_editRules);
             if (IsAffirmative(RegexEditAll))
             {
@@ -664,6 +664,7 @@ namespace GlobalChange8.Models
             if (DirectoryExclusionsHelper.AllowDirectory(sourceDirectory.FullName))
             {
                 string targetDir = sourceDirectory.FullName.Replace(SourceHlq, TargetHlq);
+                targetDir = EditLine(_folderRules, targetDir);
                 DirectoryInfo targetDirectory = new DirectoryInfo(targetDir);
                 if (!Directory.Exists(targetDirectory.FullName))
                 {
@@ -678,9 +679,13 @@ namespace GlobalChange8.Models
                     if (_action != "Cancel")
                     {
                         string sourceFileName = fi.Name;
-                        string targetFileName = sourceFileName;
+                        string targetFileName = EditLine(_classOrResourceRules, sourceFileName);
                         string sourceFileSpec = fi.FullName;
                         string targetFileSpec = sourceFileSpec.Replace(SourceHlq, TargetHlq);
+                        string targetFileSpecHlqChangedOnly = targetFileSpec;
+                        // This is not using the "Copy" rules, it is just using a simplified approach of just editing the source directory and files using rules derived from the original edit rules.
+                        targetFileSpec = EditLine(_folderRules, targetFileSpec);
+                        targetFileSpec = EditLine(_classOrResourceRules, targetFileSpec);
                         try
                         {
                             try

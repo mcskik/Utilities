@@ -8,6 +8,7 @@
         CloneBookingSlot,
         CloneDroidGuids,
         CloneDroidJournal,
+        CloneDroidLifebelt,
         ModelsFromApiA,
         CloneGuids,
         CloneTartan,

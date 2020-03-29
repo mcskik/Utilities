@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{E9214A6F-6F54-497E-A910-4B2E935A7CE1}</ProjectGuid>
@@ -79,7 +79,6 @@
     <Compile Include="Models\RegexEditRule.cs" />
     <Compile Include="Models\TextTypesHelper.cs" />
     <Compile Include="Models\ReplaceDroid.cs" />
-    <Compile Include="Models\CloneDroid_With_Samples.cs" />
     <Compile Include="Models\EditRule.cs" />
     <Compile Include="Models\Argument.cs" />
     <Compile Include="DataLayer\Profile\Administrator.cs" />
@@ -107,7 +106,6 @@
     <Compile Include="Models\MonitoredTypesHelper.cs" />
     <Compile Include="Models\RunMode.cs" />
     <Compile Include="Models\CloneEngine.cs" />
-    <Compile Include="Models\SearchEngineClone.cs" />
     <Compile Include="Models\Vector.cs" />
     <Compile Include="Views\frmMain.cs">
       <SubType>Form</SubType>
@@ -134,18 +132,11 @@
     <Content Include="Data\Users\All\Control\CloneDroidGuids.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Data\Users\All\Control\CloneDroidLifebelt.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Data\Users\All\Control\ModelsFromApiA.xml" />
     <Content Include="Data\Users\All\Control\ReplaceDroidJournal.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Data\Users\All\Control\CloneGuidDetails.xml" />
-    <Content Include="Data\Users\All\Control\CloneGuids.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Data\Users\All\Control\CloneBookingSlot.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Data\Users\All\Control\CloneTartan.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Data\Users\All\Control\CloneDroidJournal.xml">
