@@ -446,6 +446,10 @@ namespace Notepod
             }
         }
 
+        private void otherOcrSplitterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
         private void otherSingleWrapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string[] lines = txtDocument.Lines;

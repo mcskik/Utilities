@@ -56,7 +56,13 @@ namespace Notepod.Models
         public void ParseElement(int beginPos, int startPos, ref int endPos, string opener, ref string xmlText)
         {
             int initialPos = startPos;
-            _indentLevel++;
+            if (opener.StartsWith("<!--") && opener.EndsWith("-->"))
+            {
+            }
+            else
+            {
+                _indentLevel++;
+            }
             beginPos = startPos;
             string actualTagContent = string.Empty;
             string interTagContent = string.Empty;
@@ -152,9 +158,16 @@ namespace Notepod.Models
             {
                 _tagCount = 0;
             }
-            var attributes = XmlAttributesSplitter.Split(tag);
-            tag = XmlAttributesSplitter.Join(attributes, _tagCount == 1);
-            tag = tag.Replace("\t", string.Empty);
+            tag = tag.Trim();
+            if (tag.StartsWith("<!--") && tag.EndsWith("-->"))
+            {
+            }
+            else
+            {
+                var attributes = XmlAttributesSplitter.Split(tag);
+                tag = XmlAttributesSplitter.Join(attributes, _tagCount == 1);
+                tag = tag.Replace("\t", string.Empty);
+            }
             //Put back standard indentation at the start of each new line.
             tag = tag.Replace(Environment.NewLine, Environment.NewLine + Indent(_indentLevel + 1));
             tag = tag.Trim();

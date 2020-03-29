@@ -278,7 +278,14 @@ namespace Search8.Models
         /// </summary>
         void _dir_EventBeginProgress(object poSender, EventParameters2 poEventArgs)
         {
-            SignalBeginProgress((int)_dirFilesEstimate, "DirList", "Scanning directories ...");
+            try
+            {
+                SignalBeginProgress((int)_dirFilesEstimate, "DirList", "Scanning directories ...");
+            }
+            catch (Exception ex)
+            {
+                _dirFilesEstimate = 0;
+            }
         }
 
         /// <summary>

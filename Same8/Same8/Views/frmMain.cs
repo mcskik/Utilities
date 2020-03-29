@@ -133,6 +133,18 @@ namespace Same8.Views
             }
         }
 
+        public bool IgnoreFileExtension
+        {
+            get
+            {
+                return chkIgnoreFileExtension.Checked;
+            }
+            set
+            {
+                chkIgnoreFileExtension.Checked = value;
+            }
+        }
+
         public string Caption
         {
             get
@@ -272,6 +284,15 @@ namespace Same8.Views
         }
 
         /// <summary>
+        /// Ignore file extension checked changed.
+        /// </summary>
+        private void chkIgnoreFileExtension_CheckedChanged(object sender, EventArgs e)
+        {
+            IgnoreFileExtension = chkIgnoreFileExtension.Checked;
+            SaveParametersOnly();
+        }
+
+        /// <summary>
         /// Initiate compare.
         /// </summary>
         private void cmdGo_Click(object sender, EventArgs e)
@@ -302,7 +323,7 @@ namespace Same8.Views
             LoadComparisons();
         }
 
-        #region H
+        #region Header
         /// <summary>
         /// Select an item from the previous selections ComboBox.
         /// </summary>
@@ -738,12 +759,28 @@ namespace Same8.Views
             _newFilesEstimate = userSetting.NewFilesEstimate;
             _oldFilesEstimate = userSetting.OldFilesEstimate;
             _chgFilesEstimate = userSetting.ChgFilesEstimate;
+            IgnoreFileExtension = userSetting.IgnoreFileExtension;
             _monitoredTypesOnly = userSetting.MonitoredTypesOnly;
             SetCurrentKey();
             moCompare = new CompareEngine();
             moCompare.EventBeginProgress += new CompareEngine.EventDelegate(moCompare_EventBeginProgress);
             moCompare.EventUpdateProgress += new CompareEngine.EventDelegate(moCompare_EventUpdateProgress);
             moCompare.EventEndOfProgress += new CompareEngine.EventDelegate(moCompare_EventEndOfProgress);
+        }
+
+        /// <summary>
+        /// Save all parameters only.
+        /// </summary>
+        private void SaveParametersOnly()
+        {
+            SetCurrentKey();
+            Administrator.ProfileManager.UserSettings.SelectedItem.NewPath = NewPath; 
+            Administrator.ProfileManager.UserSettings.SelectedItem.OldPath = OldPath;
+            Administrator.ProfileManager.UserSettings.SelectedItem.NewFilesEstimate = _newFilesEstimate;
+            Administrator.ProfileManager.UserSettings.SelectedItem.OldFilesEstimate = _oldFilesEstimate;
+            Administrator.ProfileManager.UserSettings.SelectedItem.ChgFilesEstimate = _chgFilesEstimate;
+            Administrator.ProfileManager.UserSettings.SelectedItem.IgnoreFileExtension = IgnoreFileExtension;
+            Administrator.ProfileManager.UserSettings.Save();
         }
 
         /// <summary>
@@ -762,6 +799,7 @@ namespace Same8.Views
                 NewFilesEstimate = _newFilesEstimate,
                 OldFilesEstimate = _oldFilesEstimate,
                 ChgFilesEstimate = _chgFilesEstimate,
+                IgnoreFileExtension = IgnoreFileExtension,
                 MonitoredTypesOnly = _monitoredTypesOnly,
             };
             Administrator.ProfileManager.UserSettings.Persist(userSetting);
@@ -847,7 +885,9 @@ namespace Same8.Views
             }
             else
             {
+                //Scroll to the first row which is different.
                 lvwResults.Items[nFirstDifferenceRow].EnsureVisible();
+                Application.DoEvents();
                 lblIdentical.Text = "    Different    ";
                 lblIdentical.BackColor = Color.Gray;
             }

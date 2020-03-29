@@ -22,6 +22,7 @@ namespace Same8.Models
         public string StdHlq { get; set; }
         public string StdDir { get; set; }
         public string StdFile { get; set; }
+        public string StdFileNameOnly { get; set; }
         public string FuzzDir { get; set; }
         public string FuzzFile { get; set; }
         public long StdSize { get; set; }
@@ -40,6 +41,7 @@ namespace Same8.Models
             StdHlq = string.Empty;
             StdDir = string.Empty;
             StdFile = string.Empty;
+            StdFileNameOnly = string.Empty;
             FuzzDir = string.Empty;
             FuzzFile = string.Empty;
             StdSize = 0;
@@ -55,6 +57,7 @@ namespace Same8.Models
             StdHlq = stdHlq;
             StdDir = stdDir;
             StdFile = stdFile;
+            StdFileNameOnly = RemoveExt(stdFile, stdType);
             FuzzDir = fuzzDir;
             FuzzFile = fuzzFile;
             StdSize = stdSize;
@@ -65,6 +68,24 @@ namespace Same8.Models
             OldFile = oldFile;
             StdType = stdType;
             CtlComparison = ctlComparison;
+        }
+        #endregion
+
+        #region Private Methods.
+        private string RemoveExt(string spec, string ext)
+        {
+            ext = ext.Trim();
+            string fullExt = ext;
+            if (ext.Length > 0)
+            {
+                fullExt = "." + ext;
+            }
+            string stem = spec;
+            if (fullExt.Length > 0)
+            {
+                stem = spec.Replace(fullExt, string.Empty);
+            }
+            return stem;
         }
         #endregion
     }

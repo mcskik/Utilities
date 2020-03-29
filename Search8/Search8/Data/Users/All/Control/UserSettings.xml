@@ -20,6 +20,7 @@
       <Extensions>
         <Extension>doc</Extension>
         <Extension>txt</Extension>
+        <Extension>xml</Extension>
       </Extensions>
       <DirectoryExclusions>
         <DirectoryExclusion>generated</DirectoryExclusion>

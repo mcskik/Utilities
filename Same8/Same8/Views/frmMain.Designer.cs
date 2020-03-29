@@ -40,6 +40,7 @@ namespace Same8.Views
             this.mnuContextDeleteOld = new System.Windows.Forms.ToolStripMenuItem();
             this.viewNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewOldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuContextCheck = new System.Windows.Forms.ToolStripMenuItem();
             this.cmdFzGo = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdGo = new System.Windows.Forms.Button();
@@ -59,7 +60,7 @@ namespace Same8.Views
             this.cmdChooseNewPath = new System.Windows.Forms.Button();
             this.txtNewPath = new System.Windows.Forms.TextBox();
             this.lblNewPath = new System.Windows.Forms.Label();
-            this.mnuContextCheck = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkIgnoreFileExtension = new System.Windows.Forms.CheckBox();
             this.mnuContext.SuspendLayout();
             this.staStatusStrip.SuspendLayout();
             this.grpDirectories.SuspendLayout();
@@ -71,9 +72,10 @@ namespace Same8.Views
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lvwResults.ContextMenuStrip = this.mnuContext;
+            this.lvwResults.HideSelection = false;
             this.lvwResults.Location = new System.Drawing.Point(12, 146);
             this.lvwResults.Name = "lvwResults";
-            this.lvwResults.Size = new System.Drawing.Size(904, 434);
+            this.lvwResults.Size = new System.Drawing.Size(1254, 434);
             this.lvwResults.TabIndex = 4;
             this.lvwResults.UseCompatibleStateImageBehavior = false;
             this.lvwResults.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lvwResults_MouseUp);
@@ -91,7 +93,7 @@ namespace Same8.Views
             this.viewOldToolStripMenuItem,
             this.mnuContextCheck});
             this.mnuContext.Name = "mnuContext";
-            this.mnuContext.Size = new System.Drawing.Size(162, 224);
+            this.mnuContext.Size = new System.Drawing.Size(162, 202);
             // 
             // mnuContextCompare
             // 
@@ -149,13 +151,20 @@ namespace Same8.Views
             this.viewOldToolStripMenuItem.Text = "View old";
             this.viewOldToolStripMenuItem.Click += new System.EventHandler(this.viewOldToolStripMenuItem_Click);
             // 
+            // mnuContextCheck
+            // 
+            this.mnuContextCheck.Name = "mnuContextCheck";
+            this.mnuContextCheck.Size = new System.Drawing.Size(161, 22);
+            this.mnuContextCheck.Text = "Check";
+            this.mnuContextCheck.Click += new System.EventHandler(this.mnuContextCheck_Click);
+            // 
             // cmdFzGo
             // 
             this.cmdFzGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdFzGo.Location = new System.Drawing.Point(489, 595);
+            this.cmdFzGo.Location = new System.Drawing.Point(839, 595);
             this.cmdFzGo.Name = "cmdFzGo";
             this.cmdFzGo.Size = new System.Drawing.Size(102, 24);
-            this.cmdFzGo.TabIndex = 6;
+            this.cmdFzGo.TabIndex = 7;
             this.cmdFzGo.Text = "&Name Match";
             this.cmdFzGo.UseVisualStyleBackColor = true;
             this.cmdFzGo.Click += new System.EventHandler(this.cmdFzGo_Click);
@@ -163,10 +172,10 @@ namespace Same8.Views
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.Location = new System.Drawing.Point(706, 595);
+            this.cmdCancel.Location = new System.Drawing.Point(1056, 595);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(102, 24);
-            this.cmdCancel.TabIndex = 7;
+            this.cmdCancel.TabIndex = 8;
             this.cmdCancel.Text = "&Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -174,10 +183,10 @@ namespace Same8.Views
             // cmdGo
             // 
             this.cmdGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdGo.Location = new System.Drawing.Point(814, 595);
+            this.cmdGo.Location = new System.Drawing.Point(1164, 595);
             this.cmdGo.Name = "cmdGo";
             this.cmdGo.Size = new System.Drawing.Size(102, 24);
-            this.cmdGo.TabIndex = 8;
+            this.cmdGo.TabIndex = 9;
             this.cmdGo.Text = "&Go";
             this.cmdGo.UseVisualStyleBackColor = true;
             this.cmdGo.Click += new System.EventHandler(this.cmdGo_Click);
@@ -188,7 +197,7 @@ namespace Same8.Views
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pbrPprogressBar.Location = new System.Drawing.Point(12, 595);
             this.pbrPprogressBar.Name = "pbrPprogressBar";
-            this.pbrPprogressBar.Size = new System.Drawing.Size(471, 24);
+            this.pbrPprogressBar.Size = new System.Drawing.Size(741, 24);
             this.pbrPprogressBar.TabIndex = 13;
             // 
             // staStatusStrip
@@ -199,7 +208,7 @@ namespace Same8.Views
             this.toolStripProgressBar});
             this.staStatusStrip.Location = new System.Drawing.Point(0, 632);
             this.staStatusStrip.Name = "staStatusStrip";
-            this.staStatusStrip.Size = new System.Drawing.Size(928, 22);
+            this.staStatusStrip.Size = new System.Drawing.Size(1278, 22);
             this.staStatusStrip.TabIndex = 14;
             this.staStatusStrip.Text = "statusStrip1";
             // 
@@ -222,7 +231,7 @@ namespace Same8.Views
             this.lblIdentical.BackColor = System.Drawing.SystemColors.ControlDark;
             this.lblIdentical.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblIdentical.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblIdentical.Location = new System.Drawing.Point(597, 596);
+            this.lblIdentical.Location = new System.Drawing.Point(947, 596);
             this.lblIdentical.Name = "lblIdentical";
             this.lblIdentical.Size = new System.Drawing.Size(103, 22);
             this.lblIdentical.TabIndex = 15;
@@ -243,7 +252,7 @@ namespace Same8.Views
             this.grpDirectories.Controls.Add(this.lblNewPath);
             this.grpDirectories.Location = new System.Drawing.Point(12, 12);
             this.grpDirectories.Name = "grpDirectories";
-            this.grpDirectories.Size = new System.Drawing.Size(904, 117);
+            this.grpDirectories.Size = new System.Drawing.Size(1254, 117);
             this.grpDirectories.TabIndex = 16;
             this.grpDirectories.TabStop = false;
             this.grpDirectories.Text = "Directories";
@@ -251,7 +260,7 @@ namespace Same8.Views
             // cmdChooseOldPath
             // 
             this.cmdChooseOldPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdChooseOldPath.Location = new System.Drawing.Point(865, 77);
+            this.cmdChooseOldPath.Location = new System.Drawing.Point(1215, 77);
             this.cmdChooseOldPath.Name = "cmdChooseOldPath";
             this.cmdChooseOldPath.Size = new System.Drawing.Size(24, 23);
             this.cmdChooseOldPath.TabIndex = 5;
@@ -262,9 +271,9 @@ namespace Same8.Views
             // txtOldPath
             // 
             this.txtOldPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtOldPath.Location = new System.Drawing.Point(446, 77);
+            this.txtOldPath.Location = new System.Drawing.Point(652, 77);
             this.txtOldPath.Name = "txtOldPath";
-            this.txtOldPath.Size = new System.Drawing.Size(413, 20);
+            this.txtOldPath.Size = new System.Drawing.Size(557, 20);
             this.txtOldPath.TabIndex = 4;
             this.txtOldPath.DoubleClick += new System.EventHandler(this.txtOldPath_DoubleClick);
             // 
@@ -272,7 +281,7 @@ namespace Same8.Views
             // 
             this.lblOldPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblOldPath.AutoSize = true;
-            this.lblOldPath.Location = new System.Drawing.Point(446, 64);
+            this.lblOldPath.Location = new System.Drawing.Point(652, 61);
             this.lblOldPath.Name = "lblOldPath";
             this.lblOldPath.Size = new System.Drawing.Size(48, 13);
             this.lblOldPath.TabIndex = 16;
@@ -281,7 +290,7 @@ namespace Same8.Views
             // cmdRemove
             // 
             this.cmdRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdRemove.Location = new System.Drawing.Point(865, 29);
+            this.cmdRemove.Location = new System.Drawing.Point(1215, 29);
             this.cmdRemove.Name = "cmdRemove";
             this.cmdRemove.Size = new System.Drawing.Size(24, 23);
             this.cmdRemove.TabIndex = 1;
@@ -305,14 +314,14 @@ namespace Same8.Views
             this.cboPreviousSelections.FormattingEnabled = true;
             this.cboPreviousSelections.Location = new System.Drawing.Point(9, 31);
             this.cboPreviousSelections.Name = "cboPreviousSelections";
-            this.cboPreviousSelections.Size = new System.Drawing.Size(850, 21);
+            this.cboPreviousSelections.Size = new System.Drawing.Size(1200, 21);
             this.cboPreviousSelections.TabIndex = 0;
             this.cboPreviousSelections.SelectedIndexChanged += new System.EventHandler(this.cboPreviousSelections_SelectedIndexChanged);
             // 
             // cmdChooseNewPath
             // 
             this.cmdChooseNewPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdChooseNewPath.Location = new System.Drawing.Point(416, 75);
+            this.cmdChooseNewPath.Location = new System.Drawing.Point(622, 74);
             this.cmdChooseNewPath.Name = "cmdChooseNewPath";
             this.cmdChooseNewPath.Size = new System.Drawing.Size(24, 23);
             this.cmdChooseNewPath.TabIndex = 3;
@@ -326,7 +335,7 @@ namespace Same8.Views
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtNewPath.Location = new System.Drawing.Point(9, 77);
             this.txtNewPath.Name = "txtNewPath";
-            this.txtNewPath.Size = new System.Drawing.Size(401, 20);
+            this.txtNewPath.Size = new System.Drawing.Size(607, 20);
             this.txtNewPath.TabIndex = 2;
             this.txtNewPath.DoubleClick += new System.EventHandler(this.txtNewPath_DoubleClick);
             // 
@@ -339,18 +348,24 @@ namespace Same8.Views
             this.lblNewPath.TabIndex = 5;
             this.lblNewPath.Text = "New Path";
             // 
-            // mnuContextCheck
+            // chkIgnoreFileExtension
             // 
-            this.mnuContextCheck.Name = "mnuContextCheck";
-            this.mnuContextCheck.Size = new System.Drawing.Size(161, 22);
-            this.mnuContextCheck.Text = "Check";
-            this.mnuContextCheck.Click += new System.EventHandler(this.mnuContextCheck_Click);
+            this.chkIgnoreFileExtension.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkIgnoreFileExtension.AutoSize = true;
+            this.chkIgnoreFileExtension.Location = new System.Drawing.Point(759, 600);
+            this.chkIgnoreFileExtension.Name = "chkIgnoreFileExtension";
+            this.chkIgnoreFileExtension.Size = new System.Drawing.Size(74, 17);
+            this.chkIgnoreFileExtension.TabIndex = 6;
+            this.chkIgnoreFileExtension.Text = "Ignore Ext";
+            this.chkIgnoreFileExtension.UseVisualStyleBackColor = true;
+            this.chkIgnoreFileExtension.CheckedChanged += new System.EventHandler(this.chkIgnoreFileExtension_CheckedChanged);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(928, 654);
+            this.ClientSize = new System.Drawing.Size(1278, 654);
+            this.Controls.Add(this.chkIgnoreFileExtension);
             this.Controls.Add(this.grpDirectories);
             this.Controls.Add(this.lblIdentical);
             this.Controls.Add(this.staStatusStrip);
@@ -405,5 +420,6 @@ namespace Same8.Views
         private System.Windows.Forms.Label lblNewPath;
         private System.Windows.Forms.ToolStripMenuItem mnuContextCompareMeld;
         private System.Windows.Forms.ToolStripMenuItem mnuContextCheck;
+        private System.Windows.Forms.CheckBox chkIgnoreFileExtension;
     }
 }

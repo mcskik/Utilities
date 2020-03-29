@@ -13,6 +13,7 @@
         <ChgFilesEstimate>0</ChgFilesEstimate>
       </Directories>
       <Options>
+        <IgnoreFileExtension>false</IgnoreFileExtension>
         <MonitoredTypesOnly>true</MonitoredTypesOnly>
       </Options>
     </UserSetting>

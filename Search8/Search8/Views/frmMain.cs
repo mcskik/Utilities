@@ -553,6 +553,6 @@ namespace Search8.Views
 				}
 			}
 		}
-		#endregion
+        #endregion
     }
 }

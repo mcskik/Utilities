@@ -18,6 +18,7 @@ namespace Same8.DataLayer.Profile
         public long NewFilesEstimate { get; set; }
         public long OldFilesEstimate { get; set; }
         public long ChgFilesEstimate { get; set; }
+        public bool IgnoreFileExtension { get; set; }
         public bool MonitoredTypesOnly { get; set; }
         public ProfileCache ProfileCache
         {
@@ -40,6 +41,7 @@ namespace Same8.DataLayer.Profile
                             new XElement("ChgFilesEstimate", ChgFilesEstimate)
                         ),
                         new XElement("Options",
+                            new XElement("IgnoreFileExtension", IgnoreFileExtension),
                             new XElement("MonitoredTypesOnly", MonitoredTypesOnly)
                         )
                    )
@@ -57,6 +59,7 @@ namespace Same8.DataLayer.Profile
             OldFilesEstimate = 100;
             ChgFilesEstimate = 100;
             KeyShrunk = string.Empty;
+            IgnoreFileExtension = false;
             MonitoredTypesOnly = false;
         }
 
@@ -72,6 +75,7 @@ namespace Same8.DataLayer.Profile
             OldFilesEstimate = _xmlProfileHelper.FetchInt("Directories", "OldFilesEstimate");
             ChgFilesEstimate = _xmlProfileHelper.FetchInt("Directories", "ChgFilesEstimate");
             KeyShrunk = "[" + _shrink.ShrinkDirectory(NewPath) + "]-[" + _shrink.ShrinkDirectory(OldPath) + "]";
+            IgnoreFileExtension = _xmlProfileHelper.FetchBool("Options", "IgnoreFileExtension");
             MonitoredTypesOnly = _xmlProfileHelper.FetchBool("Options", "MonitoredTypesOnly");
         }
     }

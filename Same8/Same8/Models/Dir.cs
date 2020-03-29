@@ -64,6 +64,7 @@ namespace Same8.Models
 
         #region Member variables.
         protected string action = string.Empty;
+        private bool mbIgnoreFileExtension = false;
         protected Comparisons<Comparison> comparisons;
         protected DirEntries directoryListing;
         #endregion
@@ -81,6 +82,18 @@ namespace Same8.Models
             set
             {
                 action = value;
+            }
+        }
+
+        public bool IgnoreFileExtension
+        {
+            get
+            {
+                return mbIgnoreFileExtension;
+            }
+            set
+            {
+                mbIgnoreFileExtension = value;
             }
         }
 
@@ -195,6 +208,7 @@ namespace Same8.Models
                                     entry.StdHlq = qualifier.Trim();
                                     entry.StdDir = directory.Trim();
                                     entry.StdFile = name.Trim();
+                                    entry.StdFileNameOnly = entry.StdFile;
                                     entry.StdSize = 0;
                                     entry.StdDate = System.DateTime.Parse("01/01/2000");
                                     entry.StdType = "dir";
@@ -223,7 +237,8 @@ namespace Same8.Models
                             spec = path + Path.DirectorySeparatorChar.ToString() + name;
                             if (fileInfoArray[row].Exists)
                             {
-                                string ext = Path.GetExtension(spec);
+                                string fullExt = Path.GetExtension(spec);
+                                string ext = fullExt;
                                 if (ext.StartsWith("."))
                                 {
                                     if (ext.Length > 1)
@@ -241,6 +256,7 @@ namespace Same8.Models
                                     entry.StdHlq = qualifier.Trim();
                                     entry.StdDir = directory.Trim();
                                     entry.StdFile = name.Trim();
+                                    entry.StdFileNameOnly = RemoveExt(entry.StdFile, fullExt);
                                     entry.StdSize = fileInfoArray[row].Length;
                                     entry.StdDate = fileInfoArray[row].LastWriteTime;
                                     entry.StdType = ext;
@@ -271,10 +287,36 @@ namespace Same8.Models
             }
         }
 
+        private string RemoveExt(string spec, string fullExt)
+        {
+            fullExt = fullExt.Trim();
+            string stem = spec;
+            if (fullExt.Length > 0)
+            {
+                stem = spec.Replace(fullExt, string.Empty);
+            }
+            return stem;
+        }
+
         /// <summary>
         /// Compare directory level information from the two specified directory listings.
         /// </summary>
         public virtual void Compare(ref List<DirectoryEntry> entriesBef, ref List<DirectoryEntry> entriesAft)
+        {
+            if (IgnoreFileExtension)
+            {
+                CompareIgnoreFileExtensions(ref entriesBef, ref entriesAft);
+            }
+            else
+            {
+                CompareWithFileExtensions(ref entriesBef, ref entriesAft);
+            }
+        }
+
+        /// <summary>
+        /// Compare directory level information from the two specified directory listings.
+        /// </summary>
+        public virtual void CompareWithFileExtensions(ref List<DirectoryEntry> entriesBef, ref List<DirectoryEntry> entriesAft)
         {
             SignalBeginProgress("Compare");
             try
@@ -314,6 +356,73 @@ namespace Same8.Models
                 List<DirectoryEntry> insertedEntries = (List<DirectoryEntry>)(from a in entriesAft
                                                                               join b in entriesBef
                                                                               on new { a.StdDir, a.StdFile } equals new { b.StdDir, b.StdFile }
+                                                                              into changes
+                                                                              from c in changes.DefaultIfEmpty(new DirectoryEntry())
+                                                                              where c.CtlComparison == "EMPTY"
+                                                                              select new DirectoryEntry(a.StdHlq, a.StdDir, a.StdFile, a.FuzzDir, a.FuzzFile, a.StdSize, a.StdDate, a.StdDate, DateTime.MinValue, a.StdFile, string.Empty, a.StdType, "INSERTED")).ToList();
+
+                //Reconstruct the before list.
+                entriesBef = new List<DirectoryEntry>();
+                entriesBef.AddRange(innerEntries);
+                entriesBef.AddRange(deletedEntries);
+
+                //Reconstruct the after list.
+                entriesAft = new List<DirectoryEntry>();
+                entriesAft.AddRange(innerEntries);
+                entriesAft.AddRange(insertedEntries);
+            }
+            catch (Exception oException)
+            {
+                System.Diagnostics.Debug.WriteLine(oException.Message);
+            }
+            finally
+            {
+            }
+        }
+
+        /// <summary>
+        /// Compare directory level information from the two specified directory listings.
+        /// </summary>
+        public virtual void CompareIgnoreFileExtensions(ref List<DirectoryEntry> entriesBef, ref List<DirectoryEntry> entriesAft)
+        {
+            SignalBeginProgress("Compare");
+            try
+            {
+                //Identify entries which are common to both before and after directory listings.
+                //This is accomplished using a LINQ query fashioned to implement an inner join.
+                List<DirectoryEntry> innerEntries = (List<DirectoryEntry>)(from b in entriesBef
+                                                                           join a in entriesAft
+                                                                           on new { b.StdDir, b.StdFileNameOnly } equals new { a.StdDir, a.StdFileNameOnly }
+                                                                           select new DirectoryEntry(a.StdHlq, a.StdDir, a.StdFile, a.FuzzDir, a.FuzzFile, a.StdSize, a.StdDate, a.StdDate, b.StdDate, a.StdFile, b.StdFile, a.StdType, "BOTH")).ToList();
+
+                #region Sample Code.
+                //Update using a lambda function which is executed for every item found by the where clause.
+                //Func<DirEntry, string, bool> update = (x, y) => { x.CtlComparison = y; return true; };
+                //List<DirEntry> updatedEntries = (List<DirEntry>)(from de in innerEntries
+                //where update(de, "BOTH")
+                //select de).ToList();
+
+                //Update using lambda only.
+                //innerEntries.ForEach(e => e.CtlComparison = "BOTH");
+                #endregion
+
+                //Identify entries which have been deleted.
+                //This is accomplished using a LINQ query fashioned to implement a left join
+                //then selecting entries which only exist on the left side (before side) of the join.
+                List<DirectoryEntry> deletedEntries = (List<DirectoryEntry>)(from b in entriesBef
+                                                                             join a in entriesAft
+                                                                             on new { b.StdDir, b.StdFileNameOnly } equals new { a.StdDir, a.StdFileNameOnly }
+                                                                             into changes
+                                                                             from c in changes.DefaultIfEmpty(new DirectoryEntry())
+                                                                             where c.CtlComparison == "EMPTY"
+                                                                             select new DirectoryEntry(b.StdHlq, b.StdDir, b.StdFile, b.FuzzDir, b.FuzzFile, b.StdSize, b.StdDate, DateTime.MinValue, b.StdDate, string.Empty, b.StdFile, b.StdType, "DELETED")).ToList();
+
+                //Identify entries which have been inserted.
+                //This is accomplished using a LINQ query fashioned to implement a left join
+                //then selecting entries which only exist on the left side (after side) of the join.
+                List<DirectoryEntry> insertedEntries = (List<DirectoryEntry>)(from a in entriesAft
+                                                                              join b in entriesBef
+                                                                              on new { a.StdDir, a.StdFileNameOnly } equals new { b.StdDir, b.StdFileNameOnly }
                                                                               into changes
                                                                               from c in changes.DefaultIfEmpty(new DirectoryEntry())
                                                                               where c.CtlComparison == "EMPTY"

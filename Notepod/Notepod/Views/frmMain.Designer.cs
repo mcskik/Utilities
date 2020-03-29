@@ -70,6 +70,8 @@ namespace Notepod.Views
             this.otherTrebleWrapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherCsvTextToXmlStringsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherCsvIsoCodesToJsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.csvToAnalyticsCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gtToAcMethodsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.commandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wrapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unwrapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,6 +96,8 @@ namespace Notepod.Views
             this.unformatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formatLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unformatLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.studioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.errorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wordWrapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -130,6 +134,8 @@ namespace Notepod.Views
             this.helpTopicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutNotepadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.csvToKeyValuePairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.otherOcrSplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -258,7 +264,8 @@ namespace Notepod.Views
             this.commandsToolStripMenuItem,
             this.traditionalToolStripMenuItem,
             this.jsonToolStripMenuItem,
-            this.xmlToolStripMenuItem});
+            this.xmlToolStripMenuItem,
+            this.studioToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -267,27 +274,27 @@ namespace Notepod.Views
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(164, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
             // 
             // cutToolStripMenuItem
             // 
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cutToolStripMenuItem.Text = "Cut";
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.copyToolStripMenuItem.Text = "Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
@@ -295,59 +302,59 @@ namespace Notepod.Views
             // 
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pasteToolStripMenuItem.Text = "Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(164, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
             // 
             // findToolStripMenuItem
             // 
             this.findToolStripMenuItem.Name = "findToolStripMenuItem";
             this.findToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.findToolStripMenuItem.Text = "Find...";
             // 
             // findNextToolStripMenuItem
             // 
             this.findNextToolStripMenuItem.Name = "findNextToolStripMenuItem";
             this.findNextToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.findNextToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.findNextToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.findNextToolStripMenuItem.Text = "Find Next";
             // 
             // replaceToolStripMenuItem
             // 
             this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
             this.replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.replaceToolStripMenuItem.Text = "Replace...";
             // 
             // goToToolStripMenuItem
             // 
             this.goToToolStripMenuItem.Name = "goToToolStripMenuItem";
             this.goToToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.goToToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.goToToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.goToToolStripMenuItem.Text = "Go To...";
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(164, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.selectAllToolStripMenuItem.Text = "Select All";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
@@ -355,7 +362,7 @@ namespace Notepod.Views
             // 
             this.timeDateToolStripMenuItem.Name = "timeDateToolStripMenuItem";
             this.timeDateToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.timeDateToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.timeDateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.timeDateToolStripMenuItem.Text = "Time/Date";
             // 
             // databaseToolStripMenuItem
@@ -365,7 +372,7 @@ namespace Notepod.Views
             this.databaseUnwrapSQLToolStripMenuItem,
             this.databaseInitialiseToolStripMenuItem});
             this.databaseToolStripMenuItem.Name = "databaseToolStripMenuItem";
-            this.databaseToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.databaseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.databaseToolStripMenuItem.Text = "Database";
             // 
             // databaseWrapSQLToolStripMenuItem
@@ -396,77 +403,95 @@ namespace Notepod.Views
             this.splitToolStripMenuItem,
             this.joinToolStripMenuItem,
             this.otherSwapToolStripMenuItem,
+            this.otherOcrSplitterToolStripMenuItem,
             this.otherSingleWrapToolStripMenuItem,
             this.otherDoubleWrapToolStripMenuItem,
             this.otherTrebleWrapToolStripMenuItem,
             this.otherCsvTextToXmlStringsToolStripMenuItem,
-            this.otherCsvIsoCodesToJsonToolStripMenuItem});
+            this.otherCsvIsoCodesToJsonToolStripMenuItem,
+            this.csvToAnalyticsCodeToolStripMenuItem,
+            this.gtToAcMethodsToolStripMenuItem,
+            this.csvToKeyValuePairToolStripMenuItem});
             this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
-            this.otherToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.otherToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.otherToolStripMenuItem.Text = "Other";
             // 
             // otherReplaceToolStripMenuItem
             // 
             this.otherReplaceToolStripMenuItem.Name = "otherReplaceToolStripMenuItem";
-            this.otherReplaceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.otherReplaceToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.otherReplaceToolStripMenuItem.Text = "Replace";
             this.otherReplaceToolStripMenuItem.Click += new System.EventHandler(this.otherReplaceToolStripMenuItem_Click);
             // 
             // splitToolStripMenuItem
             // 
             this.splitToolStripMenuItem.Name = "splitToolStripMenuItem";
-            this.splitToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.splitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.splitToolStripMenuItem.Text = "Split";
             this.splitToolStripMenuItem.Click += new System.EventHandler(this.splitToolStripMenuItem_Click);
             // 
             // joinToolStripMenuItem
             // 
             this.joinToolStripMenuItem.Name = "joinToolStripMenuItem";
-            this.joinToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.joinToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.joinToolStripMenuItem.Text = "Join";
             this.joinToolStripMenuItem.Click += new System.EventHandler(this.joinToolStripMenuItem_Click);
             // 
             // otherSwapToolStripMenuItem
             // 
             this.otherSwapToolStripMenuItem.Name = "otherSwapToolStripMenuItem";
-            this.otherSwapToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.otherSwapToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.otherSwapToolStripMenuItem.Text = "Swap";
             this.otherSwapToolStripMenuItem.Click += new System.EventHandler(this.otherSwapToolStripMenuItem_Click);
             // 
             // otherSingleWrapToolStripMenuItem
             // 
             this.otherSingleWrapToolStripMenuItem.Name = "otherSingleWrapToolStripMenuItem";
-            this.otherSingleWrapToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.otherSingleWrapToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.otherSingleWrapToolStripMenuItem.Text = "Single Wrap";
             this.otherSingleWrapToolStripMenuItem.Click += new System.EventHandler(this.otherSingleWrapToolStripMenuItem_Click);
             // 
             // otherDoubleWrapToolStripMenuItem
             // 
             this.otherDoubleWrapToolStripMenuItem.Name = "otherDoubleWrapToolStripMenuItem";
-            this.otherDoubleWrapToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.otherDoubleWrapToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.otherDoubleWrapToolStripMenuItem.Text = "Double Wrap";
             this.otherDoubleWrapToolStripMenuItem.Click += new System.EventHandler(this.otherDoubleWrapToolStripMenuItem_Click);
             // 
             // otherTrebleWrapToolStripMenuItem
             // 
             this.otherTrebleWrapToolStripMenuItem.Name = "otherTrebleWrapToolStripMenuItem";
-            this.otherTrebleWrapToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.otherTrebleWrapToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.otherTrebleWrapToolStripMenuItem.Text = "Treble Wrap";
             this.otherTrebleWrapToolStripMenuItem.Click += new System.EventHandler(this.otherTrebleWrapToolStripMenuItem_Click);
             // 
             // otherCsvTextToXmlStringsToolStripMenuItem
             // 
             this.otherCsvTextToXmlStringsToolStripMenuItem.Name = "otherCsvTextToXmlStringsToolStripMenuItem";
-            this.otherCsvTextToXmlStringsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.otherCsvTextToXmlStringsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.otherCsvTextToXmlStringsToolStripMenuItem.Text = "CsvTextToXmlStrings";
             this.otherCsvTextToXmlStringsToolStripMenuItem.Click += new System.EventHandler(this.otherCsvTextToXmlStringsToolStripMenuItem_Click);
             // 
             // otherCsvIsoCodesToJsonToolStripMenuItem
             // 
             this.otherCsvIsoCodesToJsonToolStripMenuItem.Name = "otherCsvIsoCodesToJsonToolStripMenuItem";
-            this.otherCsvIsoCodesToJsonToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.otherCsvIsoCodesToJsonToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.otherCsvIsoCodesToJsonToolStripMenuItem.Text = "CsvIsoCodesToJson";
             this.otherCsvIsoCodesToJsonToolStripMenuItem.Click += new System.EventHandler(this.otherCsvIsoCodesToJsonToolStripMenuItem_Click);
+            // 
+            // csvToAnalyticsCodeToolStripMenuItem
+            // 
+            this.csvToAnalyticsCodeToolStripMenuItem.Name = "csvToAnalyticsCodeToolStripMenuItem";
+            this.csvToAnalyticsCodeToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.csvToAnalyticsCodeToolStripMenuItem.Text = "CsvToAnalyticsCode";
+            this.csvToAnalyticsCodeToolStripMenuItem.Click += new System.EventHandler(this.csvToAnalyticsCodeToolStripMenuItem_Click);
+            // 
+            // gtToAcMethodsToolStripMenuItem
+            // 
+            this.gtToAcMethodsToolStripMenuItem.Name = "gtToAcMethodsToolStripMenuItem";
+            this.gtToAcMethodsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.gtToAcMethodsToolStripMenuItem.Text = "GtToAcMethods";
+            this.gtToAcMethodsToolStripMenuItem.Click += new System.EventHandler(this.gtToAcMethodsToolStripMenuItem_Click);
             // 
             // commandsToolStripMenuItem
             // 
@@ -477,7 +502,7 @@ namespace Notepod.Views
             this.uncompressToolStripMenuItem,
             this.formatToolStripMenuItem1});
             this.commandsToolStripMenuItem.Name = "commandsToolStripMenuItem";
-            this.commandsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.commandsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.commandsToolStripMenuItem.Text = "Commands";
             // 
             // wrapToolStripMenuItem
@@ -533,7 +558,7 @@ namespace Notepod.Views
             this.uncompressToolStripMenuItem1,
             this.formatToolStripMenuItem2});
             this.traditionalToolStripMenuItem.Name = "traditionalToolStripMenuItem";
-            this.traditionalToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.traditionalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.traditionalToolStripMenuItem.Text = "Traditional";
             // 
             // wrapQSToolStripMenuItem
@@ -593,7 +618,7 @@ namespace Notepod.Views
             this.jsonTMWrapToolStripMenuItem,
             this.jsonTMUnwrapToolStripMenuItem});
             this.jsonToolStripMenuItem.Name = "jsonToolStripMenuItem";
-            this.jsonToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.jsonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.jsonToolStripMenuItem.Text = "JSON";
             // 
             // jsonFormatToolStripMenuItem
@@ -638,7 +663,7 @@ namespace Notepod.Views
             this.formatLToolStripMenuItem,
             this.unformatLToolStripMenuItem});
             this.xmlToolStripMenuItem.Name = "xmlToolStripMenuItem";
-            this.xmlToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.xmlToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.xmlToolStripMenuItem.Text = "Xml";
             // 
             // formatToolStripMenuItem3
@@ -675,6 +700,22 @@ namespace Notepod.Views
             this.unformatLToolStripMenuItem.Text = "Unformat L";
             this.unformatLToolStripMenuItem.Click += new System.EventHandler(this.unformatLToolStripMenuItem_Click);
             // 
+            // studioToolStripMenuItem
+            // 
+            this.studioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.errorsToolStripMenuItem});
+            this.studioToolStripMenuItem.Name = "studioToolStripMenuItem";
+            this.studioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.studioToolStripMenuItem.Text = "Studio";
+            // 
+            // errorsToolStripMenuItem
+            // 
+            this.errorsToolStripMenuItem.Name = "errorsToolStripMenuItem";
+            this.errorsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.errorsToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.errorsToolStripMenuItem.Text = "Errors";
+            this.errorsToolStripMenuItem.Click += new System.EventHandler(this.errorsToolStripMenuItem_Click);
+            // 
             // formatToolStripMenuItem
             // 
             this.formatToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -689,13 +730,13 @@ namespace Notepod.Views
             // wordWrapToolStripMenuItem
             // 
             this.wordWrapToolStripMenuItem.Name = "wordWrapToolStripMenuItem";
-            this.wordWrapToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.wordWrapToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.wordWrapToolStripMenuItem.Text = "Word Wrap";
             // 
             // fontToolStripMenuItem
             // 
             this.fontToolStripMenuItem.Name = "fontToolStripMenuItem";
-            this.fontToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fontToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.fontToolStripMenuItem.Text = "Font...";
             // 
             // genToolStripMenuItem
@@ -727,7 +768,7 @@ namespace Notepod.Views
             this.xMLFragmentPostToolStripMenuItem,
             this.joinQueryStringModernToolStripMenuItem});
             this.genToolStripMenuItem.Name = "genToolStripMenuItem";
-            this.genToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.genToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.genToolStripMenuItem.Text = "Gen";
             // 
             // memVarToPropToolStripMenuItem
@@ -935,7 +976,7 @@ namespace Notepod.Views
             // splitterToolStripMenuItem
             // 
             this.splitterToolStripMenuItem.Name = "splitterToolStripMenuItem";
-            this.splitterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.splitterToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.splitterToolStripMenuItem.Text = "Splitter";
             this.splitterToolStripMenuItem.Click += new System.EventHandler(this.splitterToolStripMenuItem_Click);
             // 
@@ -979,6 +1020,20 @@ namespace Notepod.Views
             this.aboutNotepadToolStripMenuItem.Name = "aboutNotepadToolStripMenuItem";
             this.aboutNotepadToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.aboutNotepadToolStripMenuItem.Text = "About Notepad";
+            // 
+            // csvToKeyValuePairToolStripMenuItem
+            // 
+            this.csvToKeyValuePairToolStripMenuItem.Name = "csvToKeyValuePairToolStripMenuItem";
+            this.csvToKeyValuePairToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.csvToKeyValuePairToolStripMenuItem.Text = "CsvToKeyValuePair";
+            this.csvToKeyValuePairToolStripMenuItem.Click += new System.EventHandler(this.csvToKeyValuePairToolStripMenuItem_Click);
+            // 
+            // otherOcrSplitterToolStripMenuItem
+            // 
+            this.otherOcrSplitterToolStripMenuItem.Name = "otherOcrSplitterToolStripMenuItem";
+            this.otherOcrSplitterToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.otherOcrSplitterToolStripMenuItem.Text = "OCR Splitter";
+            this.otherOcrSplitterToolStripMenuItem.Click += new System.EventHandler(this.otherOcrSplitterToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -1101,6 +1156,12 @@ namespace Notepod.Views
         private System.Windows.Forms.ToolStripMenuItem unformatToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem formatLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem unformatLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem csvToAnalyticsCodeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gtToAcMethodsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem studioToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem errorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem csvToKeyValuePairToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem otherOcrSplitterToolStripMenuItem;
     }
 }
 

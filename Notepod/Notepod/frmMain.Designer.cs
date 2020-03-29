@@ -63,6 +63,7 @@ namespace Notepod
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherSwapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.otherOcrSplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherSingleWrapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherDoubleWrapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherTrebleWrapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -358,6 +359,7 @@ namespace Notepod
             this.otherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.otherReplaceToolStripMenuItem,
             this.otherSwapToolStripMenuItem,
+            this.otherOcrSplitterToolStripMenuItem,
             this.otherSingleWrapToolStripMenuItem,
             this.otherDoubleWrapToolStripMenuItem,
             this.otherTrebleWrapToolStripMenuItem});
@@ -378,6 +380,13 @@ namespace Notepod
             this.otherSwapToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.otherSwapToolStripMenuItem.Text = "Swap";
             this.otherSwapToolStripMenuItem.Click += new System.EventHandler(this.otherSwapToolStripMenuItem_Click);
+            // 
+            // otherOcrSplitterToolStripMenuItem
+            // 
+            this.otherOcrSplitterToolStripMenuItem.Name = "otherOcrSplitterToolStripMenuItem";
+            this.otherOcrSplitterToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.otherOcrSplitterToolStripMenuItem.Text = "OCR Splitter";
+            this.otherOcrSplitterToolStripMenuItem.Click += new System.EventHandler(this.otherOcrSplitterToolStripMenuItem_Click);
             // 
             // otherSingleWrapToolStripMenuItem
             // 
@@ -749,6 +758,7 @@ namespace Notepod
         private System.Windows.Forms.ToolStripMenuItem otherToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem otherReplaceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem otherSwapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem otherOcrSplitterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem otherSingleWrapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem otherDoubleWrapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem otherTrebleWrapToolStripMenuItem;

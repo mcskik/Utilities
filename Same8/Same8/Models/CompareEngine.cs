@@ -88,6 +88,7 @@ namespace Same8.Models
         private string msAction = string.Empty;
         private string msNewPath = string.Empty;
         private string msOldPath = string.Empty;
+        private bool mbIgnoreFileExtension = false;
         private Comparisons<Comparison> mcComparisons;
         private bool mbIdentical = false;
         #endregion
@@ -154,6 +155,18 @@ namespace Same8.Models
             set
             {
                 msOldPath = value;
+            }
+        }
+
+        public bool IgnoreFileExtension
+        {
+            get
+            {
+                return mbIgnoreFileExtension;
+            }
+            set
+            {
+                mbIgnoreFileExtension = value;
             }
         }
 
@@ -235,6 +248,7 @@ namespace Same8.Models
             Save();
             moDir = new Dir();
             moDir.Action = msAction;
+            moDir.IgnoreFileExtension = IgnoreFileExtension;
             moDir.EventBeginProgress += new Models.EventDelegate(moDir_EventBeginProgress);
             moDir.EventUpdateProgress += new Models.EventDelegate(moDir_EventUpdateProgress);
             moDir.EventEndOfProgress += new Models.EventDelegate(moDir_EventEndOfProgress);
@@ -306,14 +320,22 @@ namespace Same8.Models
         /// </summary>
         public void MeldCompare(string fileSpecNew, string fileSpecOld)
         {
-            System.Diagnostics.Process oProc = new System.Diagnostics.Process();
-            oProc.StartInfo.FileName = _profileManager.SystemProfile.MeldProgram;
-            oProc.StartInfo.Arguments = String.Format(@"{0} {1}",fileSpecNew,fileSpecOld);
-            oProc.EnableRaisingEvents = false;
-            oProc.StartInfo.UseShellExecute = true;
-            oProc.StartInfo.CreateNoWindow = false;
-            oProc.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Maximized;
-            oProc.Start();
+            try
+            {
+                System.Diagnostics.Process oProc = new System.Diagnostics.Process();
+                oProc.StartInfo.FileName = _profileManager.SystemProfile.MeldProgram;
+                oProc.StartInfo.Arguments = String.Format(@"""{0}"" ""{1}""", fileSpecNew, fileSpecOld);
+                //oProc.StartInfo.WorkingDirectory = @"C:\Temp\";
+                oProc.EnableRaisingEvents = false;
+                oProc.StartInfo.UseShellExecute = true;
+                oProc.StartInfo.CreateNoWindow = false;
+                oProc.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Maximized;
+                oProc.Start();
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
         }
         #endregion
 
@@ -335,6 +357,7 @@ namespace Same8.Models
             mnNewFilesEstimate = userSetting.NewFilesEstimate;
             mnOldFilesEstimate = userSetting.OldFilesEstimate;
             mnChgFilesEstimate = userSetting.ChgFilesEstimate;
+            mbIgnoreFileExtension = userSetting.IgnoreFileExtension;
         }
 
         /// <summary>
@@ -347,6 +370,7 @@ namespace Same8.Models
             _profileManager.UserSettings.SelectedItem.NewFilesEstimate = mnNewFilesEstimate;
             _profileManager.UserSettings.SelectedItem.OldFilesEstimate = mnOldFilesEstimate;
             _profileManager.UserSettings.SelectedItem.ChgFilesEstimate = mnChgFilesEstimate;
+            _profileManager.UserSettings.SelectedItem.IgnoreFileExtension = mbIgnoreFileExtension;
             _profileManager.UserSettings.Save();
         }
 

@@ -15,7 +15,7 @@ namespace Notepod.Models
         private const int INDENT_SIZE = 4;
 
         #region Primary.
-        private const string BINDING_ERROR_START = @"error: cannot find symbol class";
+        private const string BINDING_ERROR_START = @"error: cannot find symbol";
         private const string BINDING_ERROR_CONTAINS = @"Binding";
         private const string BINDING_BR_ERROR = @"error: cannot find symbol class BR";
         private const string BINDING_ERROR_PACKAGE = @"error: package";
@@ -51,6 +51,10 @@ namespace Notepod.Models
             foreach (var line in lines)
             {
                 bool exclude = false;
+                if (line.Contains(BINDING_ERROR_CONTAINS))
+                {
+                    exclude = true;
+                }
                 if (line.Contains(BINDING_ERROR_START) && line.Contains(BINDING_ERROR_CONTAINS))
                 {
                     exclude = true;

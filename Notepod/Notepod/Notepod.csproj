@@ -79,6 +79,9 @@
   <ItemGroup>
     <Compile Include="BaseGenerator.cs" />
     <Compile Include="CompareSameGenerator.cs" />
+    <Compile Include="EditSpreadsheetGtToAcMethods.cs" />
+    <Compile Include="EditCsvKeyValuePairToAndroidResouceArray.cs" />
+    <Compile Include="EditSpreadsheetToConstants.cs" />
     <Compile Include="EditLayoutFormat.cs" />
     <Compile Include="EditXmlFormat.cs" />
     <Compile Include="EditOtherCsvIsoCodesToJsonStrings.cs" />
@@ -106,6 +109,8 @@
     <Compile Include="HtmlToAspxGenerator.cs" />
     <Compile Include="CreateTableToEntityGenerator.cs" />
     <Compile Include="Models\CmdFormatter.cs" />
+    <Compile Include="Models\AndroidStudioCompileErrorsFilter.cs" />
+    <Compile Include="Models\OcrLineSplitter.cs" />
     <Compile Include="Models\XmlAttributesSplitter.cs" />
     <Compile Include="Models\XmlFormatter_Original.cs" />
     <Compile Include="Models\LayoutFormatter.cs" />
@@ -164,6 +169,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Views\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\frmSplitJoinParameters.resx">
+      <DependentUpon>frmSplitJoinParameters.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

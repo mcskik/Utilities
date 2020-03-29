@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using Notepod.Models;
-using System.Text;
 
 namespace Notepod.Views
 {
@@ -26,6 +26,7 @@ namespace Notepod.Views
         public frmMain()
         {
             InitializeComponent();
+            txtDocument.MaxLength = 0;
         }
         #endregion
 
@@ -686,6 +687,33 @@ namespace Notepod.Views
             lines = generator.Generate();
             txtDocument.Lines = lines;
         }
+
+        private void csvToAnalyticsCodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string[] lines = txtDocument.Lines;
+            EditSpreadsheetToConstants generator = new EditSpreadsheetToConstants(lines);
+            generator.Import();
+            lines = generator.Generate();
+            txtDocument.Lines = lines;
+        }
+
+        private void gtToAcMethodsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string[] lines = txtDocument.Lines;
+            EditSpreadsheetGtToAcMethods generator = new EditSpreadsheetGtToAcMethods(lines);
+            generator.Import();
+            lines = generator.Generate();
+            txtDocument.Lines = lines;
+        }
+
+        private void csvToKeyValuePairToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string[] lines = txtDocument.Lines;
+            EditCsvKeyValuePairToAndroidResouceArray generator = new EditCsvKeyValuePairToAndroidResouceArray(lines);
+            generator.Import();
+            lines = generator.Generate();
+            txtDocument.Lines = lines;
+        }
         #endregion
 
         #region Splitter
@@ -771,6 +799,13 @@ namespace Notepod.Views
         private void unformatLToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+        #endregion
+
+        #region Studio
+        private void errorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            txtDocument.Lines = AndroidStudioCompileErrorsFilter.Filter(txtDocument.Lines);
         }
         #endregion
         #endregion
@@ -886,5 +921,14 @@ namespace Notepod.Views
             return inputLines.ToArray();
         }
         #endregion
+
+        private void otherOcrSplitterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string[] lines = txtDocument.Lines;
+            OcrLineSplitter generator = new OcrLineSplitter(lines);
+            generator.Import();
+            lines = generator.Generate();
+            txtDocument.Lines = lines;
+        }
     }
 }
