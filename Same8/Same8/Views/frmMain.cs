@@ -475,18 +475,49 @@ namespace Same8.Views
         /// </summary>
         private void mnuContextCopyNewToOld_Click(object sender, EventArgs e)
         {
-            ListViewItem oListItem = moListViewItem;
-            string sCompare = oListItem.Text;
-            string sNewSpec = txtNewPath.Text + oListItem.SubItems[1].Text;
-            string sOldSpec = txtOldPath.Text + oListItem.SubItems[2].Text;
-            if (oListItem.SubItems[1].Text != string.Empty)
+            string message = string.Empty;
+            if (lvwResults.SelectedItems.Count > 1)
             {
-                if (oListItem.SubItems[2].Text != string.Empty)
+                foreach (ListViewItem selectedItem in lvwResults.SelectedItems)
+                {
+                    selectedItem.Selected = false;
+                    message = PerformCopyNewToOld(selectedItem);
+                    if (message.Length > 0)
+                    {
+                        MessageBox.Show(message);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                ListViewItem selectedItem = moListViewItem;
+                message = PerformCopyNewToOld(selectedItem);
+                if (message.Length > 0)
+                {
+                    MessageBox.Show(message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Copy one new file to old file.
+        /// </summary>
+        private string PerformCopyNewToOld(ListViewItem selectedItem)
+        {
+            string message = string.Empty;
+            ListViewItem listItem = selectedItem;
+            string compare = listItem.Text;
+            string newSpec = txtNewPath.Text + listItem.SubItems[1].Text;
+            string oldSpec = txtOldPath.Text + listItem.SubItems[2].Text;
+            if (listItem.SubItems[1].Text != string.Empty)
+            {
+                if (listItem.SubItems[2].Text != string.Empty)
                 {
                     try
                     {
-                        Models.Update.Copy(R.FileStem(sNewSpec), R.FileStem(sOldSpec), R.FileFullName(sNewSpec));
-                        oListItem.Text = "Same>";
+                        Models.Update.Copy(R.FileStem(newSpec), R.FileStem(oldSpec), R.FileFullName(newSpec));
+                        listItem.Text = "Same>";
                     }
                     catch
                     {
@@ -496,9 +527,9 @@ namespace Same8.Views
                 {
                     try
                     {
-                        Models.Update.Copy(R.FileStem(sNewSpec), R.FileStem(txtOldPath.Text + oListItem.SubItems[1].Text), R.FileFullName(sNewSpec));
-                        oListItem.Text = "Same>";
-                        oListItem.SubItems[2].Text = oListItem.SubItems[1].Text;
+                        Models.Update.Copy(R.FileStem(newSpec), R.FileStem(txtOldPath.Text + listItem.SubItems[1].Text), R.FileFullName(newSpec));
+                        listItem.Text = "Same>";
+                        listItem.SubItems[2].Text = listItem.SubItems[1].Text;
                     }
                     catch
                     {
@@ -508,8 +539,9 @@ namespace Same8.Views
             }
             else
             {
-                MessageBox.Show("No new file available!");
+                message = "No new file available!";
             }
+            return message;
         }
 
         /// <summary>
@@ -517,18 +549,49 @@ namespace Same8.Views
         /// </summary>
         private void mnuContextCopyOldToNew_Click(object sender, EventArgs e)
         {
-            ListViewItem oListItem = moListViewItem;
-            string sCompare = oListItem.Text;
-            string sNewSpec = txtNewPath.Text + oListItem.SubItems[1].Text;
-            string sOldSpec = txtOldPath.Text + oListItem.SubItems[2].Text;
-            if (oListItem.SubItems[2].Text != string.Empty)
+            string message = string.Empty;
+            if (lvwResults.SelectedItems.Count > 1)
             {
-                if (oListItem.SubItems[1].Text != string.Empty)
+                foreach (ListViewItem selectedItem in lvwResults.SelectedItems)
+                {
+                    selectedItem.Selected = false;
+                    message = PerformCopyOldToNew(selectedItem);
+                    if (message.Length > 0)
+                    {
+                        MessageBox.Show(message);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                ListViewItem selectedItem = moListViewItem;
+                message = PerformCopyOldToNew(selectedItem);
+                if (message.Length > 0)
+                {
+                    MessageBox.Show(message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Copy one old file to new file.
+        /// </summary>
+        private string PerformCopyOldToNew(ListViewItem selectedItem)
+        {
+            string message = string.Empty;
+            ListViewItem listItem = selectedItem;
+            string compare = listItem.Text;
+            string newSpec = txtNewPath.Text + listItem.SubItems[1].Text;
+            string oldSpec = txtOldPath.Text + listItem.SubItems[2].Text;
+            if (listItem.SubItems[2].Text != string.Empty)
+            {
+                if (listItem.SubItems[1].Text != string.Empty)
                 {
                     try
                     {
-                        Models.Update.Copy(R.FileStem(sOldSpec), R.FileStem(sNewSpec), R.FileFullName(sOldSpec));
-                        oListItem.Text = "Same<";
+                        Models.Update.Copy(R.FileStem(oldSpec), R.FileStem(newSpec), R.FileFullName(oldSpec));
+                        listItem.Text = "Same<";
                     }
                     catch
                     {
@@ -538,9 +601,9 @@ namespace Same8.Views
                 {
                     try
                     {
-                        Models.Update.Copy(R.FileStem(sOldSpec), R.FileStem(txtNewPath.Text + oListItem.SubItems[2].Text), R.FileFullName(sOldSpec));
-                        oListItem.Text = "Same<";
-                        oListItem.SubItems[1].Text = oListItem.SubItems[2].Text;
+                        Models.Update.Copy(R.FileStem(oldSpec), R.FileStem(txtNewPath.Text + listItem.SubItems[2].Text), R.FileFullName(oldSpec));
+                        listItem.Text = "Same<";
+                        listItem.SubItems[1].Text = listItem.SubItems[2].Text;
                     }
                     catch
                     {
@@ -550,8 +613,9 @@ namespace Same8.Views
             }
             else
             {
-                MessageBox.Show("No old file available!");
+                message = "No old file available!";
             }
+            return message;
         }
 
         /// <summary>
@@ -559,25 +623,56 @@ namespace Same8.Views
         /// </summary>
         private void mnuContextDeleteNew_Click(object sender, EventArgs e)
         {
-            ListViewItem oListItem = moListViewItem;
-            string sCompare = oListItem.Text;
-            string sNewSpec = txtNewPath.Text + oListItem.SubItems[1].Text;
-            string sOldSpec = txtOldPath.Text + oListItem.SubItems[2].Text;
-            if (oListItem.SubItems[1].Text != string.Empty)
+            string message = string.Empty;
+            if (lvwResults.SelectedItems.Count > 1)
+            {
+                foreach (ListViewItem selectedItem in lvwResults.SelectedItems)
+                {
+                    selectedItem.Selected = false;
+                    message = PerformDeleteNew(selectedItem);
+                    if (message.Length > 0)
+                    {
+                        MessageBox.Show(message);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                ListViewItem selectedItem = moListViewItem;
+                message = PerformDeleteNew(selectedItem);
+                if (message.Length > 0)
+                {
+                    MessageBox.Show(message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Delete one selected new file.
+        /// </summary>
+        private string PerformDeleteNew(ListViewItem selectedItem)
+        {
+            string message = string.Empty;
+            ListViewItem listItem = selectedItem;
+            string compare = listItem.Text;
+            string newSpec = txtNewPath.Text + listItem.SubItems[1].Text;
+            string oldSpec = txtOldPath.Text + listItem.SubItems[2].Text;
+            if (listItem.SubItems[1].Text != string.Empty)
             {
                 try
                 {
-                    Models.Update.Delete("New", R.FileStem(sNewSpec), R.FileFullName(sNewSpec));
-                    if (oListItem.SubItems[2].Text != string.Empty)
+                    Models.Update.Delete("New", R.FileStem(newSpec), R.FileFullName(newSpec));
+                    if (listItem.SubItems[2].Text != string.Empty)
                     {
-                        oListItem.Text = "Old*";
-                        oListItem.SubItems[1].Text = string.Empty;
+                        listItem.Text = "Old*";
+                        listItem.SubItems[1].Text = string.Empty;
                     }
                     else
                     {
-                        oListItem.Text = "Deleted*";
-                        oListItem.SubItems[1].Text = string.Empty;
-                        lvwResults.Items.Remove(oListItem);
+                        listItem.Text = "Deleted*";
+                        listItem.SubItems[1].Text = string.Empty;
+                        lvwResults.Items.Remove(listItem);
                     }
                 }
                 catch
@@ -587,8 +682,9 @@ namespace Same8.Views
             }
             else
             {
-                MessageBox.Show("No new file available!");
+                message = "No new file available!";
             }
+            return message;
         }
 
         /// <summary>
@@ -596,25 +692,56 @@ namespace Same8.Views
         /// </summary>
         private void mnuContextDeleteOld_Click(object sender, EventArgs e)
         {
-            ListViewItem oListItem = moListViewItem;
-            string sCompare = oListItem.Text;
-            string sNewSpec = txtNewPath.Text + oListItem.SubItems[1].Text;
-            string sOldSpec = txtOldPath.Text + oListItem.SubItems[2].Text;
-            if (oListItem.SubItems[2].Text != string.Empty)
+            string message = string.Empty;
+            if (lvwResults.SelectedItems.Count > 1)
+            {
+                foreach (ListViewItem selectedItem in lvwResults.SelectedItems)
+                {
+                    selectedItem.Selected = false;
+                    message = PerformDeleteOld(selectedItem);
+                    if (message.Length > 0)
+                    {
+                        MessageBox.Show(message);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                ListViewItem selectedItem = moListViewItem;
+                message = PerformDeleteOld(selectedItem);
+                if (message.Length > 0)
+                {
+                    MessageBox.Show(message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Delete one selected old file.
+        /// </summary>
+        private string PerformDeleteOld(ListViewItem selectedItem)
+        {
+            string message = string.Empty;
+            ListViewItem listItem = selectedItem;
+            string compare = listItem.Text;
+            string newSpec = txtNewPath.Text + listItem.SubItems[1].Text;
+            string oldSpec = txtOldPath.Text + listItem.SubItems[2].Text;
+            if (listItem.SubItems[2].Text != string.Empty)
             {
                 try
                 {
-                    Models.Update.Delete("Old", R.FileStem(sOldSpec), R.FileFullName(sOldSpec));
-                    if (oListItem.SubItems[1].Text != string.Empty)
+                    Models.Update.Delete("Old", R.FileStem(oldSpec), R.FileFullName(oldSpec));
+                    if (listItem.SubItems[1].Text != string.Empty)
                     {
-                        oListItem.Text = "New*";
-                        oListItem.SubItems[2].Text = string.Empty;
+                        listItem.Text = "New*";
+                        listItem.SubItems[2].Text = string.Empty;
                     }
                     else
                     {
-                        oListItem.Text = "Deleted*";
-                        oListItem.SubItems[2].Text = string.Empty;
-                        lvwResults.Items.Remove(oListItem);
+                        listItem.Text = "Deleted*";
+                        listItem.SubItems[2].Text = string.Empty;
+                        lvwResults.Items.Remove(listItem);
                     }
                 }
                 catch
@@ -624,8 +751,9 @@ namespace Same8.Views
             }
             else
             {
-                MessageBox.Show("No old file available!");
+                message = "No old file available!";
             }
+            return message;
         }
 
         /// <summary>
@@ -774,7 +902,7 @@ namespace Same8.Views
         private void SaveParametersOnly()
         {
             SetCurrentKey();
-            Administrator.ProfileManager.UserSettings.SelectedItem.NewPath = NewPath; 
+            Administrator.ProfileManager.UserSettings.SelectedItem.NewPath = NewPath;
             Administrator.ProfileManager.UserSettings.SelectedItem.OldPath = OldPath;
             Administrator.ProfileManager.UserSettings.SelectedItem.NewFilesEstimate = _newFilesEstimate;
             Administrator.ProfileManager.UserSettings.SelectedItem.OldFilesEstimate = _oldFilesEstimate;
@@ -895,10 +1023,11 @@ namespace Same8.Views
             for (int count = 0; count < lvwResults.Items.Count; count++)
             {
                 ListViewItem listItem = lvwResults.Items[count];
-                string status = lvwResults.Items[count].Text;
-                status = status.PadRight(4).ToUpper();
-                status = status.Substring(0, 4);
-                if (status == "SAME")
+                string status4 = lvwResults.Items[count].Text;
+                status4 = status4.PadRight(4).ToUpper();
+                status4 = status4.Substring(0, 4);
+                string status3 = status4.Substring(0, 3);
+                if (status4 == "SAME")
                 {
                     listItem.BackColor = Color.AliceBlue;
                     listItem.UseItemStyleForSubItems = false;
@@ -907,6 +1036,26 @@ namespace Same8.Views
                     listItem.BackColor = Color.AliceBlue;
                     lhs.BackColor = Color.AliceBlue;
                     rhs.BackColor = Color.AliceBlue;
+                }
+                else if (status3 == "NEW")
+                {
+                    listItem.BackColor = Color.LightGreen;
+                    listItem.UseItemStyleForSubItems = false;
+                    ListViewItem.ListViewSubItem lhs = listItem.SubItems[1];
+                    ListViewItem.ListViewSubItem rhs = listItem.SubItems[2];
+                    listItem.BackColor = Color.LightGreen;
+                    lhs.BackColor = Color.LightGreen;
+                    rhs.BackColor = Color.LightGreen;
+                }
+                else if (status3 == "OLD")
+                {
+                    listItem.BackColor = Color.LightPink;
+                    listItem.UseItemStyleForSubItems = false;
+                    ListViewItem.ListViewSubItem lhs = listItem.SubItems[1];
+                    ListViewItem.ListViewSubItem rhs = listItem.SubItems[2];
+                    listItem.BackColor = Color.LightPink;
+                    lhs.BackColor = Color.LightPink;
+                    rhs.BackColor = Color.LightPink;
                 }
             }
         }
