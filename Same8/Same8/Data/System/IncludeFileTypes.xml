@@ -29,6 +29,7 @@
     <FileType Ext="json" Active="Yes" Category="Text" Desc="JavaScript Object Notation File" />
     <FileType Ext="log" Active="Yes" Category="Text" Desc="Unspecified Log File" />
     <FileType Ext="master" Active="Yes" Category="Text" Desc="ASP.NET Master Page" />
+    <FileType Ext="py" Active="Yes" Category="Text" Desc="Python source code file" />
     <FileType Ext="resx" Active="Yes" Category="Text" Desc=".Net resource file." />
     <FileType Ext="rtf" Active="Yes" Category="Text" Desc="Rich Text Format" />
     <FileType Ext="settings" Active="Yes" Category="Text" Desc=".Net settings file." />

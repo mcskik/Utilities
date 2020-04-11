@@ -6,8 +6,8 @@
     <UseTargetSample>Yes</UseTargetSample>
     <RuleBaseHlq>C:\Temp\Lifebelt</RuleBaseHlq>
     <SourceHlq>C:\Temp\Lifebelt</SourceHlq>
-    <TargetHlq>C:\Perm\Lifebelt</TargetHlq>
-    <TargetSampleHlq>C:\PermSample\Lifebelt</TargetSampleHlq>
+    <TargetHlq>C:\Test\Lifebelt</TargetHlq>
+    <TargetSampleHlq>C:\TestSample\Lifebelt</TargetSampleHlq>
   </Switches>
   <Steps>
     <Step Name="primary">
