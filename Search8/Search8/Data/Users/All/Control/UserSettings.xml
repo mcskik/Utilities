@@ -11,6 +11,7 @@
         <DirFilesEstimate>0</DirFilesEstimate>
         <FilePattern></FilePattern>
         <RegexCriteria>false</RegexCriteria>
+        <MethodBlocks>false</MethodBlocks>
         <AllTypes>false</AllTypes>
         <Encoding>Ascii</Encoding>
       </Parameters>

@@ -280,7 +280,8 @@ namespace Search8.Views
             txtFilePattern.Text = moSearch.FilePattern;
             txtCriteria.Text = moSearch.SearchCriteria;
             chkRegex.Checked = moSearch.Regex;
-			mbSuppressCheckAllChanged = true;
+            chkMethodBlocks.Checked = moSearch.MethodBlocks;
+            mbSuppressCheckAllChanged = true;
 			mbSuppressCheckAll = true;
 			GetOptions();
             GetExtensions();
@@ -300,6 +301,7 @@ namespace Search8.Views
             moSearch.FilePattern = txtFilePattern.Text;
             moSearch.SearchCriteria = txtCriteria.Text;
             moSearch.Regex = chkRegex.Checked;
+            moSearch.MethodBlocks = chkMethodBlocks.Checked;
             SetDirectoryExclusions();
             SetOptions();
             SetExtensions();

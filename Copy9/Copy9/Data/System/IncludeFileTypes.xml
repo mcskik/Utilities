@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FileTypes>
+  <Group Name="Text">
+    <FileType Ext="asa" Active="Yes" Category="Text" Desc="Asp Global asa file" />
+    <FileType Ext="asax" Active="Yes" Category="Text" Desc="Asp.Net Global asax file" />
+    <FileType Ext="ascx" Active="Yes" Category="Text" Desc="Asp.Net Web UI Control file" />
+    <FileType Ext="asmx" Active="Yes" Category="Text" Desc="ASP.NET Web Service Page" />
+    <FileType Ext="asp" Active="Yes" Category="Text" Desc="Active Server Page" />
+    <FileType Ext="aspx" Active="Yes" Category="Text" Desc="ASP.NET Active Server Page" />
+    <FileType Ext="bas" Active="Yes" Category="Text" Desc="Vb Module" />
+    <FileType Ext="bat" Active="Yes" Category="Text" Desc="Dos batch file" />
+    <FileType Ext="command" Active="Yes" Category="Text" Desc="Mac script file" />
+    <FileType Ext="cls" Active="Yes" Category="Text" Desc="Vb Class" />
+    <FileType Ext="config" Active="Yes" Category="Text" Desc="C Sharp Configuration File" />
+    <FileType Ext="cs" Active="Yes" Category="Text" Desc="C Sharp Class" />
+    <FileType Ext="cpp" Active="Yes" Category="Text" Desc="C++ Class" />
+    <FileType Ext="csproj" Active="Yes" Category="Text" Desc="C Sharp Project" />
+    <FileType Ext="css" Active="Yes" Category="Text" Desc="Cascading Style Sheet" />
+    <FileType Ext="csv" Active="Yes" Category="Text" Desc="Comma Separated Values File" />
+    <FileType Ext="dtproj" Active="Yes" Category="Text" Desc="SSIS DTSX Project File" />
+    <FileType Ext="dtsx" Active="Yes" Category="Text" Desc="SSIS DTSX Package File" />
+    <FileType Ext="err" Active="Yes" Category="Text" Desc="Unspecified Error File" />
+    <FileType Ext="frm" Active="Yes" Category="Text" Desc="Vb Form" />
+    <FileType Ext="h" Active="Yes" Category="Text" Desc="C++ Header" />
+    <FileType Ext="htm" Active="Yes" Category="Text" Desc="Html source" />
+    <FileType Ext="html" Active="Yes" Category="Text" Desc="Html source" />
+    <FileType Ext="ini" Active="Yes" Category="Text" Desc="Initialisation files" />
+    <FileType Ext="js" Active="Yes" Category="Text" Desc="JavaScript" />
+    <FileType Ext="json" Active="Yes" Category="Text" Desc="JavaScript Object Notation File" />
+    <FileType Ext="log" Active="Yes" Category="Text" Desc="Unspecified Log File" />
+    <FileType Ext="master" Active="Yes" Category="Text" Desc="ASP.NET Master Page" />
+    <FileType Ext="resx" Active="Yes" Category="Text" Desc=".Net resource file." />
+    <FileType Ext="rtf" Active="Yes" Category="Text" Desc="Rich Text Format" />
+    <FileType Ext="settings" Active="Yes" Category="Text" Desc=".Net settings file." />
+    <FileType Ext="sitemap" Active="Yes" Category="Text" Desc="ASP.NET sitemap" />
+    <FileType Ext="sln" Active="Yes" Category="Text" Desc=".NET Solution" />
+    <FileType Ext="sql" Active="Yes" Category="Text" Desc="Any Sql Source" />
+    <FileType Ext="svc" Active="Yes" Category="Text" Desc="ASP.NET IIS Hosted WCF Service File" />
+    <FileType Ext="txt" Active="Yes" Category="Text" Desc="Ascii Text file" />
+    <FileType Ext="user" Active="Yes" Category="Text" Desc="Vb .NET Project User File" />
+    <FileType Ext="vb" Active="Yes" Category="Text" Desc="Vb .NET Source" />
+    <FileType Ext="vbp" Active="Yes" Category="Text" Desc="Vb Project" />
+    <FileType Ext="vbproj" Active="Yes" Category="Text" Desc="Vb .NET Project" />
+    <FileType Ext="vbs" Active="Yes" Category="Text" Desc="Windows Scripting Host - Vb/Script" />
+    <FileType Ext="vdproj" Active="Yes" Category="Text" Desc="Visual Studio Setup and Deployment Project File" />
+    <FileType Ext="wsdl" Active="Yes" Category="Text" Desc="Web Services Description Language File" />
+    <FileType Ext="xaml" Active="Yes" Category="Text" Desc="WPF xaml screen layout file" />
+    <FileType Ext="xml" Active="Yes" Category="Text" Desc="Extended Markup Language" />
+    <FileType Ext="xsd" Active="Yes" Category="Text" Desc="Extensible Markup Language Schema Definition Language File" />
+    <FileType Ext="xsl" Active="Yes" Category="Text" Desc="Xml Transformations" />
+    <FileType Ext="xsx" Active="Yes" Category="Text" Desc="Schema view layout description file (Microsoft XML Designer)" />
+    <FileType Ext="yaml" Active="Yes" Category="Text" Desc="YAML Aint Markup Language JSON API Documentation" />
+    <FileType Ext="yml" Active="Yes" Category="Text" Desc="YAML Aint Markup Language JSON API Documentation" />
+  </Group>
+  <Group Name="Android">
+    <FileType Ext="apk" Active="Yes" Category="Binary" Desc="Android Package Kit (App Installation File)" />
+    <FileType Ext="dex" Active="Yes" Category="Binary" Desc="Android compiled class" />
+    <FileType Ext="gitignore" Active="Yes" Category="Text" Desc="Git ignore file" />
+    <FileType Ext="gradle" Active="Yes" Category="Text" Desc="Gradle build file" />
+    <FileType Ext="java" Active="Yes" Category="Text" Desc="Java source" />
+    <FileType Ext="jar" Active="Yes" Category="Binary" Desc="Java archive library" />
+    <FileType Ext="jks" Active="Yes" Category="Binary" Desc="Android Signing Key Store File" />
+    <FileType Ext="keystore" Active="Yes" Category="Binary" Desc="Android Signing Key Store File" />
+    <FileType Ext="kt" Active="Yes" Category="Text" Desc="Kotlin source" />
+    <FileType Ext="pro" Active="Yes" Category="Text" Desc="Progaurd rules file" />
+    <FileType Ext="properties" Active="Yes" Category="Text" Desc="Gradle properties" />
+  </Group>
+  <Group Name="Extra">
+    <FileType Ext="application" Active="Yes" Category="Text" Desc="Windows ClickOnce Deployment Manifest file" />
+    <FileType Ext="cab" Active="Yes" Category="Binary" Desc="Windows Compressed Archive" />
+    <FileType Ext="dat" Active="Yes" Category="Binary" Desc="Data file" />
+    <FileType Ext="db" Active="Yes" Category="Binary" Desc="Database file" />
+    <FileType Ext="disco" Active="Yes" Category="Binary" Desc="WSDL Discovery file" />
+    <FileType Ext="ds_store" Active="Yes" Category="Binary" Desc="Photoshop Image" />
+    <FileType Ext="eml" Active="Yes" Category="Binary" Desc="Email File" />
+    <FileType Ext="exe" Active="Yes" Category="Binary" Desc="Windows executable" />
+    <FileType Ext="gz" Active="Yes" Category="Binary" Desc="GZip Archive File" />
+    <FileType Ext="inc" Active="Yes" Category="Text" Desc="Include File" />
+    <FileType Ext="lnk" Active="Yes" Category="Binary" Desc="Shortcut file" />
+    <FileType Ext="manifest" Active="Yes" Category="Text" Desc="Visual Studio" />
+    <FileType Ext="map" Active="Yes" Category="Text" Desc="Visual Studio" />
+    <FileType Ext="mdb" Active="Yes" Category="Binary" Desc="Microsoft Access" />
+    <FileType Ext="mov" Active="Yes" Category="Binary" Desc="Movie file" />
+    <FileType Ext="mp3" Active="Yes" Category="Binary" Desc="Compressed audio file" />
+    <FileType Ext="mp4" Active="Yes" Category="Binary" Desc="Compressed Video File" />
+    <FileType Ext="msi" Active="Yes" Category="Binary" Desc="Windows Installation File" />
+    <FileType Ext="mts" Active="Yes" Category="Binary" Desc="Video file" />
+    <FileType Ext="prefs" Active="Yes" Category="Binary" Desc="Preferences" />
+    <FileType Ext="project" Active="Yes" Category="Binary" Desc="Project File" />
+    <FileType Ext="raw" Active="Yes" Category="Binary" Desc="Google Tag Manager Raw File" />
+    <FileType Ext="resources" Active="Yes" Category="Text" Desc="Resources File" />
+    <FileType Ext="sh" Active="Yes" Category="Text" Desc="Unix Shell Script" />
+    <FileType Ext="ttf" Active="Yes" Category="Binary" Desc="True Type Font" />
+    <FileType Ext="wav" Active="Yes" Category="Binary" Desc="Uncompressed Audio File" />
+    <FileType Ext="xcf" Active="Yes" Category="Binary" Desc="GIMP Editable Image" />
+    <FileType Ext="xlsm" Active="Yes" Category="Binary" Desc="Excel Macro" />
+    <FileType Ext="xps" Active="Yes" Category="Binary" Desc="Printer Image File" />
+  </Group>
+  <Group Name="Binary">
+    <FileType Ext="accdb" Active="Yes" Category="Binary" Desc="Access 2007 Database File" />
+    <FileType Ext="bmp" Active="Yes" Category="Binary" Desc="Bitmap" />
+    <FileType Ext="dat" Active="Yes" Category="Binary" Desc="Unspecified data file" />
+    <FileType Ext="dat_mcr" Active="No" Category="Binary" Desc="Minecraft Data File" />
+    <FileType Ext="dat_old" Active="No" Category="Binary" Desc="Minecraft Old Data File" />
+    <FileType Ext="dll" Active="Yes" Category="Binary" Desc="Dynamic Link Library" />
+    <FileType Ext="doc" Active="Yes" Category="Binary" Desc="Microsoft Word Document" />
+    <FileType Ext="docx" Active="Yes" Category="Binary" Desc="Word 2007 document" />
+    <FileType Ext="exe" Active="Yes" Category="Binary" Desc="Executable File" />
+    <FileType Ext="gif" Active="Yes" Category="Binary" Desc="Graphics Interchange Format File" />
+    <FileType Ext="ico" Active="Yes" Category="Binary" Desc="Icon files" />
+    <FileType Ext="jar" Active="Yes" Category="Binary" Desc="Java Archive Library" />
+    <FileType Ext="jpg" Active="Yes" Category="Binary" Desc="Joint Photographic Experts Group File" />
+    <FileType Ext="jpeg" Active="Yes" Category="Binary" Desc="Joint Photographic Experts Group File" />
+    <FileType Ext="lock" Active="No" Category="Binary" Desc="Unspecified Lock File" />
+    <FileType Ext="mdb" Active="Yes" Category="Binary" Desc="Access Database File." />
+    <FileType Ext="mca" Active="No" Category="Binary" Desc="Minecraft File" />
+    <FileType Ext="mdf" Active="Yes" Category="Binary" Desc="SQL Server Database file" />
+    <FileType Ext="mus" Active="No" Category="Binary" Desc="Unknown" />
+    <FileType Ext="odt" Active="Yes" Category="Binary" Desc="Open Document File" />
+    <FileType Ext="old" Active="No" Category="Binary" Desc="Unspecified Old File" />
+    <FileType Ext="ogg" Active="No" Category="Binary" Desc="Unknown" />
+    <FileType Ext="pdf" Active="Yes" Category="Binary" Desc="Portable Document Format" />
+    <FileType Ext="png" Active="Yes" Category="Binary" Desc="Portable Network Graphics File" />
+    <FileType Ext="ppt" Active="Yes" Category="Binary" Desc="Microsoft Powerpoint File" />
+    <FileType Ext="pptx" Active="Yes" Category="Binary" Desc="Microsoft 2007 Powerpoint File" />
+    <FileType Ext="svg" Active="Yes" Category="Binary" Desc="Scalable Vector Graphics" />
+    <FileType Ext="xls" Active="Yes" Category="Binary" Desc="Excel Spreadsheet" />
+    <FileType Ext="xlsx" Active="Yes" Category="Binary" Desc="Excel 2007 Spreadsheet." />
+    <FileType Ext="zip" Active="Yes" Category="Binary" Desc="Compressed Directory structure containing compressed files." />
+  </Group>
+</FileTypes>

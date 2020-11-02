@@ -31,6 +31,7 @@ namespace Search8.Views
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.chkWinAll = new System.Windows.Forms.CheckBox();
             this.grpWindows = new System.Windows.Forms.GroupBox();
+            this.chkKotlin = new System.Windows.Forms.CheckBox();
             this.chkJava = new System.Windows.Forms.CheckBox();
             this.chkSql = new System.Windows.Forms.CheckBox();
             this.chkVb = new System.Windows.Forms.CheckBox();
@@ -74,7 +75,7 @@ namespace Search8.Views
             this.chkRegex = new System.Windows.Forms.CheckBox();
             this.txtExcludeDirectories = new System.Windows.Forms.TextBox();
             this.lblExcludeDirectories = new System.Windows.Forms.Label();
-            this.chkKotlin = new System.Windows.Forms.CheckBox();
+            this.chkMethodBlocks = new System.Windows.Forms.CheckBox();
             this.grpWindows.SuspendLayout();
             this.grpWeb.SuspendLayout();
             this.grpInclude.SuspendLayout();
@@ -87,10 +88,9 @@ namespace Search8.Views
             // chkWinAll
             // 
             this.chkWinAll.AutoSize = true;
-            this.chkWinAll.Location = new System.Drawing.Point(32, 23);
-            this.chkWinAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkWinAll.Location = new System.Drawing.Point(24, 19);
             this.chkWinAll.Name = "chkWinAll";
-            this.chkWinAll.Size = new System.Drawing.Size(45, 21);
+            this.chkWinAll.Size = new System.Drawing.Size(37, 17);
             this.chkWinAll.TabIndex = 0;
             this.chkWinAll.Text = "All";
             this.chkWinAll.UseVisualStyleBackColor = true;
@@ -104,22 +104,29 @@ namespace Search8.Views
             this.grpWindows.Controls.Add(this.chkVb);
             this.grpWindows.Controls.Add(this.chkCs);
             this.grpWindows.Controls.Add(this.chkWinAll);
-            this.grpWindows.Location = new System.Drawing.Point(23, 52);
-            this.grpWindows.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpWindows.Location = new System.Drawing.Point(17, 42);
             this.grpWindows.Name = "grpWindows";
-            this.grpWindows.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpWindows.Size = new System.Drawing.Size(123, 194);
+            this.grpWindows.Size = new System.Drawing.Size(92, 158);
             this.grpWindows.TabIndex = 1;
             this.grpWindows.TabStop = false;
             this.grpWindows.Text = "Windows";
             // 
+            // chkKotlin
+            // 
+            this.chkKotlin.AutoSize = true;
+            this.chkKotlin.Location = new System.Drawing.Point(24, 87);
+            this.chkKotlin.Name = "chkKotlin";
+            this.chkKotlin.Size = new System.Drawing.Size(35, 17);
+            this.chkKotlin.TabIndex = 5;
+            this.chkKotlin.Text = "kt";
+            this.chkKotlin.UseVisualStyleBackColor = true;
+            // 
             // chkJava
             // 
             this.chkJava.AutoSize = true;
-            this.chkJava.Location = new System.Drawing.Point(32, 80);
-            this.chkJava.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkJava.Location = new System.Drawing.Point(24, 65);
             this.chkJava.Name = "chkJava";
-            this.chkJava.Size = new System.Drawing.Size(56, 21);
+            this.chkJava.Size = new System.Drawing.Size(46, 17);
             this.chkJava.TabIndex = 4;
             this.chkJava.Text = "java";
             this.chkJava.UseVisualStyleBackColor = true;
@@ -127,10 +134,9 @@ namespace Search8.Views
             // chkSql
             // 
             this.chkSql.AutoSize = true;
-            this.chkSql.Location = new System.Drawing.Point(32, 165);
-            this.chkSql.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkSql.Location = new System.Drawing.Point(24, 134);
             this.chkSql.Name = "chkSql";
-            this.chkSql.Size = new System.Drawing.Size(48, 21);
+            this.chkSql.Size = new System.Drawing.Size(39, 17);
             this.chkSql.TabIndex = 7;
             this.chkSql.Text = "sql";
             this.chkSql.UseVisualStyleBackColor = true;
@@ -138,10 +144,9 @@ namespace Search8.Views
             // chkVb
             // 
             this.chkVb.AutoSize = true;
-            this.chkVb.Location = new System.Drawing.Point(32, 136);
-            this.chkVb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkVb.Location = new System.Drawing.Point(24, 110);
             this.chkVb.Name = "chkVb";
-            this.chkVb.Size = new System.Drawing.Size(45, 21);
+            this.chkVb.Size = new System.Drawing.Size(38, 17);
             this.chkVb.TabIndex = 6;
             this.chkVb.Text = "vb";
             this.chkVb.UseVisualStyleBackColor = true;
@@ -150,10 +155,9 @@ namespace Search8.Views
             // chkCs
             // 
             this.chkCs.AutoSize = true;
-            this.chkCs.Location = new System.Drawing.Point(32, 52);
-            this.chkCs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkCs.Location = new System.Drawing.Point(24, 42);
             this.chkCs.Name = "chkCs";
-            this.chkCs.Size = new System.Drawing.Size(44, 21);
+            this.chkCs.Size = new System.Drawing.Size(37, 17);
             this.chkCs.TabIndex = 1;
             this.chkCs.Text = "cs";
             this.chkCs.UseVisualStyleBackColor = true;
@@ -166,11 +170,9 @@ namespace Search8.Views
             this.grpWeb.Controls.Add(this.chkAsp);
             this.grpWeb.Controls.Add(this.chkHtm);
             this.grpWeb.Controls.Add(this.chkWebAll);
-            this.grpWeb.Location = new System.Drawing.Point(153, 52);
-            this.grpWeb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpWeb.Location = new System.Drawing.Point(115, 42);
             this.grpWeb.Name = "grpWeb";
-            this.grpWeb.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpWeb.Size = new System.Drawing.Size(123, 194);
+            this.grpWeb.Size = new System.Drawing.Size(92, 158);
             this.grpWeb.TabIndex = 2;
             this.grpWeb.TabStop = false;
             this.grpWeb.Text = "Web";
@@ -178,10 +180,9 @@ namespace Search8.Views
             // chkCss
             // 
             this.chkCss.AutoSize = true;
-            this.chkCss.Location = new System.Drawing.Point(33, 137);
-            this.chkCss.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkCss.Location = new System.Drawing.Point(25, 111);
             this.chkCss.Name = "chkCss";
-            this.chkCss.Size = new System.Drawing.Size(51, 21);
+            this.chkCss.Size = new System.Drawing.Size(42, 17);
             this.chkCss.TabIndex = 4;
             this.chkCss.Text = "css";
             this.chkCss.UseVisualStyleBackColor = true;
@@ -190,10 +191,9 @@ namespace Search8.Views
             // chkXml
             // 
             this.chkXml.AutoSize = true;
-            this.chkXml.Location = new System.Drawing.Point(33, 108);
-            this.chkXml.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkXml.Location = new System.Drawing.Point(25, 88);
             this.chkXml.Name = "chkXml";
-            this.chkXml.Size = new System.Drawing.Size(50, 21);
+            this.chkXml.Size = new System.Drawing.Size(41, 17);
             this.chkXml.TabIndex = 3;
             this.chkXml.Text = "xml";
             this.chkXml.UseVisualStyleBackColor = true;
@@ -202,10 +202,9 @@ namespace Search8.Views
             // chkAsp
             // 
             this.chkAsp.AutoSize = true;
-            this.chkAsp.Location = new System.Drawing.Point(32, 80);
-            this.chkAsp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkAsp.Location = new System.Drawing.Point(24, 65);
             this.chkAsp.Name = "chkAsp";
-            this.chkAsp.Size = new System.Drawing.Size(53, 21);
+            this.chkAsp.Size = new System.Drawing.Size(43, 17);
             this.chkAsp.TabIndex = 2;
             this.chkAsp.Text = "asp";
             this.chkAsp.UseVisualStyleBackColor = true;
@@ -214,10 +213,9 @@ namespace Search8.Views
             // chkHtm
             // 
             this.chkHtm.AutoSize = true;
-            this.chkHtm.Location = new System.Drawing.Point(32, 52);
-            this.chkHtm.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkHtm.Location = new System.Drawing.Point(24, 42);
             this.chkHtm.Name = "chkHtm";
-            this.chkHtm.Size = new System.Drawing.Size(53, 21);
+            this.chkHtm.Size = new System.Drawing.Size(43, 17);
             this.chkHtm.TabIndex = 1;
             this.chkHtm.Text = "htm";
             this.chkHtm.UseVisualStyleBackColor = true;
@@ -226,10 +224,9 @@ namespace Search8.Views
             // chkWebAll
             // 
             this.chkWebAll.AutoSize = true;
-            this.chkWebAll.Location = new System.Drawing.Point(32, 23);
-            this.chkWebAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkWebAll.Location = new System.Drawing.Point(24, 19);
             this.chkWebAll.Name = "chkWebAll";
-            this.chkWebAll.Size = new System.Drawing.Size(45, 21);
+            this.chkWebAll.Size = new System.Drawing.Size(37, 17);
             this.chkWebAll.TabIndex = 0;
             this.chkWebAll.Text = "All";
             this.chkWebAll.UseVisualStyleBackColor = true;
@@ -242,11 +239,9 @@ namespace Search8.Views
             this.grpInclude.Controls.Add(this.grpOffice);
             this.grpInclude.Controls.Add(this.grpWindows);
             this.grpInclude.Controls.Add(this.grpWeb);
-            this.grpInclude.Location = new System.Drawing.Point(16, 4);
-            this.grpInclude.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpInclude.Location = new System.Drawing.Point(12, 3);
             this.grpInclude.Name = "grpInclude";
-            this.grpInclude.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpInclude.Size = new System.Drawing.Size(561, 267);
+            this.grpInclude.Size = new System.Drawing.Size(421, 217);
             this.grpInclude.TabIndex = 7;
             this.grpInclude.TabStop = false;
             this.grpInclude.Text = "Include";
@@ -254,10 +249,9 @@ namespace Search8.Views
             // chkAllTypes
             // 
             this.chkAllTypes.AutoSize = true;
-            this.chkAllTypes.Location = new System.Drawing.Point(23, 23);
-            this.chkAllTypes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkAllTypes.Location = new System.Drawing.Point(17, 19);
             this.chkAllTypes.Name = "chkAllTypes";
-            this.chkAllTypes.Size = new System.Drawing.Size(83, 21);
+            this.chkAllTypes.Size = new System.Drawing.Size(65, 17);
             this.chkAllTypes.TabIndex = 0;
             this.chkAllTypes.Text = "All types";
             this.chkAllTypes.UseVisualStyleBackColor = true;
@@ -268,11 +262,9 @@ namespace Search8.Views
             this.grpExecutables.Controls.Add(this.chkDll);
             this.grpExecutables.Controls.Add(this.chkExe);
             this.grpExecutables.Controls.Add(this.chkExeAll);
-            this.grpExecutables.Location = new System.Drawing.Point(415, 52);
-            this.grpExecutables.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpExecutables.Location = new System.Drawing.Point(311, 42);
             this.grpExecutables.Name = "grpExecutables";
-            this.grpExecutables.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpExecutables.Size = new System.Drawing.Size(123, 194);
+            this.grpExecutables.Size = new System.Drawing.Size(92, 158);
             this.grpExecutables.TabIndex = 4;
             this.grpExecutables.TabStop = false;
             this.grpExecutables.Text = "Executables";
@@ -280,10 +272,9 @@ namespace Search8.Views
             // chkDll
             // 
             this.chkDll.AutoSize = true;
-            this.chkDll.Location = new System.Drawing.Point(32, 80);
-            this.chkDll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkDll.Location = new System.Drawing.Point(24, 65);
             this.chkDll.Name = "chkDll";
-            this.chkDll.Size = new System.Drawing.Size(44, 21);
+            this.chkDll.Size = new System.Drawing.Size(36, 17);
             this.chkDll.TabIndex = 2;
             this.chkDll.Text = "dll";
             this.chkDll.UseVisualStyleBackColor = true;
@@ -292,10 +283,9 @@ namespace Search8.Views
             // chkExe
             // 
             this.chkExe.AutoSize = true;
-            this.chkExe.Location = new System.Drawing.Point(32, 52);
-            this.chkExe.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkExe.Location = new System.Drawing.Point(24, 42);
             this.chkExe.Name = "chkExe";
-            this.chkExe.Size = new System.Drawing.Size(52, 21);
+            this.chkExe.Size = new System.Drawing.Size(43, 17);
             this.chkExe.TabIndex = 1;
             this.chkExe.Text = "exe";
             this.chkExe.UseVisualStyleBackColor = true;
@@ -304,10 +294,9 @@ namespace Search8.Views
             // chkExeAll
             // 
             this.chkExeAll.AutoSize = true;
-            this.chkExeAll.Location = new System.Drawing.Point(32, 23);
-            this.chkExeAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkExeAll.Location = new System.Drawing.Point(24, 19);
             this.chkExeAll.Name = "chkExeAll";
-            this.chkExeAll.Size = new System.Drawing.Size(45, 21);
+            this.chkExeAll.Size = new System.Drawing.Size(37, 17);
             this.chkExeAll.TabIndex = 0;
             this.chkExeAll.Text = "All";
             this.chkExeAll.UseVisualStyleBackColor = true;
@@ -319,11 +308,9 @@ namespace Search8.Views
             this.grpOffice.Controls.Add(this.chkXls);
             this.grpOffice.Controls.Add(this.chkDoc);
             this.grpOffice.Controls.Add(this.chkTxt);
-            this.grpOffice.Location = new System.Drawing.Point(284, 52);
-            this.grpOffice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpOffice.Location = new System.Drawing.Point(213, 42);
             this.grpOffice.Name = "grpOffice";
-            this.grpOffice.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpOffice.Size = new System.Drawing.Size(123, 194);
+            this.grpOffice.Size = new System.Drawing.Size(92, 158);
             this.grpOffice.TabIndex = 3;
             this.grpOffice.TabStop = false;
             this.grpOffice.Text = "Office";
@@ -331,10 +318,9 @@ namespace Search8.Views
             // chkOffAll
             // 
             this.chkOffAll.AutoSize = true;
-            this.chkOffAll.Location = new System.Drawing.Point(32, 23);
-            this.chkOffAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkOffAll.Location = new System.Drawing.Point(24, 19);
             this.chkOffAll.Name = "chkOffAll";
-            this.chkOffAll.Size = new System.Drawing.Size(45, 21);
+            this.chkOffAll.Size = new System.Drawing.Size(37, 17);
             this.chkOffAll.TabIndex = 0;
             this.chkOffAll.Text = "All";
             this.chkOffAll.UseVisualStyleBackColor = true;
@@ -343,10 +329,9 @@ namespace Search8.Views
             // chkXls
             // 
             this.chkXls.AutoSize = true;
-            this.chkXls.Location = new System.Drawing.Point(31, 108);
-            this.chkXls.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkXls.Location = new System.Drawing.Point(23, 88);
             this.chkXls.Name = "chkXls";
-            this.chkXls.Size = new System.Drawing.Size(46, 21);
+            this.chkXls.Size = new System.Drawing.Size(38, 17);
             this.chkXls.TabIndex = 3;
             this.chkXls.Text = "xls";
             this.chkXls.UseVisualStyleBackColor = true;
@@ -355,10 +340,9 @@ namespace Search8.Views
             // chkDoc
             // 
             this.chkDoc.AutoSize = true;
-            this.chkDoc.Location = new System.Drawing.Point(31, 80);
-            this.chkDoc.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkDoc.Location = new System.Drawing.Point(23, 65);
             this.chkDoc.Name = "chkDoc";
-            this.chkDoc.Size = new System.Drawing.Size(53, 21);
+            this.chkDoc.Size = new System.Drawing.Size(44, 17);
             this.chkDoc.TabIndex = 2;
             this.chkDoc.Text = "doc";
             this.chkDoc.UseVisualStyleBackColor = true;
@@ -367,10 +351,9 @@ namespace Search8.Views
             // chkTxt
             // 
             this.chkTxt.AutoSize = true;
-            this.chkTxt.Location = new System.Drawing.Point(32, 52);
-            this.chkTxt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkTxt.Location = new System.Drawing.Point(24, 42);
             this.chkTxt.Name = "chkTxt";
-            this.chkTxt.Size = new System.Drawing.Size(44, 21);
+            this.chkTxt.Size = new System.Drawing.Size(37, 17);
             this.chkTxt.TabIndex = 1;
             this.chkTxt.Text = "txt";
             this.chkTxt.UseVisualStyleBackColor = true;
@@ -380,11 +363,9 @@ namespace Search8.Views
             // 
             this.grpEncoding.Controls.Add(this.chkUnicode);
             this.grpEncoding.Controls.Add(this.chkAscii);
-            this.grpEncoding.Location = new System.Drawing.Point(600, 27);
-            this.grpEncoding.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpEncoding.Location = new System.Drawing.Point(450, 22);
             this.grpEncoding.Name = "grpEncoding";
-            this.grpEncoding.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpEncoding.Size = new System.Drawing.Size(131, 101);
+            this.grpEncoding.Size = new System.Drawing.Size(98, 82);
             this.grpEncoding.TabIndex = 8;
             this.grpEncoding.TabStop = false;
             this.grpEncoding.Text = "Encoding";
@@ -392,10 +373,9 @@ namespace Search8.Views
             // chkUnicode
             // 
             this.chkUnicode.AutoSize = true;
-            this.chkUnicode.Location = new System.Drawing.Point(21, 52);
-            this.chkUnicode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkUnicode.Location = new System.Drawing.Point(16, 42);
             this.chkUnicode.Name = "chkUnicode";
-            this.chkUnicode.Size = new System.Drawing.Size(82, 21);
+            this.chkUnicode.Size = new System.Drawing.Size(66, 17);
             this.chkUnicode.TabIndex = 1;
             this.chkUnicode.Text = "Unicode";
             this.chkUnicode.UseVisualStyleBackColor = true;
@@ -403,10 +383,9 @@ namespace Search8.Views
             // chkAscii
             // 
             this.chkAscii.AutoSize = true;
-            this.chkAscii.Location = new System.Drawing.Point(21, 23);
-            this.chkAscii.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkAscii.Location = new System.Drawing.Point(16, 19);
             this.chkAscii.Name = "chkAscii";
-            this.chkAscii.Size = new System.Drawing.Size(59, 21);
+            this.chkAscii.Size = new System.Drawing.Size(48, 17);
             this.chkAscii.TabIndex = 0;
             this.chkAscii.Text = "Ascii";
             this.chkAscii.UseVisualStyleBackColor = true;
@@ -415,10 +394,9 @@ namespace Search8.Views
             // 
             this.txtPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPath.Location = new System.Drawing.Point(16, 294);
-            this.txtPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPath.Location = new System.Drawing.Point(12, 239);
             this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(548, 22);
+            this.txtPath.Size = new System.Drawing.Size(412, 20);
             this.txtPath.TabIndex = 0;
             this.txtPath.Text = "C:\\_\\Main\\D";
             this.txtPath.DoubleClick += new System.EventHandler(this.txtPath_DoubleClick);
@@ -428,10 +406,9 @@ namespace Search8.Views
             this.lblPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPath.AutoSize = true;
-            this.lblPath.Location = new System.Drawing.Point(12, 274);
-            this.lblPath.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPath.Location = new System.Drawing.Point(9, 223);
             this.lblPath.Name = "lblPath";
-            this.lblPath.Size = new System.Drawing.Size(37, 17);
+            this.lblPath.Size = new System.Drawing.Size(29, 13);
             this.lblPath.TabIndex = 9;
             this.lblPath.Text = "Path";
             // 
@@ -441,51 +418,46 @@ namespace Search8.Views
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtResults.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtResults.Location = new System.Drawing.Point(16, 390);
-            this.txtResults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtResults.Location = new System.Drawing.Point(12, 317);
             this.txtResults.Multiline = true;
             this.txtResults.Name = "txtResults";
             this.txtResults.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtResults.Size = new System.Drawing.Size(796, 227);
+            this.txtResults.Size = new System.Drawing.Size(598, 185);
             this.txtResults.TabIndex = 2;
             // 
             // txtCriteria
             // 
             this.txtCriteria.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCriteria.Location = new System.Drawing.Point(16, 342);
-            this.txtCriteria.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCriteria.Location = new System.Drawing.Point(12, 278);
             this.txtCriteria.Name = "txtCriteria";
-            this.txtCriteria.Size = new System.Drawing.Size(796, 22);
+            this.txtCriteria.Size = new System.Drawing.Size(598, 20);
             this.txtCriteria.TabIndex = 2;
             // 
             // lblCriteria
             // 
             this.lblCriteria.AutoSize = true;
-            this.lblCriteria.Location = new System.Drawing.Point(12, 322);
-            this.lblCriteria.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCriteria.Location = new System.Drawing.Point(9, 262);
             this.lblCriteria.Name = "lblCriteria";
-            this.lblCriteria.Size = new System.Drawing.Size(53, 17);
+            this.lblCriteria.Size = new System.Drawing.Size(39, 13);
             this.lblCriteria.TabIndex = 1;
             this.lblCriteria.Text = "Criteria";
             // 
             // lblResults
             // 
             this.lblResults.AutoSize = true;
-            this.lblResults.Location = new System.Drawing.Point(12, 370);
-            this.lblResults.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblResults.Location = new System.Drawing.Point(9, 301);
             this.lblResults.Name = "lblResults";
-            this.lblResults.Size = new System.Drawing.Size(55, 17);
+            this.lblResults.Size = new System.Drawing.Size(42, 13);
             this.lblResults.TabIndex = 3;
             this.lblResults.Text = "Results";
             // 
             // cmdSearch
             // 
             this.cmdSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdSearch.Location = new System.Drawing.Point(571, 625);
-            this.cmdSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdSearch.Location = new System.Drawing.Point(428, 508);
             this.cmdSearch.Name = "cmdSearch";
-            this.cmdSearch.Size = new System.Drawing.Size(75, 30);
+            this.cmdSearch.Size = new System.Drawing.Size(56, 24);
             this.cmdSearch.TabIndex = 3;
             this.cmdSearch.Text = "Search";
             this.cmdSearch.UseVisualStyleBackColor = true;
@@ -494,10 +466,9 @@ namespace Search8.Views
             // cmdClose
             // 
             this.cmdClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdClose.Location = new System.Drawing.Point(736, 625);
-            this.cmdClose.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdClose.Location = new System.Drawing.Point(552, 508);
             this.cmdClose.Name = "cmdClose";
-            this.cmdClose.Size = new System.Drawing.Size(77, 30);
+            this.cmdClose.Size = new System.Drawing.Size(58, 24);
             this.cmdClose.TabIndex = 5;
             this.cmdClose.Text = "Close";
             this.cmdClose.UseVisualStyleBackColor = true;
@@ -507,10 +478,9 @@ namespace Search8.Views
             // 
             this.pbrPprogressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbrPprogressBar.Location = new System.Drawing.Point(16, 625);
-            this.pbrPprogressBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pbrPprogressBar.Location = new System.Drawing.Point(12, 508);
             this.pbrPprogressBar.Name = "pbrPprogressBar";
-            this.pbrPprogressBar.Size = new System.Drawing.Size(549, 30);
+            this.pbrPprogressBar.Size = new System.Drawing.Size(412, 24);
             this.pbrPprogressBar.TabIndex = 10;
             // 
             // staStatusStrip
@@ -519,10 +489,9 @@ namespace Search8.Views
             this.staStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel,
             this.toolStripProgressBar});
-            this.staStatusStrip.Location = new System.Drawing.Point(0, 671);
+            this.staStatusStrip.Location = new System.Drawing.Point(0, 540);
             this.staStatusStrip.Name = "staStatusStrip";
-            this.staStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.staStatusStrip.Size = new System.Drawing.Size(829, 26);
+            this.staStatusStrip.Size = new System.Drawing.Size(622, 26);
             this.staStatusStrip.TabIndex = 11;
             this.staStatusStrip.Text = "statusStrip1";
             // 
@@ -538,15 +507,14 @@ namespace Search8.Views
             this.toolStripProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripProgressBar.Name = "toolStripProgressBar";
             this.toolStripProgressBar.RightToLeftLayout = true;
-            this.toolStripProgressBar.Size = new System.Drawing.Size(229, 20);
+            this.toolStripProgressBar.Size = new System.Drawing.Size(172, 20);
             // 
             // cmdCancel
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdCancel.Location = new System.Drawing.Point(653, 625);
-            this.cmdCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmdCancel.Location = new System.Drawing.Point(490, 508);
             this.cmdCancel.Name = "cmdCancel";
-            this.cmdCancel.Size = new System.Drawing.Size(75, 30);
+            this.cmdCancel.Size = new System.Drawing.Size(56, 24);
             this.cmdCancel.TabIndex = 4;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
@@ -556,68 +524,63 @@ namespace Search8.Views
             // 
             this.lblFilePattern.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFilePattern.AutoSize = true;
-            this.lblFilePattern.Location = new System.Drawing.Point(569, 274);
-            this.lblFilePattern.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFilePattern.Location = new System.Drawing.Point(427, 223);
             this.lblFilePattern.Name = "lblFilePattern";
-            this.lblFilePattern.Size = new System.Drawing.Size(79, 17);
+            this.lblFilePattern.Size = new System.Drawing.Size(59, 13);
             this.lblFilePattern.TabIndex = 12;
             this.lblFilePattern.Text = "File pattern";
             // 
             // txtFilePattern
             // 
             this.txtFilePattern.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFilePattern.Location = new System.Drawing.Point(573, 294);
-            this.txtFilePattern.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtFilePattern.Location = new System.Drawing.Point(430, 239);
             this.txtFilePattern.Name = "txtFilePattern";
-            this.txtFilePattern.Size = new System.Drawing.Size(239, 22);
+            this.txtFilePattern.Size = new System.Drawing.Size(180, 20);
             this.txtFilePattern.TabIndex = 1;
             this.txtFilePattern.Text = "C:\\_\\Main\\D";
             // 
             // chkRegex
             // 
             this.chkRegex.AutoSize = true;
-            this.chkRegex.Location = new System.Drawing.Point(621, 156);
-            this.chkRegex.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkRegex.Location = new System.Drawing.Point(466, 127);
             this.chkRegex.Name = "chkRegex";
-            this.chkRegex.Size = new System.Drawing.Size(119, 21);
+            this.chkRegex.Size = new System.Drawing.Size(92, 17);
             this.chkRegex.TabIndex = 13;
             this.chkRegex.Text = "Regex Criteria";
             this.chkRegex.UseVisualStyleBackColor = true;
             // 
             // txtExcludeDirectories
             // 
-            this.txtExcludeDirectories.Location = new System.Drawing.Point(585, 201);
-            this.txtExcludeDirectories.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtExcludeDirectories.Location = new System.Drawing.Point(439, 163);
             this.txtExcludeDirectories.Name = "txtExcludeDirectories";
-            this.txtExcludeDirectories.Size = new System.Drawing.Size(227, 22);
-            this.txtExcludeDirectories.TabIndex = 0;
+            this.txtExcludeDirectories.Size = new System.Drawing.Size(171, 20);
+            this.txtExcludeDirectories.TabIndex = 14;
             // 
             // lblExcludeDirectories
             // 
             this.lblExcludeDirectories.AutoSize = true;
-            this.lblExcludeDirectories.Location = new System.Drawing.Point(585, 181);
-            this.lblExcludeDirectories.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblExcludeDirectories.Location = new System.Drawing.Point(439, 147);
             this.lblExcludeDirectories.Name = "lblExcludeDirectories";
-            this.lblExcludeDirectories.Size = new System.Drawing.Size(200, 17);
+            this.lblExcludeDirectories.Size = new System.Drawing.Size(151, 13);
             this.lblExcludeDirectories.TabIndex = 15;
             this.lblExcludeDirectories.Text = "Exclude Directories Containing";
             // 
-            // chkKotlin
+            // chkMethodBlocks
             // 
-            this.chkKotlin.AutoSize = true;
-            this.chkKotlin.Location = new System.Drawing.Point(32, 107);
-            this.chkKotlin.Margin = new System.Windows.Forms.Padding(4);
-            this.chkKotlin.Name = "chkKotlin";
-            this.chkKotlin.Size = new System.Drawing.Size(41, 21);
-            this.chkKotlin.TabIndex = 5;
-            this.chkKotlin.Text = "kt";
-            this.chkKotlin.UseVisualStyleBackColor = true;
+            this.chkMethodBlocks.AutoSize = true;
+            this.chkMethodBlocks.Location = new System.Drawing.Point(466, 189);
+            this.chkMethodBlocks.Name = "chkMethodBlocks";
+            this.chkMethodBlocks.Size = new System.Drawing.Size(97, 17);
+            this.chkMethodBlocks.TabIndex = 15;
+            this.chkMethodBlocks.Text = "Method Blocks";
+            this.chkMethodBlocks.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(829, 697);
+            this.ClientSize = new System.Drawing.Size(622, 566);
+            this.Controls.Add(this.chkMethodBlocks);
             this.Controls.Add(this.lblExcludeDirectories);
             this.Controls.Add(this.txtExcludeDirectories);
             this.Controls.Add(this.chkRegex);
@@ -637,8 +600,7 @@ namespace Search8.Views
             this.Controls.Add(this.grpEncoding);
             this.Controls.Add(this.grpInclude);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.MinimumSize = new System.Drawing.Size(845, 609);
+            this.MinimumSize = new System.Drawing.Size(638, 502);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Search8";
@@ -710,6 +672,7 @@ namespace Search8.Views
         private System.Windows.Forms.TextBox txtExcludeDirectories;
         private System.Windows.Forms.Label lblExcludeDirectories;
         private System.Windows.Forms.CheckBox chkKotlin;
+        private System.Windows.Forms.CheckBox chkMethodBlocks;
     }
 }
 

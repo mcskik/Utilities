@@ -22,6 +22,7 @@ namespace Search8.DataLayer.Profile
         public long DirFilesEstimate { get; set; }
         public string FilePattern { get; set; }
         public bool RegexCriteria { get; set; }
+        public bool MethodBlocks { get; set; }
         public bool AllTypes { get; set; }
         public SearchEncoding Encoding { get; set; }
         public StringCollection Options { get; set; }
@@ -46,6 +47,7 @@ namespace Search8.DataLayer.Profile
                             new XElement("DirFilesEstimate", DirFilesEstimate),
                             new XElement("FilePattern", FilePattern),
                             new XElement("RegexCriteria", RegexCriteria),
+                            new XElement("MethodBlocks", MethodBlocks),
                             new XElement("AllTypes", AllTypes),
                             new XElement("Encoding", Encoding)
                         )
@@ -90,6 +92,7 @@ namespace Search8.DataLayer.Profile
             DirFilesEstimate = 0;
             FilePattern = string.Empty;
             RegexCriteria = false;
+            MethodBlocks = false;
             AllTypes = true;
             Encoding = SearchEncoding.Ascii;
             Options = new StringCollection();
@@ -106,6 +109,7 @@ namespace Search8.DataLayer.Profile
             DirFilesEstimate = _xmlProfileHelper.FetchLong("Parameters", "DirFilesEstimate");
             FilePattern = _xmlProfileHelper.Fetch("Parameters", "FilePattern");
             RegexCriteria = _xmlProfileHelper.FetchBool("Parameters", "RegexCriteria");
+            MethodBlocks = _xmlProfileHelper.FetchBool("Parameters", "MethodBlocks");
             AllTypes = _xmlProfileHelper.FetchBool("Parameters", "AllTypes");
             Encoding = GetEnumValue<SearchEncoding>(_xmlProfileHelper.Fetch("Parameters", "Encoding"));
             Options = new StringCollection();

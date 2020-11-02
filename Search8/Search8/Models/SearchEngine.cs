@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Log8;
 using ProfileData.DataLayer.Profile;
@@ -99,6 +100,7 @@ namespace Search8.Models
         private StringCollection _options;
         private StringCollection _directoryExclusions;
         private bool _regex = false;
+        private bool _methodBlocks = false;
         private bool _allTypes = false;
         #endregion
         #region Other members.
@@ -107,6 +109,20 @@ namespace Search8.Models
         private long _dirFilesEstimate = 0;
         private Scanner _scanner = null;
         private Logger _log = null;
+        private List<string> _methodBlocksList = new List<string>();
+        private enum LanguageEnum
+        {
+            Cpp = 0,
+            CSharp = 1,
+            Java = 2,
+            Other = 3
+        }
+        private LanguageEnum _methodBlockLanguage = LanguageEnum.Other;
+        private int _methodBlockThreshold = 0;
+        #endregion
+        #region Alternative Method Block Detection Code.
+        protected string _sourceCode = string.Empty;
+        protected List<BlockVector> _blockVectors = new List<BlockVector>();
         #endregion
         #endregion
 
@@ -247,6 +263,21 @@ namespace Search8.Models
         }
 
         /// <summary>
+        /// Method Blocks.
+        /// </summary>
+        public bool MethodBlocks
+        {
+            get
+            {
+                return _methodBlocks;
+            }
+            set
+            {
+                _methodBlocks = value;
+            }
+        }
+
+        /// <summary>
         /// All types.
         /// </summary>
         public bool AllTypes
@@ -351,6 +382,7 @@ namespace Search8.Models
             _directoryExclusions = Administrator.ProfileManager.UserSettings.SelectedItem.DirectoryExclusions;
             _dirFilesEstimate = Administrator.ProfileManager.UserSettings.SelectedItem.DirFilesEstimate;
             _regex = Administrator.ProfileManager.UserSettings.SelectedItem.RegexCriteria;
+            _methodBlocks = Administrator.ProfileManager.UserSettings.SelectedItem.MethodBlocks;
             _allTypes = Administrator.ProfileManager.UserSettings.SelectedItem.AllTypes;
         }
 
@@ -367,6 +399,7 @@ namespace Search8.Models
             Administrator.ProfileManager.UserSettings.SelectedItem.DirectoryExclusions = _directoryExclusions;
             Administrator.ProfileManager.UserSettings.SelectedItem.DirFilesEstimate = _dirFilesEstimate;
             Administrator.ProfileManager.UserSettings.SelectedItem.RegexCriteria = _regex;
+            Administrator.ProfileManager.UserSettings.SelectedItem.MethodBlocks = _methodBlocks;
             Administrator.ProfileManager.UserSettings.SelectedItem.AllTypes = _allTypes;
             Administrator.ProfileManager.UserSettings.Save();
             _scanner.SearchCriteriaDocument.Save(Administrator.ProfileManager.SystemProfile.CurrentCriteria);
@@ -459,7 +492,14 @@ namespace Search8.Models
                                 fileSpec += stdDir;
                             }
                             fileSpec += cSeparator.ToString() + stdFile;
-                            anyHits |= EvaluateLines(fileSpec);
+                            if (MethodBlocks)
+                            {
+                                anyHits |= EvaluateMethodBlocks(fileSpec);
+                            }
+                            else
+                            {
+                                anyHits |= EvaluateLines(fileSpec);
+                            }
                             SignalUpdateProgress(1, "Files", fileSpec);
                             if (_action == "Cancel")
                             {
@@ -623,6 +663,486 @@ namespace Search8.Models
             }
             return hits;
         }
+
+        #region Method Blocks.
+        /// <summary>
+        /// Search the specified file using the specified criteria.
+        /// Use method blocks { } instead of ines so anything found within
+        /// the method which matches the criteria is counted as a hit.
+        /// </summary>
+        private bool EvaluateMethodBlocks(string fileSpec)
+        {
+            List<BlockVector> methodBlocks = ReadMethodBlocks(fileSpec);
+            string header = string.Empty;
+            long count = 0;
+            bool first = true;
+            bool pass = false;
+            bool hits = false;
+            try
+            {
+                foreach (BlockVector block in methodBlocks)
+                {
+                    count++;
+                    if (_regex)
+                    {
+                        Regex regex = new Regex(_searchCriteria, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+                        pass = regex.IsMatch(block.Content);
+                    }
+                    else
+                    {
+                        pass = _scanner.Evaluate(block.Content);
+                    }
+                    if (pass)
+                    {
+                        hits = true;
+                        if (first)
+                        {
+                            header = "\r\n" + fileSpec + "\r\n";
+                            header += string.Empty.PadRight(fileSpec.Length, '-');
+                            SignalCriteriaPass(header);
+                            _log.WriteLn(header);
+                            first = false;
+                        }
+                        _log.WriteLn();
+                        header = "[" + block.StartLinekNumber.ToString("00000") + "] - Found in block :";
+                        SignalCriteriaPass(header);
+                        _log.WriteLn(header);
+                        _log.WriteLn();
+                        EvaluateLinesWithinBlock(block);
+                    }
+                    if (_action == "Cancel")
+                    {
+                        break;
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return hits;
+        }
+
+        /// <summary>
+        /// Search the specified block using the specified criteria.
+        /// </summary>
+        private bool EvaluateLinesWithinBlock(BlockVector block)
+        {
+            string[] lines = block.Content.Split('\n');
+            string header = string.Empty;
+            bool first = true;
+            bool pass = false;
+            bool hits = false;
+            int lineNumber = block.StartLinekNumber;
+            try
+            {
+                foreach (string line in lines)
+                {
+                    if (_regex)
+                    {
+                        Regex regex = new Regex(_searchCriteria, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+                        pass = regex.IsMatch(line);
+                    }
+                    else
+                    {
+                        pass = _scanner.EvaluateAny(line);
+                    }
+                    if (pass)
+                    {
+                        hits = true;
+                        header = "(" + lineNumber.ToString("00000") + ") - " + line;
+                        SignalCriteriaPass(header);
+                        _log.Write(header);
+                    } else {
+                        header = "          " + line;
+                        SignalCriteriaPass(header);
+                        _log.Write(header);
+                    }
+                    if (_action == "Cancel")
+                    {
+                        break;
+                    }
+                    lineNumber++;
+                }
+            }
+            catch
+            {
+            }
+            return hits;
+        }
+
+        /// <summary>
+        /// Read all method blocks from the specified file into a list of strings.
+        /// </summary>
+        protected List<BlockVector> ReadMethodBlocks(string fileSpec)
+        {
+            string ext = System.IO.Path.GetExtension(fileSpec);
+            switch (ext)
+            {
+                case ".c":
+                case ".h":
+                case ".cpp":
+                    _methodBlockLanguage = LanguageEnum.Cpp;
+                    _methodBlockThreshold = 0;
+                    break;
+                case ".cs":
+                    _methodBlockLanguage = LanguageEnum.CSharp;
+                    _methodBlockThreshold = 0;
+                    break;
+                case ".js":
+                    _methodBlockLanguage = LanguageEnum.Other;
+                    _methodBlockThreshold = 0;
+                    break;
+                case ".java":
+                case ".kt":
+                    _methodBlockLanguage = LanguageEnum.Java;
+                    _methodBlockThreshold = 0;
+                    break;
+                defaut:
+                    _methodBlockLanguage = LanguageEnum.Other;
+                    _methodBlockThreshold = 0;
+                    break;
+            }
+            _blockVectors = new List<BlockVector>();
+            try
+            {
+                if (File.Exists(fileSpec))
+                {
+                    StringBuilder sb = new StringBuilder();
+                    string sourceCode = FileHelper.ReadFile(fileSpec) + Environment.NewLine;
+                    if (_methodBlockLanguage == LanguageEnum.CSharp)
+                    {
+                        if (sourceCode.Contains("namespace"))
+                        {
+                            _methodBlockThreshold = 1;
+                        }
+                        else
+                        {
+                            _methodBlockThreshold = 0;
+                        }
+                    }
+                    SplitMethodBlocks(sourceCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+            }
+            return _blockVectors;
+        }
+
+        /// <summary>
+        /// Split all method blocks in the specified sourceCode into a list of string blocks.
+        /// </summary>
+        protected List<BlockVector> SplitMethodBlocks(string sourceCode)
+        {
+            _sourceCode = sourceCode;
+            int position = 0;
+            int level = 0;
+            string inner = string.Empty;
+            switch (_methodBlockLanguage)
+            {
+                case LanguageEnum.Cpp:
+                    inner = ExpandJavaMethodBlocks(position, ref level);
+                    break;
+                case LanguageEnum.CSharp:
+                    inner = ExpandCSharpMethodBlocks(position, ref level);
+                    break;
+                case LanguageEnum.Java:
+                    inner = ExpandJavaMethodBlocks(position, ref level);
+                    break;
+                case LanguageEnum.Other:
+                    inner = ExpandJavaMethodBlocks(position, ref level);
+                    break;
+                defaut:
+                    inner = ExpandJavaMethodBlocks(position, ref level);
+                    break;
+            }
+            int startAt = 0;
+            int lineNumber = 1;
+            int blockNumber = 0;
+            BlockVector blockVector = new BlockVector();
+            for (int ptr = 0; ptr < _blockVectors.Count; ptr++)
+            {
+                blockNumber++;
+                blockVector = _blockVectors[ptr];
+                blockVector.BlockNumber = blockNumber;
+                blockVector.StartPosition = startAt;
+                int endAt =  _blockVectors[ptr].EndPosition;
+                int length = endAt - startAt;
+                string segment = _sourceCode.Substring(startAt, length);
+                string[] parts = segment.Split('\n');
+                blockVector.StartLinekNumber = lineNumber;
+                lineNumber += parts.Length;
+                blockVector.Content = segment;
+                startAt = endAt + 1;
+            }
+            if (startAt <= _sourceCode.Length)
+            {
+                blockNumber++;
+                blockVector = new BlockVector();
+                blockVector.BlockNumber = blockNumber;
+                blockVector.StartLinekNumber = lineNumber;
+                blockVector.StartPosition = startAt;
+                blockVector.EndPosition = _sourceCode.Length - 1;
+                string segment = _sourceCode.Substring(startAt);
+                blockVector.Content = segment;
+                _blockVectors.Add(blockVector);
+            }
+            return _blockVectors;
+        }
+
+        /// <remarks>
+        /// The normal Router() method has been brought inline into this ExpandMethodBlocks() method
+        /// as the router complexity is not as great as usual.
+        /// </remarks>
+        protected string ExpandJavaMethodBlocks(int position, ref int level)
+        {
+            int quoteCount = 0; //Quote count is zero at the start of every level.
+            string prevCode = string.Empty;
+            string code = string.Empty;
+            string inner = string.Empty;
+            bool goback = false;
+            int startPos = position;
+            int prevPos = position;
+            int length = _sourceCode.Length;
+            StringBuilder prevBlockCommentMarker = new StringBuilder();
+            int prevBlockCommentPos = -1;
+            int prevNewLinePos = 0;
+            BlockVector blockVector = new BlockVector();
+            int lineEndingLength = 1;
+            if (length > 0)
+            {
+                do
+                {
+                    //Begin router code.
+                    goback = false;
+                    prevCode = code;
+                    code = _sourceCode.Substring(position, 1);
+                    switch (code)
+                    {
+                        case "/":
+                            prevBlockCommentMarker.Append(code);
+                            break;
+                        case "*":
+                            prevBlockCommentMarker.Append(code);
+                            if (prevBlockCommentMarker.ToString() == "/**")
+                            {
+                                prevBlockCommentPos = prevNewLinePos;
+                            }
+                            break;
+                        case "\n":
+                            if (prevCode == "\r")
+                            {
+                                //Windows line ending.
+                                lineEndingLength = 2;
+                            }
+                            else
+                            {
+                                //Unix line ending.
+                                lineEndingLength = 1;
+                            }
+                            // -1 is based on unix line endings being 1 characters long.
+                            // -2 is based on Windows line endings being 2 characters long.
+                            prevNewLinePos = position;
+                            prevBlockCommentMarker = new StringBuilder();
+                            break;
+                        case "\"":
+                            quoteCount++;
+                            break;
+                        case "{":
+                            if (level == 0)
+                            {
+                                //Block from start of file up to line containing class declaration.
+                                blockVector = new BlockVector();
+                                blockVector.EndPosition = GetStartOfBlockPosition(prevBlockCommentPos, prevNewLinePos);
+                                _blockVectors.Add(blockVector);
+                                prevBlockCommentPos = -1;
+                            }
+                            if (level == 1)
+                            {
+                                //Block from start of class declaration to start of line containing start of first method. 
+                                blockVector = new BlockVector();
+                                blockVector.EndPosition = GetStartOfBlockPosition(prevBlockCommentPos, prevNewLinePos);
+                                _blockVectors.Add(blockVector);
+                                prevBlockCommentPos = -1;
+                            }
+                            if (quoteCount % 2 == 0)
+                            {
+                                level++;
+                                inner = ExpandJavaMethodBlocks(position + 1, ref level);
+                                position += inner.Length;
+                                prevPos = position;
+                            }
+                            break;
+                        case "}":
+                            inner = _sourceCode.Substring(startPos, position - startPos + 1);
+                            if (quoteCount % 2 == 0)
+                            {
+                                level--;
+                                goback = true;
+                            }
+                            if (level == 0)
+                            {
+                                //This is the end of the class block.
+                                blockVector = new BlockVector();
+                                blockVector.EndPosition = position + lineEndingLength;
+                                _blockVectors.Add(blockVector);
+                            }
+                            if (level == 1)
+                            {
+                                //This is the end of all method blocks inside the class.
+                                blockVector = new BlockVector();
+                                blockVector.EndPosition = position + lineEndingLength;
+                                _blockVectors.Add(blockVector);
+                            }
+                            break;
+                        default:
+                            //Any character which is not a control character.
+                            break;
+                    }
+                    //End router code.
+                    position++;
+                } while (position < length && !goback);
+            }
+            return inner;
+        }
+
+        /// <remarks>
+        /// The normal Router() method has been brought inline into this ExpandMethodBlocks() method
+        /// as the router complexity is not as great as usual.
+        /// </remarks>
+        protected string ExpandCSharpMethodBlocks(int position, ref int level)
+        {
+            int quoteCount = 0; //Quote count is zero at the start of every level.
+            string prevCode = string.Empty;
+            string code = string.Empty;
+            string inner = string.Empty;
+            bool goback = false;
+            int startPos = position;
+            int prevPos = position;
+            int length = _sourceCode.Length;
+            StringBuilder prevBlockCommentMarker = new StringBuilder();
+            int prevBlockCommentPos = -1;
+            int prevPrevNewLinePos = 0;
+            int prevNewLinePos = 0;
+            BlockVector blockVector = new BlockVector();
+            int lineEndingLength = 1;
+            if (length > 0)
+            {
+                do
+                {
+                    //Begin router code.
+                    goback = false;
+                    prevCode = code;
+                    code = _sourceCode.Substring(position, 1);
+                    switch (code)
+                    {
+                        case "/":
+                            prevBlockCommentMarker.Append(code);
+                            if (prevBlockCommentMarker.ToString() == "///")
+                            {
+                                if (prevBlockCommentPos == -1)
+                                {
+                                    prevBlockCommentPos = prevNewLinePos;
+                                }
+                            }
+                            break;
+                        case "\n":
+                            if (prevCode == "\r")
+                            {
+                                //Windows line ending.
+                                lineEndingLength = 2;
+                            }
+                            else
+                            {
+                                //Unix line ending.
+                                lineEndingLength = 1;
+                            }
+                            // -1 is based on unix line endings being 1 characters long.
+                            // -2 is based on Windows line endings being 2 characters long.
+                            prevPrevNewLinePos = prevNewLinePos;
+                            prevNewLinePos = position;
+                            prevBlockCommentMarker = new StringBuilder();
+                            break;
+                        case "\"":
+                            quoteCount++;
+                            break;
+                        case "{":
+                            if (level == _methodBlockThreshold - 1)
+                            {
+                            }
+                            if (level == _methodBlockThreshold)
+                            {
+                                //Block from start of file up to line containing class declaration.
+                                blockVector = new BlockVector();
+                                blockVector.EndPosition = GetStartOfBlockPosition(prevBlockCommentPos, prevPrevNewLinePos);
+                                _blockVectors.Add(blockVector);
+                                prevBlockCommentPos = -1;
+                            }
+                            if (level == _methodBlockThreshold + 1)
+                            {
+                                //Block from start of class declaration to start of line containing start of first method. 
+                                blockVector = new BlockVector();
+                                blockVector.EndPosition = GetStartOfBlockPosition(prevBlockCommentPos, prevPrevNewLinePos);
+                                _blockVectors.Add(blockVector);
+                                prevBlockCommentPos = -1;
+                            }
+                            if (quoteCount % 2 == 0)
+                            {
+                                level++;
+                                inner = ExpandCSharpMethodBlocks(position + 1, ref level);
+                                position += inner.Length;
+                                prevPos = position;
+                            }
+                            break;
+                        case "}":
+                            inner = _sourceCode.Substring(startPos, position - startPos + 1);
+                            if (quoteCount % 2 == 0)
+                            {
+                                level--;
+                                goback = true;
+                            }
+                            if (level == _methodBlockThreshold - 1)
+                            {
+                            }
+                            if (level == _methodBlockThreshold)
+                            {
+                                //This is the end of the class block.
+                                blockVector = new BlockVector();
+                                blockVector.EndPosition = position + lineEndingLength;
+                                _blockVectors.Add(blockVector);
+                            }
+                            if (level == _methodBlockThreshold + 1)
+                            {
+                                //This is the end of all method blocks inside the class.
+                                blockVector = new BlockVector();
+                                blockVector.EndPosition = position + lineEndingLength;
+                                _blockVectors.Add(blockVector);
+                            }
+                            break;
+                        default:
+                            //Any character which is not a control character.
+                            break;
+                    }
+                    //End router code.
+                    position++;
+                } while (position < length && !goback);
+            }
+            return inner;
+        }
+
+        private int GetStartOfBlockPosition(int prevBlockCommentPos, int prevNewLinePos)
+        {
+            if (prevBlockCommentPos != -1)
+            {
+                return prevBlockCommentPos;
+            }
+            else
+            {
+                return prevNewLinePos;
+            }
+        }
+        #endregion
 
         /// <summary>
         /// Read the specified file and return its contents as a string.

@@ -93,6 +93,11 @@
       <Group>
         <Value>git checkout -B {CheckoutBranch} dev</Value>
       </Group>
+    </ParameterSetting>
+    <ParameterSetting Key="git push">
+      <Group>
+        <Value>git push</Value>
+      </Group>
     </TemplateParameterSetting>
     <TemplateParameterSetting Key="git cherry-pick {Sha}">
       <Group>
@@ -502,6 +507,11 @@
     <TemplateParameterSetting Key="git reset --soft HEAD~5">
       <Group>
         <Value>git reset --soft HEAD~5</Value>
+      </Group>
+    </TemplateParameterSetting>
+    <TemplateParameterSetting Key="git revert -m HEAD">
+      <Group>
+        <Value>git revert -m HEAD</Value>
       </Group>
     </TemplateParameterSetting>
     <TemplateParameterSetting Key="git revert {Sha}">

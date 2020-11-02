@@ -37,16 +37,14 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
-    <Reference Include="Log8, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Log8\Log8\bin\Release\Log8.dll</HintPath>
+    <Reference Include="Log8">
+      <HintPath>..\..\..\..\_BK\Support\Log8\Log8\bin\Release\Log8.dll</HintPath>
     </Reference>
     <Reference Include="ProfileData">
-      <HintPath>..\..\ProfileData\ProfileData\bin\Release\ProfileData.dll</HintPath>
+      <HintPath>..\..\..\..\_BK\Support\ProfileData\ProfileData\bin\Release\ProfileData.dll</HintPath>
     </Reference>
-    <Reference Include="Routines8, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Routines8\Routines8\bin\Release\Routines8.dll</HintPath>
+    <Reference Include="Routines8">
+      <HintPath>..\..\..\..\_BK\Support\Routines8\Routines8\bin\Release\Routines8.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -68,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\BlockVector.cs" />
     <Compile Include="Models\Argument.cs" />
     <Compile Include="DataLayer\Profile\Administrator.cs" />
     <Compile Include="DataLayer\Profile\ApplicationProfile.cs" />

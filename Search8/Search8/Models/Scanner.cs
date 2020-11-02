@@ -1,5 +1,7 @@
+using Search8.DataLayer.Profile;
 using System;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Search8.Models
 {
@@ -194,6 +196,35 @@ namespace Search8.Models
             if (node != null)
             {
                 pass = Router(node);
+            }
+            return pass;
+        }
+
+        /// <summary>
+        /// Evaluate the supplied textToSearch against any of the search criteria.
+        /// </summary>
+        /// <remarks>
+        /// Text to search; could be a single line, a whole page, or a whole file.
+        /// </remarks>
+        public bool EvaluateAny(string textToSearch)
+        {
+            _textToSearch = textToSearch;
+            XDocument doc = XDocument.Load(Administrator.ProfileManager.SystemProfile.CurrentCriteria);
+            bool pass = false;
+            foreach (XElement element in doc.Descendants("Find"))
+            {
+                string find = (string)element;
+                bool found = false;
+                int pos = _textToSearch.IndexOf(find, StringComparison.InvariantCultureIgnoreCase);
+                if (pos == -1)
+                {
+                    found = false;
+                }
+                else
+                {
+                    found = true;
+                }
+                pass |= found;
             }
             return pass;
         }
