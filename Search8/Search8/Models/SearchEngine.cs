@@ -735,8 +735,9 @@ namespace Search8.Models
             int lineNumber = block.StartLinekNumber;
             try
             {
-                foreach (string line in lines)
+                foreach (string rawLine in lines)
                 {
+                    string line = rawLine.Replace("\r", string.Empty);
                     if (_regex)
                     {
                         Regex regex = new Regex(_searchCriteria, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
@@ -751,11 +752,11 @@ namespace Search8.Models
                         hits = true;
                         header = "(" + lineNumber.ToString("00000") + ") - " + line;
                         SignalCriteriaPass(header);
-                        _log.Write(header);
+                        _log.WriteLn(header);
                     } else {
                         header = "          " + line;
                         SignalCriteriaPass(header);
-                        _log.Write(header);
+                        _log.WriteLn(header);
                     }
                     if (_action == "Cancel")
                     {
