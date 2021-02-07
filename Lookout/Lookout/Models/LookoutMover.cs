@@ -16,6 +16,7 @@ namespace Lookout.Models
         public SortedDictionary<string, int> _uniqueSenders;
         public SortedDictionary<string, int> _uniqueSubjects;
         public SortedDictionary<string, int> _uniqueCombinations;
+        public SortedDictionary<string, string> _domainEndings;
         #endregion
 
         #region Properties.
@@ -206,6 +207,13 @@ namespace Lookout.Models
             _uniqueSenders = new SortedDictionary<string, int>();
             _uniqueSubjects = new SortedDictionary<string, int>();
             _uniqueCombinations = new SortedDictionary<string, int>();
+            _domainEndings = new SortedDictionary<string, string>();
+            _domainEndings.Add(".com", ".com");
+            _domainEndings.Add(".co.uk", ".co.uk");
+            _domainEndings.Add(".eu", ".eu");
+            _domainEndings.Add(".ie", ".ie");
+            _domainEndings.Add(".org.uk", ".org.uk");
+            _domainEndings.Add(".sch.uk", ".sch.uk");
         }
 
         private void Track(string key, SortedDictionary<string, int> dictionary)
@@ -281,7 +289,7 @@ namespace Lookout.Models
                     }
                     string indent = new String(' ', 2);
                     filterCriteria.AppendLine(String.Format(@"{0}{0}{1}", indent, entry.Value.ToString().PadRight(12)));
-                    string category = "Keep"; // Can't determine this automatically so just default to this.
+                    string category = "Trash"; // Can't determine this automatically so just default to this.
                     string sender = entry.Key;
                     string subFolder = MakeSubFolderFromSender(sender);
                     subFolder = CamelCaseFromSeparatedText(subFolder);
@@ -315,6 +323,22 @@ namespace Lookout.Models
                     subFolder = subFolder.Substring(pos + 1);
                 }
             }
+            foreach (var entry in _domainEndings)
+            {
+                if (subFolder.Length > entry.Key.Length)
+                {
+                    if (subFolder.EndsWith(entry.Key))
+                    {
+                        int pos1 = subFolder.IndexOf(entry.Key);
+                        int pos2 = subFolder.LastIndexOf(".", pos1 - 1);
+                        if (pos2 >= 0)
+                        {
+                            subFolder = subFolder.Substring(pos2 + 1);
+                        }
+                        break;
+                    }
+                }
+            }
             pos = subFolder.IndexOf(".");
             if (pos >= 0)
             {
@@ -325,7 +349,6 @@ namespace Lookout.Models
             }
             return UpperFirst(subFolder);
         }
-
 
         /// <summary>
         /// Separated text to camel case.
