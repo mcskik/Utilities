@@ -1,8 +1,10 @@
 ﻿using Lookout.DataLayer.Profile;
 using Microsoft.Office.Interop.Outlook;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace Lookout.Models
 {
@@ -11,6 +13,9 @@ namespace Lookout.Models
         #region Member variables.
         private DateTime completeTaskStartTime;
         private Interrupt interrupt;
+        public SortedDictionary<string, int> _uniqueSenders;
+        public SortedDictionary<string, int> _uniqueSubjects;
+        public SortedDictionary<string, int> _uniqueCombinations;
         #endregion
 
         #region Properties.
@@ -196,6 +201,222 @@ namespace Lookout.Models
         }
         #endregion
 
+        public LookoutMover()
+        {
+            _uniqueSenders = new SortedDictionary<string, int>();
+            _uniqueSubjects = new SortedDictionary<string, int>();
+            _uniqueCombinations = new SortedDictionary<string, int>();
+        }
+
+        private void Track(string key, SortedDictionary<string, int> dictionary)
+        {
+            if (dictionary.ContainsKey(key))
+            {
+                dictionary[key]++;
+            }
+            else
+            {
+                dictionary.Add(key, 1);
+            }
+        }
+
+        private void DumpAll()
+        {
+            Administrator.Tracer.WriteLine();
+            Administrator.Tracer.WriteLine("Unique Senders");
+            Administrator.Tracer.WriteLine("==============");
+            Dump(_uniqueSenders);
+            Administrator.Tracer.WriteLine();
+            Administrator.Tracer.WriteLine("Unique Subjects");
+            Administrator.Tracer.WriteLine("===============");
+            Dump(_uniqueSubjects);
+            //Administrator.Tracer.WriteLine();
+            //Administrator.Tracer.WriteLine("Unique Combinations");
+            //Administrator.Tracer.WriteLine("===================");
+            //Dump(_uniqueCombinations);
+            Administrator.Tracer.WriteLine();
+            Administrator.Tracer.WriteLine("UserSetting Filter Criteria");
+            Administrator.Tracer.WriteLine("===========================");
+            ExtractFilterCriteria(_uniqueSenders);
+        }
+
+        private void Dump(SortedDictionary<string, int> dictionary)
+        {
+            // First sort unique entries by highest frequency first.
+            SortedDictionary<int, string> results = new SortedDictionary<int, string>();
+            foreach (var entry in dictionary)
+            {
+                int reverseKey = int.MaxValue - (entry.Value * 1000);
+                while (results.ContainsKey(reverseKey))
+                {
+                    reverseKey++;
+                }
+                string key = String.Format(@"""{0}""", entry.Key).PadRight(64);
+                string content = String.Format(@"{0},{1},{2}", key, entry.Value.ToString().PadLeft(12), reverseKey.ToString().PadLeft(12));
+                if (!results.ContainsKey(reverseKey))
+                {
+                    results.Add(reverseKey, content);
+                }
+            }
+            // Now write all unique entries to the log in highest frequency first order.
+            foreach (var entry in results)
+            {
+                Administrator.Tracer.WriteLine(entry.Value);
+            }
+        }
+
+        private void ExtractFilterCriteria(SortedDictionary<string, int> dictionary)
+        {
+            // First sort unique entries by highest frequency first.
+            SortedDictionary<int, string> results = new SortedDictionary<int, string>();
+            foreach (var entry in dictionary)
+            {
+                if (entry.Value > 4)
+                {
+                    StringBuilder filterCriteria = new StringBuilder();
+                    int reverseKey = int.MaxValue - (entry.Value * 1000);
+                    while (results.ContainsKey(reverseKey))
+                    {
+                        reverseKey++;
+                    }
+                    string indent = new String(' ', 2);
+                    filterCriteria.AppendLine(String.Format(@"{0}{0}{1}", indent, entry.Value.ToString().PadRight(12)));
+                    string category = "Keep"; // Can't determine this automatically so just default to this.
+                    string sender = entry.Key;
+                    string subFolder = MakeSubFolderFromSender(sender);
+                    subFolder = CamelCaseFromSeparatedText(subFolder);
+                    filterCriteria.AppendLine(String.Format(@"{0}{0}<UserSetting Key=""{1}_{2}"">", indent, category, subFolder));
+                    filterCriteria.AppendLine(String.Format(@"{0}{0}{0}<Folder>kenneth.mcskimming@gmail.com\{1}\{2}</Folder>", indent, category, subFolder));
+                    filterCriteria.AppendLine(String.Format(@"{0}{0}{0}<Sender><![CDATA[""{1}""]]></Sender>", indent, sender));
+                    filterCriteria.AppendLine(String.Format(@"{0}{0}{0}<Subject><![CDATA[]]></Subject>", indent));
+                    filterCriteria.AppendLine(String.Format(@"{0}{0}{0}<Body><![CDATA[]]></Body>", indent));
+                    filterCriteria.AppendLine(String.Format(@"{0}{0}</UserSetting>", indent));
+                    if (!results.ContainsKey(reverseKey))
+                    {
+                        results.Add(reverseKey, filterCriteria.ToString());
+                    }
+                }
+            }
+            // Now write all unique entries to the log in highest frequency first order.
+            foreach (var entry in results)
+            {
+                Administrator.Tracer.WriteLine(entry.Value);
+            }
+        }
+
+        private string MakeSubFolderFromSender(string sender)
+        {
+            string subFolder = sender;
+            int pos = subFolder.IndexOf("@");
+            if (pos >= 0)
+            {
+                if (!subFolder.EndsWith("@"))
+                {
+                    subFolder = subFolder.Substring(pos + 1);
+                }
+            }
+            pos = subFolder.IndexOf(".");
+            if (pos >= 0)
+            {
+                if (pos - 1 > 0)
+                {
+                    subFolder = subFolder.Substring(0, pos);
+                }
+            }
+            return UpperFirst(subFolder);
+        }
+
+
+        /// <summary>
+        /// Separated text to camel case.
+        /// </summary>
+        /// <param name="camelCase">Hyphen or underscore or dot separated text.</param>
+        /// <returns>Camel case text</returns>
+        public string CamelCaseFromSeparatedText(string separatedText)
+        {
+            StringBuilder camelCase = new StringBuilder();
+            bool triggerUpperCase = false;
+            string letter = string.Empty;
+            for (int pos = 0; pos < separatedText.Length; pos++)
+            {
+                letter = separatedText.Substring(pos, 1);
+                if (letter == "-" || letter== "_" || letter == ".")
+                {
+                    triggerUpperCase = true;
+                }
+                else
+                {
+                    if (triggerUpperCase)
+                    {
+                        triggerUpperCase = false;
+                        letter = letter.ToUpper();
+                    }
+                    camelCase.Append(letter);
+                }
+            }
+            return camelCase.ToString().Trim();
+        }
+
+        /// <summary>
+        /// Change word to proper case.
+        /// </summary>
+        /// <param name="word">One word.</param>
+        /// <returns>Word in proper case.</returns>
+        public string ProperCase(string word)
+        {
+            string proper = string.Empty;
+            word = word.Trim();
+            if (word.Length > 0)
+            {
+                proper = word.Substring(0, 1).ToUpper();
+                if (word.Length > 1)
+                {
+                    proper += word.Substring(1).ToLower();
+                }
+            }
+            return proper;
+        }
+
+        /// <summary>
+        /// Change first letter of word to upper case.
+        /// </summary>
+        /// <param name="word">One word.</param>
+        /// <returns>Word with first letter in upper case.</returns>
+        public string UpperFirst(string word)
+        {
+            string upper = string.Empty;
+            word = word.Trim();
+            if (word.Length > 0)
+            {
+                upper = word.Substring(0, 1).ToUpper();
+                if (word.Length > 1)
+                {
+                    upper += word.Substring(1);
+                }
+            }
+            return upper;
+        }
+
+        /// <summary>
+        /// Change first letter of word to lower case.
+        /// </summary>
+        /// <param name="word">One word.</param>
+        /// <returns>Word with first letter in lower case.</returns>
+        public string LowerFirst(string word)
+        {
+            string lower = string.Empty;
+            word = word.Trim();
+            if (word.Length > 0)
+            {
+                lower = word.Substring(0, 1).ToLower();
+                if (word.Length > 1)
+                {
+                    lower += word.Substring(1);
+                }
+            }
+            return lower;
+        }
+
         public bool Exists(string outlookFolder)
         {
             bool exists = false;
@@ -259,7 +480,21 @@ namespace Lookout.Models
                             string sender = (string)mailItem.SenderEmailAddress ?? string.Empty;
                             string subject = (string)mailItem.Subject ?? string.Empty;
                             string body = (string)mailItem.Body ?? string.Empty;
-                            ScanAll(nameSpace, mailItem, sender, subject, body, ref movedItemsCount);
+                            bool anyCriteriaApplied = false;
+                            bool anyPasses = ScanAll(nameSpace, mailItem, sender, subject, body, ref movedItemsCount, out anyCriteriaApplied);
+                            if (anyCriteriaApplied && anyPasses)
+                            {
+                                // No need to track as the mail item has already been filtered by an existing criteria.
+                            }
+                            else
+                            {
+                                Track(sender, _uniqueSenders);
+                                Track(subject, _uniqueSubjects);
+                                //string combination = String.Format(@"{0}#|#{1}", sender, subject);
+                                //Track(combination, _uniqueCombinations);
+                                //string message = "Mail Item => Sender = " + sender + " Subject = " + subject;
+                                //Administrator.Tracer.WriteLine(message);
+                            }
                         }
                     }
                     catch (System.Exception ex)
@@ -290,14 +525,17 @@ namespace Lookout.Models
             }
             Administrator.Tracer.WriteLine();
             Administrator.Tracer.WriteTimedMsg("I", "End Move");
+            DumpAll();
         }
 
         /// <summary>
         /// This method scans a single mail item against all criteria to determine if the mail item needs to be moved.
         /// If so then it moves the mail item to the specified target outlook folder for the first set of criteria that it matches.
         /// </summary>
-        private void ScanAll(_NameSpace nameSpace, MailItem mailItem, string sender, string subject, string body, ref int movedItemsCount)
+        private bool ScanAll(_NameSpace nameSpace, MailItem mailItem, string sender, string subject, string body, ref int movedItemsCount, out bool anyCriteriaApplied)
         {
+            bool anyPasses = false;
+            anyCriteriaApplied = false;
             SignalBeginScan(Administrator.ProfileManager.UserSettings.Entries.Count);
             foreach (var pair in Administrator.ProfileManager.UserSettings.Entries)
             {
@@ -350,6 +588,8 @@ namespace Lookout.Models
                         bool criteriaApplied = false;
                         string prefix = string.Empty;
                         bool pass = Scan(sender, subject, body, senderScanner, subjectScanner, bodyScanner, out criteriaApplied, out prefix);
+                        anyPasses |= pass;
+                        anyCriteriaApplied |= criteriaApplied;
                         if (criteriaApplied && pass)
                         {
                             if (!criteriaDisplayed)
@@ -397,6 +637,7 @@ namespace Lookout.Models
                 }
             }
             SignalEndOfScan(Administrator.ProfileManager.UserSettings.Entries.Count);
+            return anyPasses;
         }
 
         /// <summary>
